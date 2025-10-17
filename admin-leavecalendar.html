@@ -698,7 +698,7 @@
       li.addEventListener("click", (e) => {
         e.preventDefault();
         signOut(auth).then(() => {
-          window.location.href = "/";
+          window.location.href = "index.html";
         }).catch((error) => {
           console.error("Logout error:", error);
         });
@@ -960,4 +960,5 @@
     });
   </script>
 </body>
+
 </html>
