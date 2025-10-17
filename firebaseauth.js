@@ -158,7 +158,7 @@ window.handleSignUp = async function () {
 
     showMessage("✅ Account created successfully! Redirecting...", false);
     // 🔥 redirect terus ke dashboard.html
-    setTimeout(() => window.location.href = "/dashboard", 2500);
+    setTimeout(() => window.location.href = "dashboard.html", 2500);
 
   } catch (error) {
     document.getElementById("loadingOverlay").style.display = "none";
@@ -171,3 +171,4 @@ window.handleSignUp = async function () {
     }
   }
 };
+
