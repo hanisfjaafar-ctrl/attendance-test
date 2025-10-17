@@ -875,7 +875,7 @@
           if (userDoc.exists()) {
             currentUserData = userDoc.data();
             if (currentUserData.role !== "admin") {
-              window.location.href = "/dashboard";
+              window.location.href = "admin-dashboard.html";
               return;
             }
             updateSidebarUI(currentUserData);
@@ -910,12 +910,12 @@
     function buildNavigation(role) {
       navLinks.innerHTML = "";
       if (role === "admin") {
-        addNavLink("Dashboard", "fa-home", "/admin-dashboard", true);
-        addNavLink("Staff Management", "fa-users", "/manage-staff");
-        addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog");
-        addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
-        addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
-        addNavLink("Admin Profile", "fa-user", "/profile");
+    addNavLink("Dashboard", "fa-home", "admin-dashboard.html", true);
+    addNavLink("Staff Management", "fa-users", "manage-staff.html");
+    addNavLink("Staff Attendance Log", "fa-list", "admin-attendancelog.html");
+    addNavLink("Staff Leave Requests", "fa-calendar-alt", "admin-leavecalendar.html");
+    addNavLink("Staff Live Location", "fa-location-dot", "admin-liveloc.html");
+    addNavLink("Admin Profile", "fa-user", "profile.html");
       }
       addLogout();
     }
@@ -1253,4 +1253,5 @@
     };
   </script>
 </body>
+
 </html>
