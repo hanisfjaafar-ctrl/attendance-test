@@ -481,7 +481,7 @@
       logout.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
       logout.addEventListener("click", (e) => {
         e.preventDefault();
-        signOut(auth).then(() => window.location.href = "/");
+        signOut(auth).then(() => window.location.href = "index.html")
       });
       navLinks.appendChild(logout);
     }
@@ -975,4 +975,5 @@
     });
   </script>
 </body>
+
 </html>
