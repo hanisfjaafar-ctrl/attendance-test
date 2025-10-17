@@ -884,19 +884,20 @@
     function buildNavigation(role) {
       navLinks.innerHTML = "";
       if (role === "admin") {
-        addNavLink("Dashboard", "fa-home", "/dashboard", true);
-        addNavLink("Staff Management", "fa-users", "/manage-staff");
-        addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog");
-        addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
-        addNavLink("Admin Profile", "fa-user", "/profile");
-      } else {
-        addNavLink("Dashboard", "fa-home", "/dashboard", true);
-        addNavLink("Attendance Log", "fa-list", "/attendance");
-        addNavLink("Leave Requests", "fa-calendar-alt", "/leavecalendar");
-        addNavLink("Profile", "fa-user", "/profile");
-      }
-      addLogout();
-    }
+    addNavLink("Dashboard", "fa-home", "admin-dashboard.html", true);
+    addNavLink("Staff Management", "fa-users", "manage-staff.html");
+    addNavLink("Staff Attendance Log", "fa-list", "admin-attendancelog.html");
+    addNavLink("Staff Leave Requests", "fa-calendar-alt", "admin-leavecalendar.html");
+    addNavLink("Admin Profile", "fa-user", "profile.html");
+  } else {
+    addNavLink("Dashboard", "fa-home", "dashboard.html", true);
+    addNavLink("Attendance Log", "fa-list", "attendance.html");
+    addNavLink("Leave Requests", "fa-calendar-alt", "leavecalendar.html");
+    addNavLink("Profile", "fa-user", "profile.html");
+  }
+
+  addLogout();
+}
 
     // Get today's date in YYYY-MM-DD format
     function getTodayDate() {
@@ -1313,4 +1314,5 @@
     }
   </script>
 </body>
+
 </html>
