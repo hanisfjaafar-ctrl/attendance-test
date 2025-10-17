@@ -571,19 +571,19 @@
     </div>
     
     <div class="nav-links">
-      <a href="/dashboard" class="nav-item">
+      <a href="dashboard.html" class="nav-item">
         <i class="fas fa-home"></i>
         <span>Dashboard</span>
       </a>
-      <a href="/attendance" class="nav-item">
+      <a href="attendance.html" class="nav-item">
         <i class="fas fa-list"></i>
         <span>Attendance Log</span>
       </a>
-      <a href="/leavecalendar" class="nav-item active">
+      <a href="leavecalendar.html" class="nav-item active">
         <i class="fas fa-calendar-alt"></i>
         <span>Leave Calendar</span>
       </a>
-      <a href="/profile" class="nav-item">
+      <a href="profile.html" class="nav-item">
         <i class="fas fa-user"></i>
         <span>Profile</span>
       </a>
@@ -779,7 +779,7 @@
         if (confirm("Are you sure you want to log out?")) {
           try {
             await signOut(auth);
-            window.location.href = "/";
+            window.location.href = "index.html";
           } catch (err) {
             console.error("Logout error:", err);
             alert("Failed to log out. Please try again.");
@@ -945,4 +945,5 @@
     }
   </script>
 </body>
+
 </html>
