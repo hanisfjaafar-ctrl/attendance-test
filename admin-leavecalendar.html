@@ -236,37 +236,29 @@
       height: 400px;
     }
 
-    /* ===== VERTICAL FILTERS ===== */
-    .filters-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
+    /* ===== HORIZONTAL FILTERS ===== */
     .filters {
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       gap: 10px;
-      width: 100%;
-      max-width: 220px;
-      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
 
     .filter-btn {
-      width: 100%;
-      padding: 10px 16px;
+      padding: 8px 16px;
       border: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       color: white;
       display: flex;
       align-items: center;
+      gap: 6px;
+      min-width: 100px;
       justify-content: center;
-      gap: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .filter-btn.pending { background: linear-gradient(135deg, #ff9800, #ff5722); }
@@ -280,7 +272,7 @@
     }
 
     .filter-btn.active {
-      transform: scale(1.02);
+      transform: scale(1.03);
       box-shadow: 0 0 0 3px rgba(255,255,255,0.6);
     }
 
@@ -458,6 +450,18 @@
         padding: 16px;
       }
 
+      .filters {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .filter-btn {
+        width: 100%;
+        max-width: 200px;
+        justify-content: center;
+      }
+
       .google-calendar-iframe {
         height: 300px;
       }
@@ -519,22 +523,20 @@
         </iframe>
       </div>
 
-      <!-- Vertical Filters -->
-      <div class="filters-container">
-        <div class="filters">
-          <button class="filter-btn all active" data-filter="all">
-            <i class="fas fa-filter"></i> All
-          </button>
-          <button class="filter-btn pending" data-filter="pending">
-            <i class="fas fa-clock"></i> Pending
-          </button>
-          <button class="filter-btn approved" data-filter="approved">
-            <i class="fas fa-check-circle"></i> Approved
-          </button>
-          <button class="filter-btn rejected" data-filter="rejected">
-            <i class="fas fa-times-circle"></i> Rejected
-          </button>
-        </div>
+      <!-- Horizontal Filters -->
+      <div class="filters">
+        <button class="filter-btn all active" data-filter="all">
+          <i class="fas fa-filter"></i> All
+        </button>
+        <button class="filter-btn pending" data-filter="pending">
+          <i class="fas fa-clock"></i> Pending
+        </button>
+        <button class="filter-btn approved" data-filter="approved">
+          <i class="fas fa-check-circle"></i> Approved
+        </button>
+        <button class="filter-btn rejected" data-filter="rejected">
+          <i class="fas fa-times-circle"></i> Rejected
+        </button>
       </div>
 
       <!-- Leave Requests -->
