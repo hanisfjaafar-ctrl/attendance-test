@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script type="module" src="/static/firebaseauth.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/static/style.css">
   <title>Register</title>
   
   <!-- Google Fonts -->
@@ -12,6 +12,43 @@
   
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  
+  <style>
+    /* ===== REGISTER-SPECIFIC BUTTON STYLES ===== */
+    .btn-primary {
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: white;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(to right, #5a6fd8, #6a4ba2);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(to right, #95a5a6, #7f8c8d);
+      color: white;
+      border: none;
+    }
+    .btn-secondary:hover {
+      background: linear-gradient(to right, #8a9a9b, #707b7c);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(127, 140, 141, 0.4);
+    }
+
+    /* Optional: Make buttons full-width on mobile */
+    @media (max-width: 768px) {
+      .form-navigation {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Animated Background -->
@@ -158,6 +195,54 @@
     <div class="spinner"></div>
     <p>Creating your account...</p>
   </div>
+
+  <script>
+    // Basic step navigation (you likely have this in firebaseauth.js)
+    document.addEventListener('DOMContentLoaded', () => {
+      const steps = document.querySelectorAll('.form-step');
+      const progressFill = document.getElementById('progressFill');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const signUpBtn = document.getElementById('signUpBtn');
+      
+      let currentStep = 0;
+
+      function showStep(stepIndex) {
+        steps.forEach((step, i) => {
+          step.classList.toggle('active', i === stepIndex);
+        });
+
+        // Update progress bar
+        const progressPercent = ((stepIndex) / (steps.length - 1)) * 100;
+        progressFill.style.width = `${progressPercent}%`;
+
+        // Update step indicators
+        document.querySelectorAll('.step-circle, .step-label').forEach((el, i) => {
+          el.classList.toggle('active', i <= stepIndex);
+        });
+
+        // Show/hide buttons
+        prevBtn.style.display = stepIndex === 0 ? 'none' : 'inline-flex';
+        nextBtn.style.display = stepIndex === steps.length - 1 ? 'none' : 'inline-flex';
+        signUpBtn.style.display = stepIndex === steps.length - 1 ? 'inline-flex' : 'none';
+      }
+
+      nextBtn.addEventListener('click', () => {
+        if (currentStep < steps.length - 1) {
+          currentStep++;
+          showStep(currentStep);
+        }
+      });
+
+      prevBtn.addEventListener('click', () => {
+        if (currentStep > 0) {
+          currentStep--;
+          showStep(currentStep);
+        }
+      });
+
+      showStep(currentStep);
+    });
+  </script>
 </body>
 </html>
-
