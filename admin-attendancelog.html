@@ -754,19 +754,19 @@
 
           navLinks.innerHTML = "";
           if (data.role === "admin") {
-            addNavLink("Dashboard", "fa-home", "/admin-dashboard");
-            addNavLink("Staff Management", "fa-users", "/manage-staff");
-            addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog", true);
-            addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
-            addNavLink("Admin Profile", "fa-user", "/profile");
-            addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
+            addNavLink("Dashboard", "fa-home", "admin-dashboard.html");
+            addNavLink("Staff Management", "fa-users", "manage-staff.html");
+            addNavLink("Staff Attendance Log", "fa-list", "admin-attendancelog.html", true);
+            addNavLink("Staff Leave Requests", "fa-calendar-alt", "admin-leavecalendar.html");
+            addNavLink("Admin Profile", "fa-user", "profile.html");
+            addNavLink("Staff Live Location", "fa-location-dot", "admin-liveloc.html");
           }
           addLogout();
 
           await renderAttendanceFull();
         }
       } else {
-        window.location.href = "/";
+        window.location.href = "index.html";
       }
     });
 
@@ -799,3 +799,4 @@
   </script>
 </body>
 </html>
+
