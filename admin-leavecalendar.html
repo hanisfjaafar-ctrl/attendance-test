@@ -236,7 +236,7 @@
       height: 400px;
     }
 
-    /* ===== HORIZONTAL FILTERS ===== */
+    /* ===== FILTERS (MELINTANG / HORIZONTAL) ===== */
     .filters {
       display: flex;
       justify-content: center;
@@ -451,15 +451,17 @@
       }
 
       .filters {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
         gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
       .filter-btn {
-        width: 100%;
-        max-width: 200px;
-        justify-content: center;
+        width: auto;
+        min-width: 100px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
       }
 
       .google-calendar-iframe {
@@ -523,7 +525,7 @@
         </iframe>
       </div>
 
-      <!-- Horizontal Filters -->
+      <!-- Horizontal Filters (MELINTANG) -->
       <div class="filters">
         <button class="filter-btn all active" data-filter="all">
           <i class="fas fa-filter"></i> All
