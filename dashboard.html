@@ -6,6 +6,7 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- ✅ ADD jsPDF HERE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
@@ -19,14 +20,6 @@
       min-height: 100vh;
       padding: 0;
       overflow-x: hidden;
-    }
-
-    /* === SCALED WRAPPER (50% size) === */
-    .scaled-wrapper {
-      transform: scale(0.5);
-      transform-origin: top left;
-      width: 200vw;
-      height: 200vh;
       display: flex;
     }
 
@@ -48,23 +41,6 @@
 
     .sidebar.collapsed {
       width: 70px;
-    }
-
-    /* Mobile menu toggle button */
-    .menu-toggle {
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-      z-index: 2000;
     }
 
     .sidebar-header {
@@ -241,7 +217,7 @@
       font-size: 1.1rem;
     }
 
-    /* === Warning Notifications === */
+    /* === NEW: Warning Notifications === */
     #warningNotifications {
       background: #fff5f5;
       border-left: 4px solid #dc3545;
@@ -264,6 +240,9 @@
       border-radius: 10px;
       margin-bottom: 15px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .warning-item:last-child {
+      margin-bottom: 0;
     }
     .warning-actions {
       margin-top: 12px;
@@ -647,34 +626,23 @@
     /* Responsive */
     @media (max-width: 768px) {
       .sidebar {
-        position: fixed;
-        left: -280px;
-        top: 0;
-        height: 100vh;
-        width: 280px;
-        z-index: 2000;
+        width: 70px;
       }
       
-      .sidebar.active {
-        left: 0;
+      .sidebar .logo-text,
+      .sidebar .user-details,
+      .sidebar .nav-item span {
+        display: none;
       }
       
-      .menu-toggle {
-        display: block;
-      }
-      
-      .logo-text,
-      .user-details,
-      .nav-item span {
-        display: inline;
-      }
-      
-      .sidebar.collapsed {
-        width: 280px;
+      .sidebar .nav-item {
+        justify-content: center;
+        padding: 15px;
+        gap: 0;
       }
       
       .main-content {
-        margin-left: 0;
+        margin-left: 70px;
         padding: 20px;
       }
       
@@ -690,119 +658,103 @@
         min-width: 100%;
       }
     }
-    
-    @media (max-width: 480px) {
-      .container {
-        padding: 20px;
-      }
-      
-      .welcome-header h1 {
-        font-size: 1.8rem;
-      }
-      
-      .section-title {
-        font-size: 1.3rem;
-      }
-    }
   </style>
 </head>
 <body>
-  <!-- Mobile menu toggle button -->
-  <button class="menu-toggle" id="menuToggle">
-    <i class="fas fa-bars"></i>
-  </button>
-  
-  <!-- SCALED WRAPPER -->
-  <div class="scaled-wrapper">
-    <!-- Sidebar Navigation -->
-    <div class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">
-          <div class="logo-icon">
-            <i class="fas fa-user-clock"></i>
-          </div>
-          <div class="logo-text">Attendance</div>
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <p>Loading dashboard...</p>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-user-clock"></i>
         </div>
-        <button class="toggle-btn" id="toggleSidebar">
-          <i class="fas fa-chevron-left"></i>
-        </button>
+        <div class="logo-text">Attendance</div>
       </div>
-      
-      <div class="nav-links" id="navLinks">
-        <!-- Navigation will be populated by JavaScript -->
-      </div>
-      
-      <div class="user-info" id="userInfo">
-        <div class="avatar" id="sidebarAvatar">U</div>
-        <div class="user-details">
-          <div class="user-name" id="sidebarUserName">Loading...</div>
-          <div class="user-email" id="sidebarUserEmail">Loading...</div>
-        </div>
+      <button class="toggle-btn" id="toggleSidebar">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+    </div>
+    
+    <div class="nav-links" id="navLinks">
+      <!-- Navigation will be populated by JavaScript -->
+    </div>
+    
+    <div class="user-info" id="userInfo">
+      <div class="avatar" id="sidebarAvatar">U</div>
+      <div class="user-details">
+        <div class="user-name" id="sidebarUserName">Loading...</div>
+        <div class="user-email" id="sidebarUserEmail">Loading...</div>
       </div>
     </div>
+  </div>
 
-    <div class="main-content">
-      <div class="container">
-        <!-- Warning Notifications -->
-        <div id="warningNotifications">
-          <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> Important Notices</div>
-          <div id="warningList"></div>
-        </div>
+  <div class="main-content">
+    <div class="container">
+      <!-- NEW: Warning Notifications -->
+      <div id="warningNotifications">
+        <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> Important Notices</div>
+        <div id="warningList"></div>
+      </div>
 
-        <div class="welcome-header">
-          <h1 id="welcomeText">Welcome!</h1>
-          <p>Here's an overview of your attendance and leave requests</p>
-        </div>
-        
-        <!-- Stats Cards -->
-        <div class="stats-container">
-          <div class="stat-card">
-            <div class="stat-icon leave-icon">
-              <i class="fas fa-calendar-check"></i>
-            </div>
-            <div class="stat-info">
-              <h3>Pending Leaves</h3>
-              <p id="totalLeaveRequests">0</p>
-            </div>
+      <div class="welcome-header">
+        <h1 id="welcomeText">Welcome!</h1>
+        <p>Here's an overview of your attendance and leave requests</p>
+      </div>
+      
+      <!-- Stats Cards -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-icon leave-icon">
+            <i class="fas fa-calendar-check"></i>
           </div>
-          <div class="stat-card">
-            <div class="stat-icon late-icon">
-              <i class="fas fa-clock"></i>
-            </div>
-            <div class="stat-info">
-              <h3>Late Arrivals</h3>
-              <p id="lateCount">0</p>
-            </div>
+          <div class="stat-info">
+            <h3>Pending Leaves</h3>
+            <p id="totalLeaveRequests">0</p>
           </div>
         </div>
-        
-        <!-- My Leave Requests -->
-        <div class="section-card">
-          <div class="section-header">
-            <h3 class="section-title">My Leave Requests</h3>
-            <button class="apply-btn" id="applyLeaveBtn">
-              <i class="fas fa-plus"></i> Apply
-            </button>
+        <div class="stat-card">
+          <div class="stat-icon late-icon">
+            <i class="fas fa-clock"></i>
           </div>
-          <div class="leave-list" id="myLeaveList">
-            <p style="text-align:center; color:#666; padding:20px;">No leave requests found</p>
+          <div class="stat-info">
+            <h3>Late Arrivals</h3>
+            <p id="lateCount">0</p>
           </div>
         </div>
-        
-        <!-- Attendance Log -->
-        <div class="section-card">
-          <div class="section-header">
-            <h3 class="section-title">Attendance Log</h3>
-          </div>
-          <div class="attendance-log" id="attendanceLog">
-            <p style="text-align:center; color:#666; padding:20px;">No attendance records found</p>
-          </div>
+      </div>
+      
+      <!-- My Leave Requests -->
+      <div class="section-card">
+        <div class="section-header">
+          <h3 class="section-title">My Leave Requests</h3>
+          <button class="apply-btn" id="applyLeaveBtn">
+            <i class="fas fa-plus"></i> Apply
+          </button>
+        </div>
+        <div class="leave-list" id="myLeaveList">
+          <p style="text-align:center; color:#666; padding:20px;">No leave requests found</p>
+        </div>
+      </div>
+      
+      <!-- Attendance Log -->
+      <div class="section-card">
+        <div class="section-header">
+          <h3 class="section-title">Attendance Log</h3>
+        </div>
+        <div class="attendance-log" id="attendanceLog">
+          <p style="text-align:center; color:#666; padding:20px;">No attendance records found</p>
         </div>
       </div>
     </div>
   </div>
   
-  <!-- Apply Leave Modal (outside scaled wrapper) -->
+  <!-- Apply Leave Modal -->
   <div class="modal" id="applyLeaveModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -841,43 +793,8 @@
     </div>
   </div>
 
-  <!-- Loading Overlay -->
-  <div id="loadingOverlay">
-    <div class="spinner"></div>
-    <p>Loading dashboard...</p>
-  </div>
-
   <!-- Firebase SDK -->
   <script type="module">
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.getElementById('sidebar');
-    
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-      menuToggle.innerHTML = sidebar.classList.contains('active') 
-        ? '<i class="fas fa-times"></i>' 
-        : '<i class="fas fa-bars"></i>';
-    });
-    
-    // Close sidebar on outside click (mobile)
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768 && !sidebar.contains(e.target) && e.target !== menuToggle) {
-        sidebar.classList.remove('active');
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      }
-    });
-    
-    // Sidebar collapse toggle
-    document.getElementById('toggleSidebar').addEventListener("click", () => {
-      const sidebar = document.querySelector(".sidebar");
-      sidebar.classList.toggle("collapsed");
-      const icon = document.getElementById('toggleSidebar').querySelector("i");
-      icon.className = sidebar.classList.contains("collapsed") 
-        ? "fas fa-chevron-right" 
-        : "fas fa-chevron-left";
-    });
-    
     // Firebase imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -895,6 +812,505 @@
       orderBy
     } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
-      authDomain: "login-form-84016.f
+      authDomain: "login-form-84016.firebaseapp.com",
+      projectId: "login-form-84016",
+      storageBucket: "login-form-84016.firebasestorage.app",
+      messagingSenderId: "568483509830",
+      appId: "1:568483509830:web:0d6de2a1537154bd67fc47",
+      measurementId: "G-KCGTMGB6HB"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    // Global state
+    let currentUid = null;
+    let currentUserData = null;
+
+    // DOM Elements
+    const myLeaveList = document.getElementById('myLeaveList');
+    const applyLeaveBtn = document.getElementById('applyLeaveBtn');
+    const applyLeaveModal = document.getElementById('applyLeaveModal');
+    const closeModal = document.getElementById('closeModal');
+    const cancelLeave = document.getElementById('cancelLeave');
+    const leaveForm = document.getElementById('leaveForm');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const sidebarAvatar = document.getElementById("sidebarAvatar");
+    const sidebarUserName = document.getElementById("sidebarUserName");
+    const sidebarUserEmail = document.getElementById("sidebarUserEmail");
+    const welcomeText = document.getElementById("welcomeText");
+    const totalLeaveRequests = document.getElementById("totalLeaveRequests");
+    const lateCount = document.getElementById("lateCount");
+    const navLinks = document.getElementById("navLinks");
+    const attendanceLog = document.getElementById("attendanceLog");
+
+    // === NEW: Warning Elements ===
+    const warningNotifications = document.getElementById("warningNotifications");
+    const warningList = document.getElementById("warningList");
+
+    // Add navigation link function
+    function addNavLink(text, icon, link, isActive = false) {
+      const li = document.createElement("a");
+      li.className = `nav-item ${isActive ? 'active' : ''}`;
+      li.href = link;
+      li.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
+      navLinks.appendChild(li);
+    }
+
+    // Add logout function
+    function addLogout() {
+      const li = document.createElement("a");
+      li.className = "nav-item logout";
+      li.href = "#";
+      li.id = "logoutLink";
+      li.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
+      li.addEventListener("click", (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => {
+          window.location.href = "/";
+        }).catch((error) => {
+          console.error("Logout error:", error);
+        });
+      });
+      navLinks.appendChild(li);
+    }
+
+    // Build navigation based on user role
+    function buildNavigation(role) {
+      navLinks.innerHTML = "";
+      if (role === "admin") {
+        addNavLink("Dashboard", "fa-home", "/dashboard", true);
+        addNavLink("Staff Management", "fa-users", "/manage-staff");
+        addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog");
+        addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
+        addNavLink("Admin Profile", "fa-user", "/profile");
+      } else {
+        addNavLink("Dashboard", "fa-home", "/dashboard", true);
+        addNavLink("Attendance Log", "fa-list", "/attendance");
+        addNavLink("Leave Requests", "fa-calendar-alt", "/leavecalendar");
+        addNavLink("Profile", "fa-user", "/profile");
+      }
+      addLogout();
+    }
+
+    // Get today's date in YYYY-MM-DD format
+    function getTodayDate() {
+      const today = new Date();
+      return today.toISOString().split('T')[0];
+    }
+
+    // Format date for display
+    function formatDate(dateStr) {
+      if (!dateStr) return "N/A";
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateStr).toLocaleDateString('en-US', options);
+    }
+
+    // Handle checkout action for attendance-test
+    async function handleCheckout(docId) {
+      if (!docId) {
+        alert("Error: No attendance record found.");
+        return;
+      }
+
+      showLoading();
+      try {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+
+        await updateDoc(doc(db, "attendance_test", docId), {
+          checkout: timeString,
+          lastUpdated: now
+        });
+
+        alert("✅ Checked out successfully!");
+      } catch (error) {
+        console.error("Checkout error:", error);
+        alert("❌ Failed to check out. Please try again.");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // === NEW: Load Warning Letters ===
+    async function loadWarningLetters() {
+      if (!currentUid) return;
+      try {
+        const q = query(
+          collection(db, "warningLetters"),
+          where("staffId", "==", currentUid),
+          where("status", "==", "unread")
+        );
+        const snapshot = await getDocs(q);
+        const warnings = [];
+        snapshot.forEach(doc => warnings.push({ id: doc.id, ...doc.data() }));
+        
+        if (warnings.length > 0) {
+          warningList.innerHTML = '';
+          warnings.forEach(w => {
+            const div = document.createElement("div");
+            div.className = "warning-item";
+            const sentDate = new Date(w.sentAt).toLocaleString();
+            div.innerHTML = `
+              <div><strong>⚠️ Attendance Warning</strong></div>
+              <p><small>${w.reason || "Excessive late arrivals."}</small></p>
+              <p><em>Sent on: ${sentDate}</em></p>
+              <div class="warning-actions">
+                <button class="warning-btn btn-download" onclick="downloadWarningLetter('${w.id}', '${w.reason || "Excessive late arrivals."}')">
+                  <i class="fas fa-download"></i> Download Letter
+                </button>
+                <button class="warning-btn btn-mark" onclick="markWarningAsRead('${w.id}')">
+                  Mark as Read
+                </button>
+              </div>
+            `;
+            warningList.appendChild(div);
+          });
+          warningNotifications.style.display = 'block';
+        } else {
+          warningNotifications.style.display = 'none';
+        }
+      } catch (err) {
+        console.error("Error loading warnings:", err);
+      }
+    }
+
+    // === NEW: Mark as Read ===
+    window.markWarningAsRead = async function(letterId) {
+      try {
+        await updateDoc(doc(db, "warningLetters", letterId), { status: "read" });
+        loadWarningLetters(); // refresh
+      } catch (err) {
+        console.error("Failed to mark as read:", err);
+        alert("Failed to update warning status.");
+      }
+    };
+
+    // === ✅ UPDATED: Download as PDF ===
+    window.downloadWarningLetter = function(letterId, reason) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const staffName = sidebarUserName.textContent.trim() || "Staff Member";
+      const dateStr = new Date().toLocaleDateString();
+
+      // Title
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.text("ATTENDANCE WARNING LETTER", 15, 20);
+
+      // Body
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+      const lines = [
+        "",
+        "To: " + staffName,
+        "From: Human Resources / Admin",
+        "Date: " + dateStr,
+        "",
+        "This is to formally notify you that our attendance records indicate",
+        "you have violated company punctuality policy.",
+        "",
+        "Reason: " + reason,
+        "",
+        "Repeated tardiness affects team productivity and is a breach of employment terms.",
+        "",
+        "You are hereby warned to maintain punctuality effective immediately.",
+        "",
+        "Failure to comply may result in further disciplinary action,",
+        "up to and including termination.",
+        "",
+        "Sincerely,",
+        "Management",
+        "Company: Setapak Central"
+      ];
+
+      doc.text(lines, 15, 30);
+      doc.save(`warning_letter_${new Date().toISOString().slice(0, 10)}.pdf`);
+    };
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+      showLoading();
+      
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('startDate').min = today;
+      document.getElementById('endDate').min = today;
+      
+      applyLeaveBtn.addEventListener('click', () => {
+        applyLeaveModal.style.display = 'flex';
+      });
+      
+      closeModal.addEventListener('click', () => {
+        applyLeaveModal.style.display = 'none';
+      });
+      
+      cancelLeave.addEventListener('click', () => {
+        applyLeaveModal.style.display = 'none';
+      });
+      
+      leaveForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitLeaveRequest();
+      });
+      
+      window.addEventListener('click', (e) => {
+        if (e.target === applyLeaveModal) {
+          applyLeaveModal.style.display = 'none';
+        }
+      });
+      
+      document.getElementById('toggleSidebar').addEventListener("click", () => {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.classList.toggle("collapsed");
+        const icon = document.getElementById('toggleSidebar').querySelector("i");
+        icon.className = sidebar.classList.contains("collapsed") 
+          ? "fas fa-chevron-right" 
+          : "fas fa-chevron-left";
+      });
+    });
+
+    // Auth state listener
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUid = user.uid;
+        try {
+          const userDoc = await getDoc(doc(db, "users", currentUid));
+          if (userDoc.exists()) {
+            currentUserData = userDoc.data();
+            updateSidebarUI(currentUserData);
+            buildNavigation(currentUserData.role || "staff");
+          }
+        } catch (err) {
+          console.error("Error fetching user:", err);
+        }
+        
+        setupLeaveListeners();
+        setupAttendanceListener();
+        loadWarningLetters(); // ✅ Load warnings on login
+        hideLoading();
+      } else {
+        hideLoading();
+        window.location.href = "/";
+      }
+    });
+
+    // Update sidebar with user data
+    function updateSidebarUI(userData) {
+      const firstName = userData.firstName || "";
+      const lastName = userData.lastName || "";
+      const email = userData.email || "";
+
+      const initial1 = firstName.charAt(0).toUpperCase() || "";
+      const initial2 = lastName.charAt(0).toUpperCase() || "";
+      const initials = (initial1 + initial2) || "U";
+
+      sidebarUserName.textContent = firstName;
+      sidebarUserEmail.textContent = email || "No email";
+      sidebarAvatar.textContent = initials;
+      welcomeText.textContent = `Welcome, ${firstName}!`;
+    }
+
+    // Setup real-time listeners for leave requests
+    function setupLeaveListeners() {
+      if (!currentUid) return;
+      
+      const myLeaveQuery = query(
+        collection(db, "leaveRequests"), 
+        where("userId", "==", currentUid),
+        where("status", "==", "pending")
+      );
+      
+      onSnapshot(myLeaveQuery, (snapshot) => {
+        totalLeaveRequests.textContent = snapshot.size;
+      });
+      
+      const allLeavesQuery = query(
+        collection(db, "leaveRequests"), 
+        where("userId", "==", currentUid)
+      );
+      
+      onSnapshot(allLeavesQuery, (snapshot) => {
+        const allLeaves = [];
+        snapshot.forEach(doc => {
+          allLeaves.push({ id: doc.id, ...doc.data() });
+        });
+        renderMyLeaveRequests(allLeaves);
+      });
+    }
+
+    // Fetch from 'attendance_test' collection
+    function setupAttendanceListener() {
+      if (!currentUid) return;
+      
+      const attendanceQuery = query(
+        collection(db, "attendance_test"),
+        where("userId", "==", currentUid),
+        orderBy("timestamp", "desc")
+      );
+      
+      onSnapshot(attendanceQuery, (snapshot) => {
+        let lateCountValue = 0;
+        const records = [];
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          records.push({ id: doc.id, ...data });
+          if (data.status === "Late") {
+            lateCountValue++;
+          }
+        });
+        lateCount.textContent = lateCountValue;
+        renderAttendanceLog(records.slice(0, 5));
+      });
+    }
+
+    // Render user's leave requests
+    function renderMyLeaveRequests(leaves) {
+      myLeaveList.innerHTML = '';
+      if (leaves.length === 0) {
+        myLeaveList.innerHTML = '<p style="text-align:center; color:#666; padding:20px;">No leave requests found</p>';
+        return;
+      }
+      
+      leaves.forEach(leave => {
+        const leaveItem = document.createElement('div');
+        leaveItem.className = 'leave-item';
+        const startDate = formatDate(leave.startDate);
+        const endDate = formatDate(leave.endDate);
+        const status = (leave.status || 'pending').toLowerCase();
+        const statusDisplay = (leave.status || 'Pending').charAt(0).toUpperCase() + (leave.status || 'pending').slice(1);
+        
+        leaveItem.innerHTML = `
+          <div class="leave-info">
+            <div class="leave-type">${leave.leaveType}</div>
+            <div class="leave-dates">${startDate} - ${endDate}</div>
+          </div>
+          <div class="leave-status status-${status}">${statusDisplay}</div>
+        `;
+        myLeaveList.appendChild(leaveItem);
+      });
+    }
+
+    // Render attendance log from 'attendance_test'
+    function renderAttendanceLog(records) {
+      attendanceLog.innerHTML = '';
+      if (records.length === 0) {
+        attendanceLog.innerHTML = '<p style="text-align:center; color:#666; padding:20px;">No attendance records found</p>';
+        return;
+      }
+
+      const today = new Date().toISOString().split('T')[0];
+
+      records.forEach(record => {
+        if (!record.id || !record.timestamp) return;
+
+        const recordDate = new Date(record.timestamp);
+        const dateStr = recordDate.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        });
+        const timeStr = recordDate.toLocaleTimeString([], { 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        });
+        const isToday = recordDate.toISOString().split('T')[0] === today;
+        
+        const statusClass = record.status === "On Time" ? "on-time" : "late";
+        
+        let checkoutButton = '';
+        if (isToday && !record.checkout) {
+          checkoutButton = `
+            <button class="apply-btn" style="margin-top:10px; padding:8px 16px; font-size:0.95rem;" data-id="${record.id}">
+              <i class="fas fa-sign-out-alt"></i> Check Out
+            </button>
+          `;
+        }
+
+        const attendanceItem = document.createElement('div');
+        attendanceItem.className = 'attendance-item';
+        attendanceItem.innerHTML = `
+          <div class="attendance-info">
+            <div class="attendance-date">
+              ${dateStr} ${isToday ? '<span style="color:#667eea; font-size:0.9em; margin-left:6px;">(Today)</span>' : ''}`
+          + `</div>
+            <div class="attendance-time">Check-in: ${timeStr}</div>
+            ${record.checkout ? `<div class="attendance-time">Check-out: ${record.checkout}</div>` : ''}
+            ${checkoutButton}
+          </div>
+          <div class="attendance-status status-${statusClass}">${record.status || "N/A"}</div>
+        `;
+        attendanceLog.appendChild(attendanceItem);
+      });
+
+      document.querySelectorAll('.apply-btn[data-id]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const docId = e.currentTarget.dataset.id;
+          handleCheckout(docId);
+        });
+      });
+    }
+
+    // Submit leave request to Firebase
+    async function submitLeaveRequest() {
+      if (!currentUid || !currentUserData) {
+        alert("User not authenticated. Please log in again.");
+        return;
+      }
+      
+      const leaveType = document.getElementById('leaveType').value;
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const reason = document.getElementById('reason').value;
+      
+      if (!leaveType || !startDate || !endDate) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+      
+      if (new Date(startDate) > new Date(endDate)) {
+        alert("End date must be after start date.");
+        return;
+      }
+      
+      showLoading();
+      
+      try {
+        await addDoc(collection(db, "leaveRequests"), {
+          userId: currentUid,
+          userName: `${currentUserData.firstName || ''} ${currentUserData.lastName || ''}`.trim() || "User",
+          leaveType: leaveType,
+          startDate: startDate,
+          endDate: endDate,
+          reason: reason,
+          status: "pending",
+          createdAt: new Date()
+        });
+        
+        alert("Leave request submitted successfully!");
+        applyLeaveModal.style.display = 'none';
+        leaveForm.reset();
+      } catch (error) {
+        console.error("Error submitting leave request:", error);
+        alert("Failed to submit leave request. Please try again.");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // Loading functions
+    function showLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+    
+    function hideLoading() {
+      loadingOverlay.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
