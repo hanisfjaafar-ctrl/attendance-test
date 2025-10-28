@@ -29,7 +29,7 @@
       padding: 12px;
     }
 
-    /* === Subtle, Smaller Animated Background === */
+    /* === Small Animated Background === */
     .particles, .bg-shapes {
       position: fixed;
       top: 0;
@@ -49,28 +49,27 @@
       animation: float 10s ease-in-out infinite;
     }
 
-    /* Even smaller shapes */
-    .shape:nth-child(1) { width: 30px; height: 30px; top: 25%; left: 15%; }
-    .shape:nth-child(2) { width: 45px; height: 45px; top: 60%; left: 75%; }
-    .shape:nth-child(3) { width: 25px; height: 25px; top: 80%; left: 25%; }
-    .shape:nth-child(4) { width: 40px; height: 40px; top: 15%; left: 65%; }
-    .shape:nth-child(5) { width: 20px; height: 20px; top: 45%; left: 10%; }
-    .shape:nth-child(6) { width: 35px; height: 35px; top: 70%; left: 55%; }
+    .shape:nth-child(1) { width: 25px; height: 25px; top: 25%; left: 15%; }
+    .shape:nth-child(2) { width: 35px; height: 35px; top: 60%; left: 75%; }
+    .shape:nth-child(3) { width: 20px; height: 20px; top: 80%; left: 25%; }
+    .shape:nth-child(4) { width: 30px; height: 30px; top: 15%; left: 65%; }
+    .shape:nth-child(5) { width: 18px; height: 18px; top: 45%; left: 10%; }
+    .shape:nth-child(6) { width: 28px; height: 28px; top: 70%; left: 55%; }
 
     @keyframes float {
       0%, 100% { transform: translateY(0) rotate(0); opacity: 0.5; }
-      50% { transform: translateY(-15px) rotate(180deg); opacity: 0.9; }
+      50% { transform: translateY(-12px) rotate(180deg); opacity: 0.9; }
     }
 
     .wave {
       position: absolute;
       width: 300%;
       height: 300%;
-      background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
       animation: wave 25s linear infinite;
-      opacity: 0.3;
+      opacity: 0.25;
     }
-    .wave:nth-child(2) { animation-delay: -10s; opacity: 0.2; }
+    .wave:nth-child(2) { animation-delay: -10s; opacity: 0.15; }
     .wave:nth-child(3) { animation-delay: -20s; opacity: 0.1; }
 
     @keyframes wave {
@@ -80,9 +79,9 @@
 
     .particle {
       position: absolute;
-      width: 1.5px;
-      height: 1.5px;
-      background: rgba(255, 255, 255, 0.6);
+      width: 1.2px;
+      height: 1.2px;
+      background: rgba(255, 255, 255, 0.5);
       border-radius: 50%;
       animation: particle 12s linear infinite;
     }
@@ -94,13 +93,13 @@
       100% { transform: translateY(-100vh) scale(0); opacity: 0; }
     }
 
-    /* === Compact Login Container === */
+    /* === Login Container === */
     .container {
       background: rgba(255, 255, 255, 0.97);
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(12px);
       border-radius: 16px;
       padding: 22px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       width: 100%;
       max-width: 380px;
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -195,7 +194,7 @@
 
     .hidden { display: none; }
 
-    /* === Unified Border Style: Password input matches Sign In button === */
+    /* === Password input: matches button border style === */
     .input-group {
       position: relative;
       margin: 18px 0;
@@ -214,7 +213,8 @@
     .input-group input {
       width: calc(100% - 60px);
       padding: 12px 12px 12px 48px;
-      border: 2px solid #e1e5e9; /* Same as button border style */
+      /* Same border as button */
+      border: 2px solid #e1e5e9;
       border-radius: 10px;
       font-size: 15px;
       background: #f9fbfd;
@@ -233,7 +233,7 @@
       color: #adb5bd;
     }
 
-    /* Sign In Button - reference for border */
+    /* Sign In Button */
     .btn {
       width: 100%;
       padding: 12px;
@@ -275,7 +275,6 @@
       margin-top: 20px;
     }
 
-    /* Mobile: stack role buttons */
     @media (max-width: 480px) {
       .role-selection { flex-direction: column; }
       .container { padding: 20px; }
