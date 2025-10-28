@@ -183,23 +183,6 @@
       display: none;
     }
 
-    /* Mobile menu toggle */
-    .menu-toggle {
-      display: none;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 2000;
-    }
-
     /* ===== MAIN CONTENT ===== */
     .main-content {
       flex: 1;
@@ -573,49 +556,18 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* ===== RESPONSIVE CONTENT (sidebar behavior unchanged) ===== */
     @media (max-width: 768px) {
-      .sidebar {
-        width: 60px;
-        left: -60px;
-      }
-      
-      .sidebar.active {
-        left: 0;
-        width: 220px;
-      }
-      
-      .sidebar:not(.active) .logo-text,
-      .sidebar:not(.active) .user-details,
-      .sidebar:not(.active) .nav-item span {
-        display: none;
-      }
-      
-      .sidebar:not(.active) .nav-item {
-        justify-content: center;
-        padding: 12px;
-        gap: 0;
-      }
-      
-      .menu-toggle {
-        display: block;
-      }
-      
       .main-content {
-        margin-left: 60px;
         padding: 12px;
-      }
-      
-      .sidebar.active ~ .main-content {
-        margin-left: 220px;
-      }
-      
-      .google-calendar-iframe {
-        height: 300px;
       }
       
       .container {
         padding: 16px;
+      }
+      
+      .google-calendar-iframe {
+        height: 350px;
       }
       
       h2 {
@@ -625,10 +577,8 @@
   </style>
 </head>
 <body>
-  <button class="menu-toggle" id="menuToggle">
-    <i class="fas fa-bars"></i>
-  </button>
-  
+  <!-- NO menu-toggle button -->
+
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -747,39 +697,14 @@
 
   <!-- Firebase SDK -->
   <script type="module">
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.getElementById('sidebar');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
-    
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-      menuToggle.innerHTML = sidebar.classList.contains('active') 
-        ? '<i class="fas fa-times"></i>' 
-        : '<i class="fas fa-bars"></i>';
-    });
-    
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && e.target !== menuToggle) {
-          sidebar.classList.remove('active');
-          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
-      }
-    });
-    
-    toggleSidebarBtn.addEventListener('click', function() {
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        sidebar.classList.toggle('active');
-        this.querySelector('i').className = 'fas fa-chevron-left';
-      } else {
-        sidebar.classList.toggle('expanded');
-        const icon = this.querySelector('i');
-        icon.className = sidebar.classList.contains('expanded') 
-          ? 'fas fa-chevron-left' 
-          : 'fas fa-chevron-right';
-      }
+    // ✅ Unified sidebar toggle (same on all devices)
+    document.getElementById('toggleSidebar').addEventListener('click', function() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('expanded');
+      const icon = this.querySelector('i');
+      icon.className = sidebar.classList.contains('expanded') 
+        ? 'fas fa-chevron-left' 
+        : 'fas fa-chevron-right';
     });
 
     // Firebase
