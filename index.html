@@ -30,12 +30,12 @@
       margin: 0;
     }
     
-    /* Main container with scaled interface */
+    /* Main container with scaled interface (80% = slightly smaller) */
     .scaled-container {
-      transform: scale(0.5);
+      transform: scale(0.8);
       transform-origin: top left;
-      width: 200vw;
-      height: 200vh;
+      width: 125vw;
+      height: 125vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -62,15 +62,15 @@
       border-radius:50%; 
       animation:float 6s ease-in-out infinite; 
     }
-    .shape:nth-child(1){width:40px;height:40px;top:20%;left:10%;animation-delay:0s;animation-duration:8s;}
-    .shape:nth-child(2){width:60px;height:60px;top:60%;left:80%;animation-delay:2s;animation-duration:10s;}
-    .shape:nth-child(3){width:30px;height:30px;top:80%;left:20%;animation-delay:4s;animation-duration:7s;}
-    .shape:nth-child(4){width:50px;height:50px;top:10%;left:70%;animation-delay:1s;animation-duration:9s;}
-    .shape:nth-child(5){width:20px;height:20px;top:40%;left:5%;animation-delay:3s;animation-duration:6s;}
-    .shape:nth-child(6){width:45px;height:45px;top:70%;left:60%;animation-delay:5s;animation-duration:11s;}
+    .shape:nth-child(1){width:80px;height:80px;top:20%;left:10%;animation-delay:0s;animation-duration:8s;}
+    .shape:nth-child(2){width:120px;height:120px;top:60%;left:80%;animation-delay:2s;animation-duration:10s;}
+    .shape:nth-child(3){width:60px;height:60px;top:80%;left:20%;animation-delay:4s;animation-duration:7s;}
+    .shape:nth-child(4){width:100px;height:100px;top:10%;left:70%;animation-delay:1s;animation-duration:9s;}
+    .shape:nth-child(5){width:40px;height:40px;top:40%;left:5%;animation-delay:3s;animation-duration:6s;}
+    .shape:nth-child(6){width:90px;height:90px;top:70%;left:60%;animation-delay:5s;animation-duration:11s;}
     @keyframes float {
       0%,100%{transform:translateY(0) rotate(0);opacity:.7;} 
-      50%{transform:translateY(-15px) rotate(180deg);opacity:1;}
+      50%{transform:translateY(-30px) rotate(180deg);opacity:1;}
     }
 
     .wave {
@@ -89,8 +89,8 @@
 
     .particle {
       position:absolute;
-      width:2px;
-      height:2px;
+      width:4px;
+      height:4px;
       background:rgba(255,255,255,0.8);
       border-radius:50%;
       animation:particle 8s linear infinite;
@@ -306,7 +306,6 @@
 </head>
 
 <body>
-  <!-- Main container with scaled interface -->
   <div class="scaled-container">
     <!-- Animated background -->
     <div class="particles" id="particles">
@@ -328,13 +327,11 @@
       <form id="signInForm">
         <div id="signInMessage" class="messageDiv" style="display:none;"></div>
 
-        <!-- Role selection buttons -->
         <div class="role-selection">
           <button type="button" id="staffBtn" class="role-btn staff">👤 Staff</button>
           <button type="button" id="adminBtn" class="role-btn admin">👨‍💼 Admin</button>
         </div>
 
-        <!-- Staff Dropdown -->
         <div class="dropdown-container hidden" id="staffContainer">
           <label for="staffDropdown"><strong>Staff Name:</strong></label>
           <select id="staffDropdown">
@@ -342,7 +339,6 @@
           </select>
         </div>
 
-        <!-- Admin Dropdown -->
         <div class="dropdown-container hidden" id="adminContainer">
           <label for="adminDropdown"><strong>Admin Name:</strong></label>
           <select id="adminDropdown">
@@ -350,7 +346,6 @@
           </select>
         </div>
 
-        <!-- Password -->
         <div class="input-group">
           <i class="fas fa-lock"></i>
           <input type="password" id="password" placeholder="Password" required />
@@ -370,7 +365,6 @@
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    // --- Firebase Config ---
     const firebaseConfig = {
       apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
       authDomain: "login-form-84016.firebaseapp.com",
@@ -381,7 +375,6 @@
       measurementId: "G-KCGTMGB6HB"
     };
 
-    // Init Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -398,7 +391,6 @@
 
     let selectedRole = "";
 
-    // Load staff/admin users from Firestore
     async function loadUsersByRole(role, dropdown) {
       dropdown.innerHTML = `<option value="">-- Select ${role} --</option>`;
       const q = query(collection(db, "users"), where("role", "==", role));
@@ -414,7 +406,6 @@
     loadUsersByRole("staff", staffDropdown);
     loadUsersByRole("admin", adminDropdown);
 
-    // Staff/Admin button click
     staffBtn.addEventListener("click", () => {
       selectedRole = "staff";
       staffContainer.classList.remove("hidden");
@@ -431,16 +422,12 @@
       staffBtn.classList.remove("active");
     });
 
-    // Login
     signInBtn.addEventListener("click", async (e) => {
       e.preventDefault();
 
       let email = "";
-      if (selectedRole === "staff") {
-        email = staffDropdown.value;
-      } else if (selectedRole === "admin") {
-        email = adminDropdown.value;
-      }
+      if (selectedRole === "staff") email = staffDropdown.value;
+      else if (selectedRole === "admin") email = adminDropdown.value;
 
       const password = passwordInput.value;
       if (!email || !password || !selectedRole) {
@@ -453,12 +440,8 @@
         const user = userCredential.user;
         localStorage.setItem("loggedInUserId", user.uid);
 
-        // Redirect based on selected role
-        if (selectedRole === "staff") {
-          window.location.href = "dashboard.html";
-        } else if (selectedRole === "admin") {
-          window.location.href = "admin-dashboard.html";
-        }
+        if (selectedRole === "staff") window.location.href = "dashboard.html";
+        else if (selectedRole === "admin") window.location.href = "admin-dashboard.html";
       } catch (err) {
         console.error("🔥 Login error:", err.message);
         alert("Login failed: " + err.message);
