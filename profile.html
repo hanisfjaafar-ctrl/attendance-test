@@ -7,7 +7,7 @@
   
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
+  <!-- Font Awesome (fixed URL) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
@@ -27,7 +27,7 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 280px;
+      width: 140px; /* Halved */
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -41,12 +41,18 @@
       backdrop-filter: blur(10px);
     }
 
-    .sidebar.collapsed {
-      width: 70px;
+    /* Mobile: start collapsed */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+      }
+      .sidebar.expanded {
+        width: 200px;
+      }
     }
 
     .sidebar-header {
-      padding: 25px 20px;
+      padding: 15px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -56,39 +62,40 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .logo-icon {
-      width: 40px;
-      height: 40px;
+      width: 28px;
+      height: 28px;
       background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 20px;
+      font-size: 16px;
     }
 
     .logo-text {
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #333;
+      white-space: nowrap;
     }
 
-    .sidebar.collapsed .logo-text {
+    .sidebar:not(.expanded) .logo-text {
       display: none;
     }
 
     .toggle-btn {
       background: none;
       border: none;
-      font-size: 1.2rem;
+      font-size: 1rem;
       cursor: pointer;
       color: #667eea;
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -101,55 +108,57 @@
     }
 
     .nav-links {
-      padding: 20px 0;
+      padding: 12px 0;
       flex: 1;
     }
 
     .nav-item {
-      padding: 12px 25px;
+      padding: 10px 15px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       text-decoration: none;
       color: #555;
       font-weight: 500;
+      font-size: 0.9rem;
       transition: all 0.2s;
-      border-left: 4px solid transparent;
+      border-left: 3px solid transparent;
+      white-space: nowrap;
     }
 
     .nav-item:hover, .nav-item.active {
       background: rgba(102, 126, 234, 0.1);
       color: #667eea;
-      border-left: 4px solid #667eea;
+      border-left: 3px solid #667eea;
     }
 
     .nav-item i {
-      font-size: 1.2rem;
-      width: 24px;
+      font-size: 1rem;
+      width: 20px;
       text-align: center;
     }
 
-    .sidebar.collapsed .nav-item span {
+    .sidebar:not(.expanded) .nav-item span {
       display: none;
     }
 
-    .sidebar.collapsed .nav-item {
+    .sidebar:not(.expanded) .nav-item {
       justify-content: center;
-      padding: 15px;
+      padding: 12px;
       gap: 0;
     }
 
     .user-info {
-      padding: 20px;
+      padding: 12px;
       border-top: 1px solid #eee;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
     }
 
     .avatar {
-      width: 45px;
-      height: 45px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
@@ -157,7 +166,7 @@
       justify-content: center;
       color: white;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 14px;
       text-transform: uppercase;
     }
 
@@ -168,126 +177,129 @@
     .user-name {
       font-weight: 600;
       color: #333;
+      font-size: 0.9rem;
     }
 
     .user-email {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: #777;
     }
 
-    .sidebar.collapsed .user-details {
+    .sidebar:not(.expanded) .user-details {
       display: none;
     }
 
     /* ===== MAIN CONTENT ===== */
     .main-content {
       flex: 1;
-      padding: 30px;
-      margin-left: 280px;
+      padding: 15px;
+      margin-left: 140px;
       transition: margin-left 0.3s ease;
     }
 
-    .sidebar.collapsed ~ .main-content {
-      margin-left: 70px;
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 60px;
+      }
+      .sidebar.expanded ~ .main-content {
+        margin-left: 200px;
+      }
     }
 
     .container {
-      max-width: 900px;
+      max-width: 450px; /* Halved from 900px */
       margin: 0 auto;
       background: #fff;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
 
     h2 {
       text-align: center;
-      font-size: 2.5rem;
+      font-size: 1.8rem; /* Reduced */
       font-weight: 700;
       color: #333;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       position: relative;
     }
 
     h2::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
+      width: 50px;
+      height: 2px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       border-radius: 2px;
     }
 
-    /* ===== PROFILE SPECIFIC ===== */
+    /* Profile View */
     h3 {
       color: #667eea;
-      font-size: 1.5rem;
-      margin: 30px 0 20px 0;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #f0f0f0;
+      font-size: 1.2rem;
+      margin: 20px 0 15px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0f0f0;
     }
     
     #viewFields p {
-      margin: 15px 0;
-      padding: 15px;
+      margin: 10px 0;
+      padding: 12px;
       background: #f8f9ff;
-      border-radius: 10px;
-      border-left: 4px solid #667eea;
+      border-radius: 8px;
+      border-left: 3px solid #667eea;
       display: flex;
       align-items: center;
-      transition: all 0.3s ease;
+      font-size: 0.85rem;
     }
     
     #viewFields p:hover {
       background: #f0f2ff;
-      transform: translateX(5px);
+      transform: translateX(3px);
     }
     
     #viewFields b {
       color: #333;
-      min-width: 140px;
+      min-width: 110px;
       font-weight: 600;
-      margin-right: 15px;
+      margin-right: 10px;
     }
     
     #viewFields span {
       color: #666;
       flex: 1;
-      font-size: 16px;
     }
     
     .form-group {
-      margin: 12px 0;
+      margin: 10px 0;
     }
     
     label {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       font-weight: 600;
       color: #444;
+      font-size: 0.85rem;
     }
     
     input, select {
       width: 100%;
-      padding: 14px 12px;
-      border-radius: 10px;
+      padding: 10px 10px;
+      border-radius: 8px;
       border: 2px solid #e1e5e9;
-      font-size: 16px;
+      font-size: 0.85rem;
       transition: all 0.3s ease;
       background: #f8f9fa;
-      font-family: 'Poppins', sans-serif;
     }
     
     input:focus, select:focus {
       outline: none;
       border-color: #667eea;
       background: #fff;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      transform: translateY(-2px);
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
     }
     
     input::placeholder, select:disabled {
@@ -301,51 +313,42 @@
     }
     
     .btn {
-      margin: 15px 10px 0 0;
-      padding: 15px 25px;
+      margin: 12px 8px 0 0;
+      padding: 10px 20px;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 0.85rem;
       font-weight: 600;
       transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
       color: white;
     }
     
     #editBtn {
       background: linear-gradient(135deg, #667eea, #764ba2);
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
     }
     
     #editBtn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
     
     #saveBtn {
       background: linear-gradient(135deg, #28a745, #20c997);
-      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+      box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
     }
     
     #saveBtn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-    }
-    
-    .btn:active {
-      transform: translateY(0);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
     }
 
-    /* ===== LOADING OVERLAY ===== */
+    /* Loading */
     #loadingOverlay {
       position: fixed;
-      top: 0; 
-      left: 0;
-      width: 100%; 
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(102, 126, 234, 0.95);
       display: none;
       justify-content: center;
@@ -353,19 +356,16 @@
       flex-direction: column;
       z-index: 9999;
       color: #fff;
-      font-size: 18px;
-      backdrop-filter: blur(10px);
-      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
     }
     
     .spinner {
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top: 4px solid #fff;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #fff;
       border-radius: 50%;
-      width: 60px; 
-      height: 60px;
+      width: 40px; height: 40px;
       animation: spin 1s linear infinite;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     
     @keyframes spin {
@@ -373,64 +373,34 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* Responsive */
     @media (max-width: 768px) {
-      .sidebar {
-        width: 70px;
-      }
-      
-      .sidebar .logo-text,
-      .sidebar .user-details,
-      .sidebar .nav-item span {
-        display: none;
-      }
-      
-      .sidebar .nav-item {
-        justify-content: center;
-        padding: 15px;
-        gap: 0;
-      }
-      
-      .main-content {
-        margin-left: 70px;
-        padding: 20px;
-      }
-      
-      .container {
-        padding: 25px;
-      }
-      
-      h2 {
-        font-size: 2rem;
-      }
+      .main-content { padding: 12px; }
+      .container { padding: 16px; }
+      h2 { font-size: 1.5rem; }
       
       #viewFields p {
         flex-direction: column;
         align-items: flex-start;
-        text-align: left;
       }
       
       #viewFields b {
         min-width: auto;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
       }
       
       .btn {
         width: 100%;
-        margin: 10px 0;
-      }
-      
-      .form-group {
-        margin: 10px 0;
+        margin: 8px 0;
       }
     }
     
     #viewFields, #editFields {
-      animation: fadeIn 0.5s ease-in-out;
+      animation: fadeIn 0.4s ease-in-out;
     }
     
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
@@ -442,24 +412,18 @@
     <p>Loading your profile... Please wait</p>
   </div>
 
-  <!-- Sidebar Navigation -->
-  <div class="sidebar">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
-        <div class="logo-icon">
-          <i class="fas fa-user-clock"></i>
-        </div>
+        <div class="logo-icon"><i class="fas fa-user-clock"></i></div>
         <div class="logo-text">Attendance</div>
       </div>
       <button class="toggle-btn" id="toggleSidebar">
         <i class="fas fa-chevron-left"></i>
       </button>
     </div>
-    
-    <div class="nav-links" id="navLinks">
-      <!-- Navigation will be populated by JavaScript -->
-    </div>
-    
+    <div class="nav-links" id="navLinks"></div>
     <div class="user-info">
       <div class="avatar" id="sidebarAvatar">U</div>
       <div class="user-details">
@@ -473,48 +437,47 @@
     <div class="container">
       <h2>My Profile</h2>
 
-      <!-- View fields -->
       <div id="viewFields">
-        <p><b>First Name:</b> <span id="profileFName"></span></p>
-        <p><b>Last Name:</b> <span id="profileLName"></span></p>
-        <p><b>Email:</b> <span id="profileEmail"></span></p>
-        <p><b>Phone:</b> <span id="profilePhone"></span></p>
-        <p><b>Address:</b> <span id="profileAddress"></span></p>
-        <p><b>Job:</b> <span id="profileJob"></span></p>
-        <p><b>Department:</b> <span id="profileDept"></span></p>
-        <p><b>Start Date:</b> <span id="profileStart"></span></p>
-        <p><b>Role:</b> <span id="profileRole"></span></p>
+        <p><b>First Name:</b> <span id="profileFName">N/A</span></p>
+        <p><b>Last Name:</b> <span id="profileLName">N/A</span></p>
+        <p><b>Email:</b> <span id="profileEmail">N/A</span></p>
+        <p><b>Phone:</b> <span id="profilePhone">N/A</span></p>
+        <p><b>Address:</b> <span id="profileAddress">N/A</span></p>
+        <p><b>Job:</b> <span id="profileJob">N/A</span></p>
+        <p><b>Department:</b> <span id="profileDept">N/A</span></p>
+        <p><b>Start Date:</b> <span id="profileStart">N/A</span></p>
+        <p><b>Role:</b> <span id="profileRole">N/A</span></p>
+        
         <h3>Emergency Contact</h3>
-        <p><b>Name:</b> <span id="emergencyName"></span></p>
-        <p><b>Phone:</b> <span id="emergencyPhone"></span></p>
-        <p><b>Relation:</b> <span id="emergencyRelation"></span></p>
+        <p><b>Name:</b> <span id="emergencyName">N/A</span></p>
+        <p><b>Phone:</b> <span id="emergencyPhone">N/A</span></p>
+        <p><b>Relation:</b> <span id="emergencyRelation">N/A</span></p>
       </div>
 
-      <!-- Edit fields -->
       <div id="editFields" style="display:none;">
         <div class="form-group">
           <label for="editFName">First Name</label>
-          <input type="text" id="editFName" placeholder="Enter first name">
+          <input type="text" id="editFName" placeholder="First name">
         </div>
         <div class="form-group">
           <label for="editLName">Last Name</label>
-          <input type="text" id="editLName" placeholder="Enter last name">
+          <input type="text" id="editLName" placeholder="Last name">
         </div>
         <div class="form-group">
           <label for="editPhone">Phone</label>
-          <input type="text" id="editPhone" placeholder="Enter phone number">
+          <input type="text" id="editPhone" placeholder="Phone">
         </div>
         <div class="form-group">
           <label for="editAddress">Address</label>
-          <input type="text" id="editAddress" placeholder="Enter address">
+          <input type="text" id="editAddress" placeholder="Address">
         </div>
         <div class="form-group">
           <label for="editJob">Job Position</label>
-          <input type="text" id="editJob" placeholder="Enter job position">
+          <input type="text" id="editJob" placeholder="Job">
         </div>
         <div class="form-group">
           <label for="editDept">Department</label>
-          <input type="text" id="editDept" placeholder="Enter department">
+          <input type="text" id="editDept" placeholder="Department">
         </div>
         <div class="form-group">
           <label for="editStart">Start Date</label>
@@ -522,23 +485,23 @@
         </div>
         <div class="form-group">
           <label for="editRole">Role</label>
-          <input type="text" id="editRole" placeholder="Role" readonly>
-          <small style="display:block; margin-top:5px; color:#666;">Role cannot be changed</small>
+          <input type="text" id="editRole" readonly>
+          <small style="display:block; margin-top:4px; color:#666; font-size:0.75rem;">Role cannot be changed</small>
         </div>
         
-        <h3 style="margin-top:30px;">Emergency Contact</h3>
+        <h3 style="margin-top:20px;">Emergency Contact</h3>
         <div class="form-group">
           <label for="editEmergencyName">Name</label>
-          <input type="text" id="editEmergencyName" placeholder="Enter emergency contact name">
+          <input type="text" id="editEmergencyName" placeholder="Name">
         </div>
         <div class="form-group">
           <label for="editEmergencyPhone">Phone</label>
-          <input type="text" id="editEmergencyPhone" placeholder="Enter emergency phone">
+          <input type="text" id="editEmergencyPhone" placeholder="Phone">
         </div>
         <div class="form-group">
           <label for="editEmergencyRelation">Relation</label>
           <select id="editEmergencyRelation">
-            <option value="">Select relation</option>
+            <option value="">Select</option>
             <option value="Spouse">Spouse</option>
             <option value="Parent">Parent</option>
             <option value="Sibling">Sibling</option>
@@ -549,42 +512,38 @@
         </div>
       </div>
 
-      <!-- Buttons -->
       <button id="editBtn" class="btn">Edit Profile</button>
       <button id="saveBtn" class="btn" style="display:none;">Save Changes</button>
     </div>
   </div>
+
   <script type="module">
-        // Firebase imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
       authDomain: "login-form-84016.firebaseapp.com",
       projectId: "login-form-84016",
       storageBucket: "login-form-84016.firebasestorage.app",
       messagingSenderId: "568483509830",
-      appId: "1:568483509830:web:0d6de2a1537154bd67fc47",
-      measurementId: "G-KCGTMGB6HB"
+      appId: "1:568483509830:web:0d6de2a1537154bd67fc47"
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const auth = getAuth();
+    const db = getFirestore();
 
-    // DOM Elements
     const navLinks = document.getElementById("navLinks");
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     const sidebarUserName = document.getElementById("sidebarUserName");
     const sidebarUserEmail = document.getElementById("sidebarUserEmail");
     const toggleSidebar = document.getElementById("toggleSidebar");
-    const sidebar = document.querySelector(".sidebar");
+    const sidebar = document.getElementById("sidebar");
     const loadingOverlay = document.getElementById("loadingOverlay");
 
-    // Profile elements
+    // Profile fields
     const profileFName = document.getElementById("profileFName");
     const profileLName = document.getElementById("profileLName");
     const profileEmail = document.getElementById("profileEmail");
@@ -598,61 +557,62 @@
     const emergencyPhone = document.getElementById("emergencyPhone");
     const emergencyRelation = document.getElementById("emergencyRelation");
 
-    // Toggle sidebar
+    // Toggle sidebar (mobile expand)
     toggleSidebar.addEventListener("click", () => {
-      sidebar.classList.toggle("collapsed");
-      const icon = toggleSidebar.querySelector("i");
-      if (sidebar.classList.contains("collapsed")) {
-        icon.className = "fas fa-chevron-right";
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        sidebar.classList.toggle("expanded");
+        const icon = toggleSidebar.querySelector("i");
+        icon.className = sidebar.classList.contains("expanded") 
+          ? "fas fa-chevron-left" 
+          : "fas fa-chevron-right";
       } else {
-        icon.className = "fas fa-chevron-left";
+        sidebar.classList.toggle("expanded");
+        const icon = toggleSidebar.querySelector("i");
+        icon.className = sidebar.classList.contains("expanded") 
+          ? "fas fa-chevron-left" 
+          : "fas fa-chevron-right";
       }
     });
 
-    // Add navigation link function
     function addNavLink(text, icon, link, isActive = false) {
-      const li = document.createElement("a");
-      li.className = `nav-item ${isActive ? 'active' : ''}`;
-      li.href = link;
-      li.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
-      navLinks.appendChild(li);
+      const a = document.createElement("a");
+      a.className = `nav-item ${isActive ? 'active' : ''}`;
+      a.href = link;
+      a.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
+      navLinks.appendChild(a);
     }
 
-    // Add logout function
     function addLogout() {
-      const li = document.createElement("a");
-      li.className = "nav-item logout";
-      li.href = "#";
-      li.id = "logoutLink";
-      li.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
-      li.addEventListener("click", (e) => {
+      const wrap = document.createElement("div");
+      wrap.style.marginTop = "auto";
+      wrap.style.paddingTop = "10px";
+      wrap.style.borderTop = "1px solid #eee";
+      const a = document.createElement("a");
+      a.className = "nav-item";
+      a.innerHTML = `<i class="fas fa-sign-out-alt"></i><span>Logout</span>`;
+      a.addEventListener("click", async (e) => {
         e.preventDefault();
-        signOut(auth).then(() => {
-          window.location.href = "index.html";
-        }).catch((error) => {
-          console.error("Logout error:", error);
-        });
+        if (confirm("Log out?")) {
+          await signOut(auth);
+          window.location.href = "/";
+        }
       });
-      navLinks.appendChild(li);
+      wrap.appendChild(a);
+      navLinks.appendChild(wrap);
     }
 
-    // Load profile data
     async function loadProfileData(user) {
-      // SHOW loading overlay at the start
       loadingOverlay.style.display = "flex";
-      
       try {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
           const data = userDoc.data();
-          
-          // Update sidebar user info
           const displayName = data.firstName || user.email.split("@")[0];
           sidebarUserName.textContent = displayName;
           sidebarUserEmail.textContent = user.email;
           sidebarAvatar.textContent = displayName.charAt(0).toUpperCase();
-          
-          // Update profile fields
+
           profileFName.textContent = data.firstName || "N/A";
           profileLName.textContent = data.lastName || "N/A";
           profileEmail.textContent = user.email;
@@ -662,61 +622,53 @@
           profileDept.textContent = data.department || "N/A";
           profileStart.textContent = data.startDate || "N/A";
           profileRole.textContent = data.role || "staff";
-          
-          // Emergency contact
+
           const emergency = data.emergencyContact || {};
           emergencyName.textContent = emergency.name || "N/A";
           emergencyPhone.textContent = emergency.phone || "N/A";
           emergencyRelation.textContent = emergency.relation || "N/A";
-          
-          // Build navigation based on role
-          const role = data.role || "staff";
+
+          // Nav based on role
           navLinks.innerHTML = "";
-          
-  if (role === "admin") {
-    addNavLink("Dashboard", "fa-home", "admin-dashboard.html");
-    addNavLink("Staff Management", "fa-users", "manage-staff.html");
-    addNavLink("Staff Attendance Log", "fa-list", "admin-attendancelog.html");
-    addNavLink("Staff Leave Requests", "fa-calendar-alt", "admin-leavecalendar.html");
-    addNavLink("Admin Profile", "fa-user", "profile.html");
-  } else {
-    addNavLink("Dashboard", "fa-home", "dashboard.html");
-    addNavLink("Attendance Log", "fa-list", "attendance.html");
-    addNavLink("Leave Requests", "fa-calendar-alt", "leavecalendar.html");
-    addNavLink("Profile", "fa-user", "profile.html", true);
-  }
-      addLogout();
-          
-          // HIDE loading overlay after successful load
+          const role = data.role || "staff";
+          if (role === "admin") {
+            addNavLink("Dashboard", "fa-home", "/admin-dashboard");
+            addNavLink("Staff Management", "fa-users", "/manage-staff");
+            addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog");
+            addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
+            addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
+            addNavLink("Admin Profile", "fa-user", "/profile", true);
+          } else {
+            addNavLink("Dashboard", "fa-home", "/dashboard");
+            addNavLink("Attendance Log", "fa-list", "/attendance");
+            addNavLink("Leave Requests", "fa-calendar-alt", "/leavecalendar");
+            addNavLink("Profile", "fa-user", "/profile", true);
+          }
+          addLogout();
+
           loadingOverlay.style.display = "none";
         }
       } catch (error) {
-        console.error("Error loading profile:", error);
-        // Show error message in loading overlay
-        loadingOverlay.innerHTML = '<p>Error loading profile. Please try again.</p>';
-        // Keep it visible to show the error
+        console.error("Error:", error);
+        loadingOverlay.innerHTML = '<p>Error loading profile.</p>';
       }
     }
 
-    // Check authentication state
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        // Redirect to login if not authenticated
-        window.location.href = "index.html";
+        window.location.href = "/";
       } else {
-        // Load profile data
         await loadProfileData(user);
       }
     });
 
-    // Edit/Save functionality
+    // Edit/Save
     const editBtn = document.getElementById("editBtn");
     const saveBtn = document.getElementById("saveBtn");
     const viewFields = document.getElementById("viewFields");
     const editFields = document.getElementById("editFields");
 
     editBtn.addEventListener("click", () => {
-      // Populate edit fields with current values
       editFields.querySelector("#editFName").value = profileFName.textContent;
       editFields.querySelector("#editLName").value = profileLName.textContent;
       editFields.querySelector("#editPhone").value = profilePhone.textContent;
@@ -729,7 +681,6 @@
       editFields.querySelector("#editEmergencyPhone").value = emergencyPhone.textContent;
       editFields.querySelector("#editEmergencyRelation").value = emergencyRelation.textContent;
 
-      // Switch to edit mode
       viewFields.style.display = "none";
       editFields.style.display = "block";
       editBtn.style.display = "none";
@@ -737,12 +688,10 @@
     });
 
     saveBtn.addEventListener("click", async () => {
-      // Get current user
       const user = auth.currentUser;
       if (!user) return;
 
       try {
-        // Get updated values
         const updatedData = {
           firstName: editFields.querySelector("#editFName").value,
           lastName: editFields.querySelector("#editLName").value,
@@ -758,10 +707,8 @@
           }
         };
 
-        // Update Firestore
         await setDoc(doc(db, "users", user.uid), updatedData, { merge: true });
 
-        // Update view fields
         profileFName.textContent = updatedData.firstName;
         profileLName.textContent = updatedData.lastName;
         profilePhone.textContent = updatedData.phone;
@@ -773,20 +720,17 @@
         emergencyPhone.textContent = updatedData.emergencyContact.phone;
         emergencyRelation.textContent = updatedData.emergencyContact.relation;
 
-        // Switch back to view mode
         viewFields.style.display = "block";
         editFields.style.display = "none";
         editBtn.style.display = "inline-block";
         saveBtn.style.display = "none";
 
-        alert("Profile updated successfully!");
+        alert("Profile updated!");
       } catch (error) {
-        console.error("Error updating profile:", error);
-        alert("Failed to update profile. Please try again.");
+        console.error("Update error:", error);
+        alert("Failed to update profile.");
       }
     });
   </script>
 </body>
-
 </html>
-
