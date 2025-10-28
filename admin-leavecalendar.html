@@ -6,7 +6,7 @@
   <title>Admin Leave Calendar</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome (fixed URL) -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -25,7 +25,7 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 140px; /* Halved */
+      width: 140px; /* Exactly as in your reference */
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -39,19 +39,8 @@
       backdrop-filter: blur(10px);
     }
 
-    /* Expanded state (works on all devices) */
     .sidebar.expanded {
-      width: 220px;
-    }
-
-    /* Mobile: start collapsed */
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 60px;
-      }
-      .sidebar.expanded {
-        width: 220px;
-      }
+      width: 220px; /* Expanded width */
     }
 
     .sidebar-header {
@@ -87,10 +76,7 @@
       white-space: nowrap;
     }
 
-    /* Hide text when NOT expanded */
-    .sidebar:not(.expanded) .logo-text,
-    .sidebar:not(.expanded) .user-details,
-    .sidebar:not(.expanded) .nav-item span {
+    .sidebar:not(.expanded) .logo-text {
       display: none;
     }
 
@@ -129,6 +115,7 @@
       font-size: 0.9rem;
       transition: all 0.2s;
       border-left: 3px solid transparent;
+      cursor: pointer;
       white-space: nowrap;
     }
 
@@ -142,6 +129,10 @@
       font-size: 1rem;
       width: 20px;
       text-align: center;
+    }
+
+    .sidebar:not(.expanded) .nav-item span {
+      display: none;
     }
 
     .sidebar:not(.expanded) .nav-item {
@@ -172,6 +163,10 @@
       text-transform: uppercase;
     }
 
+    .user-details {
+      flex: 1;
+    }
+
     .user-name {
       font-weight: 600;
       color: #333;
@@ -181,6 +176,10 @@
     .user-email {
       font-size: 0.75rem;
       color: #777;
+    }
+
+    .sidebar:not(.expanded) .user-details {
+      display: none;
     }
 
     /* ===== MAIN CONTENT ===== */
@@ -195,17 +194,8 @@
       margin-left: 220px;
     }
 
-    @media (max-width: 768px) {
-      .main-content {
-        margin-left: 60px;
-      }
-      .sidebar.expanded ~ .main-content {
-        margin-left: 220px;
-      }
-    }
-
     .container {
-      max-width: 600px; /* Halved */
+      max-width: 600px; /* Exactly as in your reference */
       margin: 0 auto;
       background: #fff;
       padding: 20px;
@@ -215,7 +205,7 @@
 
     h2 {
       text-align: center;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: #333;
       margin-bottom: 20px;
@@ -314,7 +304,7 @@
     }
 
     .requests-title {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       color: #667eea;
       font-weight: 600;
     }
@@ -362,11 +352,13 @@
       opacity: 0.9;
     }
 
-    /* Loading */
+    /* Loading Overlay */
     #loading {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      height: 100%;
       background: rgba(102, 126, 234, 0.95);
       display: flex;
       justify-content: center;
@@ -375,13 +367,15 @@
       z-index: 9999;
       color: #fff;
       font-size: 16px;
+      backdrop-filter: blur(10px);
     }
 
     .spinner {
       border: 3px solid rgba(255, 255, 255, 0.3);
       border-top: 3px solid #fff;
       border-radius: 50%;
-      width: 40px; height: 40px;
+      width: 40px; 
+      height: 40px;
       animation: spin 1s linear infinite;
       margin-bottom: 15px;
     }
@@ -418,6 +412,39 @@
 
     /* Mobile Responsive */
     @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+      }
+
+      .sidebar.expanded {
+        width: 220px;
+      }
+
+      .sidebar:not(.expanded) .logo-text,
+      .sidebar:not(.expanded) .user-details,
+      .sidebar:not(.expanded) .nav-item span {
+        display: none;
+      }
+
+      .sidebar:not(.expanded) .nav-item {
+        justify-content: center;
+        padding: 12px;
+        gap: 0;
+      }
+
+      .main-content {
+        margin-left: 60px;
+        padding: 12px;
+      }
+
+      .sidebar.expanded ~ .main-content {
+        margin-left: 220px;
+      }
+
+      .container {
+        padding: 16px;
+      }
+
       .filters {
         flex-direction: column;
         align-items: center;
@@ -431,10 +458,6 @@
       
       .google-calendar-iframe {
         height: 300px;
-      }
-      
-      .google-calendar-container {
-        min-height: 300px;
       }
       
       .requests-header {
@@ -584,14 +607,25 @@
     let currentFilter = "all";
     let currentMonthFilter = "all";
 
-    // ✅ Unified toggle for all screen sizes
+    // ✅ EXACTLY MATCHES YOUR DASHBOARD TOGGLE LOGIC
     toggleSidebar.addEventListener("click", () => {
-      sidebar.classList.toggle("expanded");
-      const icon = toggleSidebar.querySelector("i");
-      if (sidebar.classList.contains("expanded")) {
-        icon.className = "fas fa-chevron-left";
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        sidebar.classList.toggle("expanded");
+        const icon = toggleSidebar.querySelector("i");
+        if (sidebar.classList.contains("expanded")) {
+          icon.className = "fas fa-chevron-left";
+        } else {
+          icon.className = "fas fa-chevron-right";
+        }
       } else {
-        icon.className = "fas fa-chevron-right";
+        sidebar.classList.toggle("expanded");
+        const icon = toggleSidebar.querySelector("i");
+        if (sidebar.classList.contains("expanded")) {
+          icon.className = "fas fa-chevron-left";
+        } else {
+          icon.className = "fas fa-chevron-right";
+        }
       }
     });
 
@@ -612,22 +646,20 @@
     }
 
     function addLogout() {
-      const wrap = document.createElement("div");
-      wrap.style.marginTop = "auto";
-      wrap.style.paddingTop = "10px";
-      wrap.style.borderTop = "1px solid #eee";
-      const a = document.createElement("a");
-      a.className = "nav-item";
-      a.innerHTML = `<i class="fas fa-sign-out-alt"></i><span>Logout</span>`;
-      a.addEventListener("click", async (e) => {
+      const li = document.createElement("a");
+      li.className = "nav-item logout";
+      li.href = "/";
+      li.id = "logoutLink";
+      li.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
+      li.addEventListener("click", (e) => {
         e.preventDefault();
-        if (confirm("Log out?")) {
-          await signOut(auth);
+        signOut(auth).then(() => {
           window.location.href = "/";
-        }
+        }).catch((error) => {
+          console.error("Logout error:", error);
+        });
       });
-      wrap.appendChild(a);
-      navLinks.appendChild(wrap);
+      navLinks.appendChild(li);
     }
 
     async function loadUserProfileAndNav(user) {
@@ -651,20 +683,20 @@
 
         navLinks.innerHTML = "";
         if (role === "admin") {
-          addNavLink("Dashboard", "fa-home", "admin-dashboard.html");
-          addNavLink("Staff Management", "fa-users", "manage-staff.html");
-          addNavLink("Staff Attendance Log", "fa-list", "admin-attendancelog.html");
-          addNavLink("Staff Leave Requests", "fa-calendar-alt", "admin-leavecalendar.html", true);
-          addNavLink("Staff Live Location", "fa-location-dot", "admin-liveloc.html");
-          addNavLink("Admin Profile", "fa-user", "profile.html");
+          addNavLink("Dashboard", "fa-home", "/admin-dashboard");
+          addNavLink("Staff Management", "fa-users", "/manage-staff");
+          addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog");
+          addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar", true);
+          addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
+          addNavLink("Admin Profile", "fa-user", "/profile");
         }
         addLogout();
       } catch (error) {
         console.error("Error loading profile:", error);
         navLinks.innerHTML = `
-          <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
-          <a href="admin-leavecalendar.html" class="nav-item active"><i class="fas fa-calendar-alt"></i><span>Leave Requests</span></a>
-          <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+          <a href="/admin-dashboard" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+          <a href="/admin-leavecalendar" class="nav-item active"><i class="fas fa-calendar-alt"></i><span>Staff Leave Requests</span></a>
+          <a href="/profile" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
         `;
         addLogout();
       }
@@ -839,7 +871,7 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        window.location.href = "index.html";
+        window.location.href = "/";
       } else {
         currentUser = user;
         await loadUserProfileAndNav(user);
