@@ -6,33 +6,10 @@
   <title>Admin Leave Calendar</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
+  <!-- Font Awesome (fixed URL) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* ===== (All previous styles remain unchanged) ===== */
-    /* Only adding new style for monthly filter */
-    .monthly-filter-container {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 15px;
-    }
-    .monthly-filter {
-      padding: 8px 15px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 500;
-      background: white;
-      color: #333;
-      outline: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .monthly-filter:focus {
-      border-color: #667eea;
-      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-    }
-    
-* {
+    * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -48,7 +25,7 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 280px;
+      width: 140px; /* Halved */
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -62,12 +39,23 @@
       backdrop-filter: blur(10px);
     }
 
-    .sidebar.collapsed {
-      width: 70px;
+    /* Expanded state (works on all devices) */
+    .sidebar.expanded {
+      width: 220px;
+    }
+
+    /* Mobile: start collapsed */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+      }
+      .sidebar.expanded {
+        width: 220px;
+      }
     }
 
     .sidebar-header {
-      padding: 25px 20px;
+      padding: 15px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -77,39 +65,43 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .logo-icon {
-      width: 40px;
-      height: 40px;
+      width: 28px;
+      height: 28px;
       background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 20px;
+      font-size: 16px;
     }
 
     .logo-text {
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #333;
+      white-space: nowrap;
     }
 
-    .sidebar.collapsed .logo-text {
+    /* Hide text when NOT expanded */
+    .sidebar:not(.expanded) .logo-text,
+    .sidebar:not(.expanded) .user-details,
+    .sidebar:not(.expanded) .nav-item span {
       display: none;
     }
 
     .toggle-btn {
       background: none;
       border: none;
-      font-size: 1.2rem;
+      font-size: 1rem;
       cursor: pointer;
       color: #667eea;
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -122,55 +114,53 @@
     }
 
     .nav-links {
-      padding: 20px 0;
+      padding: 12px 0;
       flex: 1;
     }
 
     .nav-item {
-      padding: 12px 25px;
+      padding: 10px 15px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       text-decoration: none;
       color: #555;
       font-weight: 500;
+      font-size: 0.9rem;
       transition: all 0.2s;
-      border-left: 4px solid transparent;
+      border-left: 3px solid transparent;
+      white-space: nowrap;
     }
 
     .nav-item:hover, .nav-item.active {
       background: rgba(102, 126, 234, 0.1);
       color: #667eea;
-      border-left: 4px solid #667eea;
+      border-left: 3px solid #667eea;
     }
 
     .nav-item i {
-      font-size: 1.2rem;
-      width: 24px;
+      font-size: 1rem;
+      width: 20px;
       text-align: center;
     }
 
-    .sidebar.collapsed .nav-item span {
-      display: none;
-    }
-
-    .sidebar.collapsed .nav-item {
+    .sidebar:not(.expanded) .nav-item {
       justify-content: center;
-      padding: 15px;
+      padding: 12px;
       gap: 0;
     }
 
     .user-info {
-      padding: 20px;
+      padding: 12px;
       border-top: 1px solid #eee;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
     }
 
     .avatar {
-      width: 45px;
-      height: 45px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
@@ -178,232 +168,205 @@
       justify-content: center;
       color: white;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 14px;
       text-transform: uppercase;
-    }
-
-    .user-details {
-      flex: 1;
     }
 
     .user-name {
       font-weight: 600;
       color: #333;
+      font-size: 0.9rem;
     }
 
     .user-email {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: #777;
-    }
-
-    .sidebar.collapsed .user-details {
-      display: none;
     }
 
     /* ===== MAIN CONTENT ===== */
     .main-content {
       flex: 1;
-      padding: 30px;
-      margin-left: 280px;
+      padding: 15px;
+      margin-left: 140px;
       transition: margin-left 0.3s ease;
     }
 
-    .sidebar.collapsed ~ .main-content {
-      margin-left: 70px;
+    .sidebar.expanded ~ .main-content {
+      margin-left: 220px;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 60px;
+      }
+      .sidebar.expanded ~ .main-content {
+        margin-left: 220px;
+      }
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 600px; /* Halved */
       margin: 0 auto;
       background: #fff;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
 
     h2 {
       text-align: center;
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
       color: #333;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       position: relative;
     }
 
     h2::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
+      width: 50px;
+      height: 2px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       border-radius: 2px;
     }
 
-    /* ===== GOOGLE CALENDAR ===== */
+    /* Google Calendar */
     .google-calendar-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 500px;
-      margin-bottom: 30px;
-    }
-    
-    .google-calendar-wrapper {
-      width: 100%;
-      max-width: 1000px;
-      display: flex;
-      justify-content: center;
+      min-height: 300px;
+      margin-bottom: 20px;
     }
 
     .google-calendar-iframe {
-      border: solid 1px #777;
-      border-radius: 12px;
+      border: solid 1px #ddd;
+      border-radius: 10px;
       width: 100%;
-      height: 600px;
+      height: 400px;
     }
 
-    /* ===== FILTERS ===== */
+    /* Filters */
     .filters {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin-bottom: 25px;
+      gap: 10px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
 
     .filter-btn {
-      padding: 10px 20px;
+      padding: 8px 16px;
       border: none;
       border-radius: 50px;
-      font-size: 16px;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       color: white;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
-    .filter-btn.pending {
-      background: linear-gradient(135deg, #ff9800, #ff5722);
-      box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
-    }
-    .filter-btn.approved {
-      background: linear-gradient(135deg, #4CAF50, #2E7D32);
-      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-    }
-    .filter-btn.rejected {
-      background: linear-gradient(135deg, #f44336, #c62828);
-      box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
-    }
-    .filter-btn.all {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    .filter-btn.pending { background: linear-gradient(135deg, #ff9800, #ff5722); }
+    .filter-btn.approved { background: linear-gradient(135deg, #4CAF50, #2E7D32); }
+    .filter-btn.rejected { background: linear-gradient(135deg, #f44336, #c62828); }
+    .filter-btn.all { background: linear-gradient(135deg, #667eea, #764ba2); }
+
+    .filter-btn:hover { transform: translateY(-2px); }
+    .filter-btn.active { transform: scale(1.03); }
+
+    /* Monthly Filter */
+    .monthly-filter-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 15px;
     }
 
-    .filter-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    .monthly-filter {
+      padding: 6px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: white;
+      color: #333;
+      outline: none;
     }
 
-    .filter-btn.active {
-      transform: scale(1.05);
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.5);
+    .monthly-filter:focus {
+      border-color: #667eea;
     }
 
-    /* ===== LEAVE REQUESTS TABLE ===== */
+    /* Requests Header */
     .requests-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .requests-title {
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       color: #667eea;
       font-weight: 600;
     }
 
+    /* Table */
     table {
       width: 100%;
       border-collapse: collapse;
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      margin-top: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      margin-top: 15px;
     }
     th, td { 
-      padding: 14px 12px; 
+      padding: 10px 8px; 
       text-align: left; 
       border-bottom: 1px solid #eee; 
+      font-size: 0.8rem;
     }
     th { 
       background: linear-gradient(135deg, #667eea, #764ba2); 
       color: white; 
       font-weight: 600; 
     }
-    tr:nth-child(even) { background: #f9f9f9; }
     tr:last-child td { border-bottom: none; }
 
-    .status-pending { 
-      background: #fff3e0; 
-      color: #e65100; 
-      padding: 5px 10px; 
-      border-radius: 20px; 
-      font-weight: 600; 
-    }
-    .status-approved { 
-      background: #e8f5e9; 
-      color: #2e7d32; 
-      padding: 5px 10px; 
-      border-radius: 20px; 
-      font-weight: 600; 
-    }
-    .status-rejected { 
-      background: #ffebee; 
-      color: #c62828; 
-      padding: 5px 10px; 
-      border-radius: 20px; 
-      font-weight: 600; 
-    }
+    .status-pending { background: #fff3e0; color: #e65100; padding: 4px 8px; border-radius: 16px; font-weight: 600; font-size: 0.75rem; }
+    .status-approved { background: #e8f5e9; color: #2e7d32; padding: 4px 8px; border-radius: 16px; font-weight: 600; font-size: 0.75rem; }
+    .status-rejected { background: #ffebee; color: #c62828; padding: 4px 8px; border-radius: 16px; font-weight: 600; font-size: 0.75rem; }
 
     .action-btn {
-      padding: 8px 15px;
+      padding: 6px 12px;
       border: none;
-      border-radius: 5px;
+      border-radius: 4px;
       font-weight: 600;
       cursor: pointer;
-      margin-right: 8px;
-      transition: all 0.2s;
+      margin-right: 6px;
+      font-size: 0.75rem;
     }
 
-    .approve-btn {
-      background: #4CAF50;
-      color: white;
-    }
-    .reject-btn {
-      background: #f44336;
-      color: white;
-    }
+    .approve-btn { background: #4CAF50; color: white; }
+    .reject-btn { background: #f44336; color: white; }
 
     .action-btn:hover {
       opacity: 0.9;
-      transform: translateY(-2px);
     }
 
-    /* ===== LOADING OVERLAY ===== */
+    /* Loading */
     #loading {
       position: fixed;
-      top: 0; 
-      left: 0;
-      width: 100%; 
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(102, 126, 234, 0.95);
       display: flex;
       justify-content: center;
@@ -411,19 +374,16 @@
       flex-direction: column;
       z-index: 9999;
       color: #fff;
-      font-size: 18px;
-      backdrop-filter: blur(10px);
-      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
     }
 
     .spinner {
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top: 4px solid #fff;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #fff;
       border-radius: 50%;
-      width: 60px; 
-      height: 60px;
+      width: 40px; height: 40px;
       animation: spin 1s linear infinite;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     @keyframes spin {
@@ -431,72 +391,21 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 70px;
-      }
-      
-      .sidebar .logo-text,
-      .sidebar .user-details,
-      .sidebar .nav-item span {
-        display: none;
-      }
-      
-      .sidebar .nav-item {
-        justify-content: center;
-        padding: 15px;
-        gap: 0;
-      }
-      
-      .main-content {
-        margin-left: 70px;
-        padding: 20px;
-      }
-      
-      .container {
-        padding: 20px;
-      }
-      
-      .filters {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .filter-btn {
-        width: 100%;
-        max-width: 300px;
-        justify-content: center;
-      }
-      
-      th, td {
-        padding: 10px 8px;
-        font-size: 0.9rem;
-      }
-      
-      .google-calendar-iframe {
-        height: 400px;
-      }
-      
-      .google-calendar-container {
-        min-height: 400px;
-      }
-    }
-    
-    /* Notification styles */
+    /* Notification */
     .notification {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 15px 25px;
-      border-radius: 10px;
+      top: 15px;
+      right: 15px;
+      padding: 12px 20px;
+      border-radius: 8px;
       background: #4CAF50;
       color: white;
       font-weight: 500;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
       z-index: 2000;
       transform: translateX(120%);
       transition: transform 0.3s ease;
+      font-size: 0.85rem;
     }
     
     .notification.show {
@@ -505,6 +414,37 @@
     
     .notification.error {
       background: #f44336;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .filters {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .filter-btn {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+      }
+      
+      .google-calendar-iframe {
+        height: 300px;
+      }
+      
+      .google-calendar-container {
+        min-height: 300px;
+      }
+      
+      .requests-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .monthly-filter-container {
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -518,22 +458,18 @@
   <!-- Notification -->
   <div id="notification" class="notification">Leave request updated successfully!</div>
 
-  <!-- Sidebar Navigation (DYNAMIC) -->
-  <div class="sidebar">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
-        <div class="logo-icon">
-          <i class="fas fa-user-clock"></i>
-        </div>
+        <div class="logo-icon"><i class="fas fa-user-clock"></i></div>
         <div class="logo-text">Attendance</div>
       </div>
       <button class="toggle-btn" id="toggleSidebar">
         <i class="fas fa-chevron-left"></i>
       </button>
     </div>
-    
     <div class="nav-links" id="navLinks"></div>
-    
     <div class="user-info">
       <div class="avatar" id="sidebarAvatar">A</div>
       <div class="user-details">
@@ -548,22 +484,20 @@
     <div class="container">
       <h2>Admin Calendar</h2>
 
-      <!-- Google Calendar Section -->
+      <!-- Google Calendar -->
       <div class="google-calendar-container">
-        <div class="google-calendar-wrapper">
-          <iframe 
-            src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FKuala_Lumpur&showPrint=0&src=ZW4ubWFsYXlzaWEjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%230b8043" 
-            class="google-calendar-iframe"
-            frameborder="0" 
-            scrolling="no">
-          </iframe>
-        </div>
+        <iframe 
+          src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FKuala_Lumpur&showPrint=0&src=ZW4ubWFsYXlzaWEjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%230b8043" 
+          class="google-calendar-iframe"
+          frameborder="0" 
+          scrolling="no">
+        </iframe>
       </div>
 
       <!-- Filters -->
       <div class="filters">
         <button class="filter-btn all active" data-filter="all">
-          <i class="fas fa-filter"></i> All Requests
+          <i class="fas fa-filter"></i> All
         </button>
         <button class="filter-btn pending" data-filter="pending">
           <i class="fas fa-clock"></i> Pending
@@ -579,11 +513,9 @@
       <!-- Leave Requests -->
       <div class="requests-header">
         <h3 class="requests-title">Staff Leave Requests</h3>
-        <!-- ✅ Monthly Filter Dropdown -->
         <div class="monthly-filter-container">
           <select id="monthlyFilter" class="monthly-filter">
             <option value="all">All Months</option>
-            <!-- Options will be populated dynamically -->
           </select>
         </div>
       </div>
@@ -591,24 +523,23 @@
       <table>
         <thead>
           <tr>
-            <th>Staff Name</th>
-            <th>Leave Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
+            <th>Staff</th>
+            <th>Type</th>
+            <th>Start</th>
+            <th>End</th>
             <th>Reason</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody id="leaveRequestsTable">
-          <!-- Leave requests will be populated here -->
+          <!-- Populated by JS -->
         </tbody>
       </table>
     </div>
   </div>
 
   <script type="module">
-    // Firebase imports (unchanged)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { 
@@ -623,22 +554,19 @@
       deleteDoc 
     } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    // Firebase Config (unchanged)
     const firebaseConfig = {
       apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
       authDomain: "login-form-84016.firebaseapp.com",
       projectId: "login-form-84016",
       storageBucket: "login-form-84016.firebasestorage.app",
       messagingSenderId: "568483509830",
-      appId: "1:568483509830:web:0d6de2a1537154bd67fc47",
-      measurementId: "G-KCGTMGB6HB"
+      appId: "1:568483509830:web:0d6de2a1537154bd67fc47"
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const auth = getAuth();
+    const db = getFirestore();
 
-    // DOM Elements
     const navLinks = document.getElementById("navLinks");
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     const sidebarUserName = document.getElementById("sidebarUserName");
@@ -646,67 +574,62 @@
     const loading = document.getElementById("loading");
     const notification = document.getElementById("notification");
     const toggleSidebar = document.getElementById("toggleSidebar");
-    const sidebar = document.querySelector(".sidebar");
+    const sidebar = document.getElementById("sidebar");
     const leaveRequestsTable = document.getElementById("leaveRequestsTable");
     const filterButtons = document.querySelectorAll(".filter-btn");
-    const monthlyFilterSelect = document.getElementById("monthlyFilter"); // ✅ NEW
+    const monthlyFilterSelect = document.getElementById("monthlyFilter");
 
     let currentUser = null;
     let leaveRequests = [];
     let currentFilter = "all";
-    let currentMonthFilter = "all"; // ✅ NEW
+    let currentMonthFilter = "all";
 
-    // Toggle sidebar (unchanged)
+    // ✅ Unified toggle for all screen sizes
     toggleSidebar.addEventListener("click", () => {
-      sidebar.classList.toggle("collapsed");
+      sidebar.classList.toggle("expanded");
       const icon = toggleSidebar.querySelector("i");
-      if (sidebar.classList.contains("collapsed")) {
-        icon.className = "fas fa-chevron-right";
-      } else {
+      if (sidebar.classList.contains("expanded")) {
         icon.className = "fas fa-chevron-left";
+      } else {
+        icon.className = "fas fa-chevron-right";
       }
     });
 
-    // Show notification (unchanged)
     function showNotification(message, isError = false) {
       notification.textContent = message;
       notification.className = "notification";
-      if (isError) {
-        notification.classList.add("error");
-      }
+      if (isError) notification.classList.add("error");
       notification.classList.add("show");
-      setTimeout(() => {
-        notification.classList.remove("show");
-      }, 3000);
+      setTimeout(() => notification.classList.remove("show"), 3000);
     }
 
-    // Navigation functions (unchanged)
     function addNavLink(text, icon, link, isActive = false) {
-      const li = document.createElement("a");
-      li.className = `nav-item ${isActive ? 'active' : ''}`;
-      li.href = link;
-      li.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
-      navLinks.appendChild(li);
+      const a = document.createElement("a");
+      a.className = `nav-item ${isActive ? 'active' : ''}`;
+      a.href = link;
+      a.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
+      navLinks.appendChild(a);
     }
 
     function addLogout() {
-      const li = document.createElement("a");
-      li.className = "nav-item logout";
-      li.href = "#";
-      li.id = "logoutLink";
-      li.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
-      li.addEventListener("click", (e) => {
+      const wrap = document.createElement("div");
+      wrap.style.marginTop = "auto";
+      wrap.style.paddingTop = "10px";
+      wrap.style.borderTop = "1px solid #eee";
+      const a = document.createElement("a");
+      a.className = "nav-item";
+      a.innerHTML = `<i class="fas fa-sign-out-alt"></i><span>Logout</span>`;
+      a.addEventListener("click", async (e) => {
         e.preventDefault();
-        signOut(auth).then(() => {
-          window.location.href = "index.html";
-        }).catch((error) => {
-          console.error("Logout error:", error);
-        });
+        if (confirm("Log out?")) {
+          await signOut(auth);
+          window.location.href = "/";
+        }
       });
-      navLinks.appendChild(li);
+      wrap.appendChild(a);
+      navLinks.appendChild(wrap);
     }
 
-    // Load user profile and build navigation (unchanged)
     async function loadUserProfileAndNav(user) {
       try {
         const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -727,73 +650,60 @@
         sidebarAvatar.textContent = displayName.charAt(0).toUpperCase();
 
         navLinks.innerHTML = "";
-  if (role === "admin") {
-    addNavLink("Dashboard", "fa-home", "admin-dashboard.html");
-    addNavLink("Staff Management", "fa-users", "manage-staff.html");
-    addNavLink("Staff Attendance Log", "fa-list", "admin-attendancelog.html");
-    addNavLink("Staff Leave Requests", "fa-calendar-alt", "admin-leavecalendar.html", true);
-    addNavLink("Staff Live Location", "fa-location-dot", "admin-liveloc.html");
-    addNavLink("Admin Profile", "fa-user", "profile.html");
-  }
+        if (role === "admin") {
+          addNavLink("Dashboard", "fa-home", "admin-dashboard.html");
+          addNavLink("Staff Management", "fa-users", "manage-staff.html");
+          addNavLink("Staff Attendance Log", "fa-list", "admin-attendancelog.html");
+          addNavLink("Staff Leave Requests", "fa-calendar-alt", "admin-leavecalendar.html", true);
+          addNavLink("Staff Live Location", "fa-location-dot", "admin-liveloc.html");
+          addNavLink("Admin Profile", "fa-user", "profile.html");
+        }
         addLogout();
       } catch (error) {
-        console.error("Error loading profile for nav:", error);
+        console.error("Error loading profile:", error);
         navLinks.innerHTML = `
-          <a href="/admin-dashboard" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
-          <a href="/admin-leavecalendar" class="nav-item active"><i class="fas fa-calendar-alt"></i><span>Staff Leave Requests</span></a>
-          <a href="/profile" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+          <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+          <a href="admin-leavecalendar.html" class="nav-item active"><i class="fas fa-calendar-alt"></i><span>Leave Requests</span></a>
+          <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
         `;
         addLogout();
       }
     }
 
-    // Format date for display (unchanged)
     function formatDate(dateString) {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
     }
 
-    // Helper: Get "YYYY-MM" from a date string
     function getYearMonth(dateString) {
       const d = new Date(dateString);
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
     }
 
-    // Helper: Get readable month label (e.g., "October 2025")
     function getMonthLabel(yearMonth) {
       const [year, month] = yearMonth.split('-');
       const date = new Date(year, month - 1);
       return date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
     }
 
-    // ✅ NEW: Check if a leave request overlaps with a given month (YYYY-MM)
     function requestOverlapsMonth(request, targetMonth) {
       if (targetMonth === 'all') return true;
-      
       const start = new Date(request.startDate);
-      const end = new Date(request.endDate);
+      const end = new Date(request.endDate || request.startDate);
       const [targetYear, targetMonthNum] = targetMonth.split('-').map(Number);
-      
-      // Normalize to first and last day of target month
       const monthStart = new Date(targetYear, targetMonthNum - 1, 1);
-      const monthEnd = new Date(targetYear, targetMonthNum, 0); // last day
-
-      // Overlap if: request starts before month ends AND ends after month starts
+      const monthEnd = new Date(targetYear, targetMonthNum, 0);
       return start <= monthEnd && end >= monthStart;
     }
 
-    // ✅ NEW: Populate monthly filter dropdown
     function populateMonthlyFilter() {
       const monthSet = new Set();
-      
       leaveRequests.forEach(req => {
         if (req.startDate) {
-          // Add every month from start to end (in case leave spans multiple months)
           const start = new Date(req.startDate);
           const end = new Date(req.endDate || req.startDate);
           let current = new Date(start);
-          current.setDate(1); // first day of start month
-
+          current.setDate(1);
           while (current <= end) {
             const ym = getYearMonth(current.toISOString().split('T')[0]);
             monthSet.add(ym);
@@ -802,12 +712,7 @@
         }
       });
 
-      // Convert to array and sort descending (latest first)
-      const sortedMonths = Array.from(monthSet).sort((a, b) => {
-        return new Date(b) - new Date(a); // descending
-      });
-
-      // Clear and rebuild
+      const sortedMonths = Array.from(monthSet).sort((a, b) => new Date(b) - new Date(a));
       monthlyFilterSelect.innerHTML = '<option value="all">All Months</option>';
       sortedMonths.forEach(ym => {
         const opt = document.createElement('option');
@@ -817,7 +722,6 @@
       });
     }
 
-    // Delete expired leave requests (unchanged)
     async function deleteExpiredLeaveRequests() {
       try {
         const today = new Date();
@@ -825,7 +729,6 @@
         const q = collection(db, "leaveRequests");
         const querySnapshot = await getDocs(q);
         const deletePromises = [];
-
         querySnapshot.forEach((doc) => {
           const request = doc.data();
           if (request.endDate) {
@@ -835,16 +738,12 @@
             }
           }
         });
-
-        if (deletePromises.length > 0) {
-          await Promise.all(deletePromises);
-        }
+        if (deletePromises.length > 0) await Promise.all(deletePromises);
       } catch (error) {
-        console.error("Error cleaning up expired leave requests:", error);
+        console.error("Cleanup error:", error);
       }
     }
 
-    // Load leave requests (unchanged logic, but call populateMonthlyFilter after)
     async function loadLeaveRequests() {
       try {
         const q = query(collection(db, "leaveRequests"), orderBy("createdAt", "desc"));
@@ -853,20 +752,16 @@
         querySnapshot.forEach((doc) => {
           leaveRequests.push({ id: doc.id, ...doc.data() });
         });
-        
-        // ✅ Populate monthly filter after loading data
         populateMonthlyFilter();
         renderLeaveRequests();
       } catch (error) {
-        console.error("Error loading leave requests: ", error);
-        showNotification("Failed to load leave requests", true);
+        console.error("Load error:", error);
+        showNotification("Failed to load requests", true);
       }
     }
 
-    // ✅ Updated: Apply both status and monthly filters
     function renderLeaveRequests() {
       leaveRequestsTable.innerHTML = "";
-      
       let filtered = leaveRequests.filter(req => {
         const matchesStatus = currentFilter === "all" || req.status === currentFilter;
         const matchesMonth = requestOverlapsMonth(req, currentMonthFilter);
@@ -875,7 +770,7 @@
       
       if (filtered.length === 0) {
         const row = document.createElement("tr");
-        row.innerHTML = `<td colspan="7" style="text-align: center; padding: 20px;">No leave requests found</td>`;
+        row.innerHTML = `<td colspan="7" style="text-align: center; padding: 15px;">No requests found</td>`;
         leaveRequestsTable.appendChild(row);
         return;
       }
@@ -900,7 +795,6 @@
         leaveRequestsTable.appendChild(row);
       });
       
-      // Rebind buttons
       document.querySelectorAll('.approve-btn').forEach(btn => {
         btn.addEventListener('click', handleApprove);
       });
@@ -909,7 +803,6 @@
       });
     }
 
-    // Handle approve/reject (unchanged)
     async function handleApprove(e) {
       const requestId = e.target.getAttribute('data-id');
       await updateLeaveRequest(requestId, 'approved');
@@ -922,15 +815,14 @@
       try {
         const requestRef = doc(db, "leaveRequests", requestId);
         await updateDoc(requestRef, { status: newStatus, updatedAt: new Date() });
-        showNotification(`Leave request ${newStatus} successfully!`);
-        loadLeaveRequests(); // reload to refresh monthly filter too
+        showNotification(`Request ${newStatus}!`);
+        await loadLeaveRequests();
       } catch (error) {
-        console.error("Error updating leave request: ", error);
-        showNotification("Failed to update leave request", true);
+        console.error("Update error:", error);
+        showNotification("Failed to update", true);
       }
     }
 
-    // Set up status filter buttons (unchanged)
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         filterButtons.forEach(b => b.classList.remove('active'));
@@ -940,16 +832,14 @@
       });
     });
 
-    // ✅ NEW: Set up monthly filter
     monthlyFilterSelect.addEventListener('change', () => {
       currentMonthFilter = monthlyFilterSelect.value;
       renderLeaveRequests();
     });
 
-    // Auth state (unchanged, but reload requests after cleanup)
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        window.location.href = "/";
+        window.location.href = "index.html";
       } else {
         currentUser = user;
         await loadUserProfileAndNav(user);
@@ -960,5 +850,4 @@
     });
   </script>
 </body>
-
 </html>
