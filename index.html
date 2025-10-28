@@ -26,11 +26,10 @@
       justify-content: center;
       position: relative;
       overflow: hidden;
-      padding: 0;
-      margin: 0;
+      padding: 16px;
     }
 
-    /* === FULL-PAGE ANIMATED BACKGROUND (NOT SCALED) === */
+    /* === FULL-PAGE ANIMATED BACKGROUND (Optimized for Mobile) === */
     .particles, .bg-shapes {
       position: fixed;
       top: 0;
@@ -38,74 +37,80 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      overflow: hidden;
       pointer-events: none;
+      /* Ensure it renders on mobile */
+      will-change: transform;
     }
+
     .floating-shapes { position: absolute; width: 100%; height: 100%; }
+
     .shape {
       position: absolute;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.08);
       border-radius: 50%;
-      animation: float 6s ease-in-out infinite;
+      animation: float 10s ease-in-out infinite;
     }
-    .shape:nth-child(1){width:80px;height:80px;top:20%;left:10%;animation-delay:0s;animation-duration:8s;}
-    .shape:nth-child(2){width:120px;height:120px;top:60%;left:80%;animation-delay:2s;animation-duration:10s;}
-    .shape:nth-child(3){width:60px;height:60px;top:80%;left:20%;animation-delay:4s;animation-duration:7s;}
-    .shape:nth-child(4){width:100px;height:100px;top:10%;left:70%;animation-delay:1s;animation-duration:9s;}
-    .shape:nth-child(5){width:40px;height:40px;top:40%;left:5%;animation-delay:3s;animation-duration:6s;}
-    .shape:nth-child(6){width:90px;height:90px;top:70%;left:60%;animation-delay:5s;animation-duration:11s;}
+
+    /* Desktop sizes */
+    .shape:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; }
+    .shape:nth-child(2) { width: 120px; height: 120px; top: 60%; left: 80%; }
+    .shape:nth-child(3) { width: 60px; height: 60px; top: 80%; left: 20%; }
+    .shape:nth-child(4) { width: 100px; height: 100px; top: 10%; left: 70%; }
+    .shape:nth-child(5) { width: 40px; height: 40px; top: 40%; left: 5%; }
+    .shape:nth-child(6) { width: 90px; height: 90px; top: 70%; left: 60%; }
+
+    /* Mobile: reduce size */
+    @media (max-width: 768px) {
+      .shape:nth-child(1) { width: 30px; height: 30px; }
+      .shape:nth-child(2) { width: 45px; height: 45px; }
+      .shape:nth-child(3) { width: 25px; height: 25px; }
+      .shape:nth-child(4) { width: 40px; height: 40px; }
+      .shape:nth-child(5) { width: 20px; height: 20px; }
+      .shape:nth-child(6) { width: 35px; height: 35px; }
+    }
+
     @keyframes float {
-      0%,100%{transform:translateY(0) rotate(0);opacity:.7;}
-      50%{transform:translateY(-30px) rotate(180deg);opacity:1;}
+      0%, 100% { transform: translateY(0) rotate(0); opacity: 0.6; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
     }
 
     .wave {
       position: absolute;
       width: 200%;
       height: 200%;
-      background: linear-gradient(45deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.05) 100%);
-      animation: wave 15s linear infinite;
+      background: linear-gradient(45deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.07) 25%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.07) 75%, rgba(255,255,255,0.03) 100%);
+      animation: wave 20s linear infinite;
+      opacity: 0.4;
     }
-    .wave:nth-child(2){animation-delay:-5s;animation-duration:20s;opacity:.5;}
-    .wave:nth-child(3){animation-delay:-10s;animation-duration:25s;opacity:.3;}
-    @keyframes wave{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+    .wave:nth-child(2) { animation-delay: -7s; opacity: 0.25; }
+    .wave:nth-child(3) { animation-delay: -14s; opacity: 0.15; }
+
+    @keyframes wave {
+      0% { transform: rotate(0); }
+      100% { transform: rotate(360deg); }
+    }
 
     .particle {
       position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(255,255,255,0.8);
+      width: 3px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.7);
       border-radius: 50%;
-      animation: particle 8s linear infinite;
-    }
-    .particle:nth-child(1){left:10%;animation-delay:0s;}
-    .particle:nth-child(2){left:20%;animation-delay:1s;}
-    .particle:nth-child(3){left:30%;animation-delay:2s;}
-    .particle:nth-child(4){left:40%;animation-delay:3s;}
-    .particle:nth-child(5){left:50%;animation-delay:4s;}
-    .particle:nth-child(6){left:60%;animation-delay:5s;}
-    .particle:nth-child(7){left:70%;animation-delay:6s;}
-    .particle:nth-child(8){left:80%;animation-delay:7s;}
-    .particle:nth-child(9){left:90%;animation-delay:8s;}
-    @keyframes particle{
-      0%{transform:translateY(100vh) scale(0);opacity:0;}
-      10%{opacity:1;transform:scale(1);}
-      90%{opacity:1;}
-      100%{transform:translateY(-100vh) scale(0);opacity:0;}
+      animation: particle 10s linear infinite;
     }
 
-    /* === SCALED LOGIN UI (50% size) === */
-    .scaled-ui {
-      transform: scale(0.5);
-      transform-origin: top left;
-      width: 200vw;
-      height: 200vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
+    @media (max-width: 768px) {
+      .particle { width: 1.5px; height: 1.5px; }
     }
 
+    @keyframes particle {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) scale(0); opacity: 0; }
+    }
+
+    /* === Login Container: Full size on desktop, slightly compact on mobile === */
     .container {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
@@ -113,11 +118,23 @@
       padding: 40px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 450px;
+      max-width: 480px; /* Slightly wider than before */
       border: 1px solid rgba(255, 255, 255, 0.2);
       animation: slideUp 0.6s ease-out;
+      z-index: 10;
     }
-    @keyframes slideUp {from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 28px;
+        max-width: 420px;
+      }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     .form-title {
       text-align: center;
@@ -127,6 +144,11 @@
       margin-bottom: 40px;
       position: relative;
     }
+
+    @media (max-width: 768px) {
+      .form-title { font-size: 2.1rem; margin-bottom: 32px; }
+    }
+
     .form-title::after {
       content: '';
       position: absolute;
@@ -139,34 +161,38 @@
       border-radius: 2px;
     }
 
+    /* Rest of styles (unchanged but clean) */
     .role-selection {
       display: flex;
       justify-content: space-between;
       margin: 20px 0;
+      gap: 12px;
     }
+
     .role-btn {
       flex: 1;
       padding: 25px;
-      margin: 0 10px;
       border: none;
       border-radius: 15px;
       font-size: 20px;
       font-weight: 700;
       color: white;
       cursor: pointer;
-      transition: all .3s ease;
+      background: #5530ddb4;
+      transition: all 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
     }
-    .role-btn.staff,
-    .role-btn.admin {
-      background: #5530ddb4;
+
+    @media (max-width: 768px) {
+      .role-btn { padding: 20px; font-size: 18px; }
     }
+
     .role-btn.active {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      transform: scale(1.03);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
     }
 
     .dropdown-container { margin: 20px 0; }
@@ -177,34 +203,36 @@
       font-weight: 700;
       font-size: 14px;
     }
+
     select {
       width: 100%;
-      padding: 15px 12px;
+      padding: 15px;
       border-radius: 10px;
       font-size: 16px;
       outline: none;
       border: 2px solid #e1e5e9;
-      margin-bottom: 10px;
       background: #f8f9fa;
-      transition: all .3s ease;
+      transition: all 0.3s;
       appearance: none;
-      padding-right: 40px;
       font-weight: 600;
     }
+
     select:focus {
       border-color: #667eea;
       background: #fff;
       box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
-      transform: translateY(-2px);
     }
+
     #staffDropdown { background: #e6f0ff; border: 2px solid #3399ff; color: #003366; }
     #adminDropdown { background: #fff4e6; border: 2px solid #ff9933; color: #663300; }
+
     .hidden { display: none; }
 
     .input-group {
       position: relative;
       margin: 20px 0;
     }
+
     .input-group i {
       position: absolute;
       left: 15px;
@@ -214,23 +242,25 @@
       font-size: 18px;
       z-index: 2;
     }
+
     .input-group input {
       width: calc(100% - 65px);
       padding: 15px 15px 15px 50px;
-      border: 2px solid #e1e5e9;
+      border: 2px solid #e1e5e9; /* Matches button border */
       border-radius: 10px;
       font-size: 16px;
       background: #f8f9fa;
-      transition: all .3s ease;
+      transition: all 0.3s;
       outline: none;
       font-weight: 600;
     }
+
     .input-group input:focus {
       border-color: #667eea;
       background: #fff;
       box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
-      transform: translateY(-2px);
     }
+
     .input-group input::placeholder { color: #adb5bd; }
 
     .btn {
@@ -243,14 +273,16 @@
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
-      transition: all .3s ease;
+      transition: all 0.3s;
       margin: 20px 0;
       box-shadow: 0 4px 15px rgba(102,126,234,0.3);
     }
+
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(102,126,234,0.4);
     }
+
     .btn-secondary {
       background: linear-gradient(135deg, #28a745, #20c997);
       color: white;
@@ -260,19 +292,26 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      transition: all .3s ease;
+      transition: all 0.3s;
       box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+      width: auto;
+      margin: 0 auto;
+      display: block;
     }
-    .btn-secondary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(40,167,69,0.4);
+
+    .links {
+      text-align: center;
+      margin-top: 30px;
     }
-    .links { text-align: center; margin-top: 30px; }
+
+    @media (max-width: 480px) {
+      .role-selection { flex-direction: column; }
+    }
   </style>
 </head>
 
 <body>
-  <!-- Full-page animated background (NOT scaled) -->
+  <!-- Animated background (now mobile-friendly) -->
   <div class="particles" id="particles">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
@@ -286,44 +325,43 @@
     </div>
   </div>
 
-  <!-- Scaled Login UI (50% size) -->
-  <div class="scaled-ui">
-    <div class="container">
-      <h1 class="form-title">LOGIN</h1>
-      <form id="signInForm">
-        <div class="role-selection">
-          <button type="button" id="staffBtn" class="role-btn staff">👤 Staff</button>
-          <button type="button" id="adminBtn" class="role-btn admin">👨‍💼 Admin</button>
-        </div>
-
-        <div class="dropdown-container hidden" id="staffContainer">
-          <label for="staffDropdown"><strong>Staff Name:</strong></label>
-          <select id="staffDropdown">
-            <option value="">Loading staff...</option>
-          </select>
-        </div>
-
-        <div class="dropdown-container hidden" id="adminContainer">
-          <label for="adminDropdown"><strong>Admin Name:</strong></label>
-          <select id="adminDropdown">
-            <option value="">Loading admins...</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" id="password" placeholder="Password" required />
-        </div>
-
-        <button type="button" class="btn" id="submitSignIn">Sign In</button>
-      </form>
-      <div class="links">
-        <p>Don't have an account?</p>
-        <a href="/register"><button class="btn-secondary">Register</button></a>
+  <!-- Login Form (full size on laptop, slightly compact on mobile) -->
+  <div class="container">
+    <h1 class="form-title">LOGIN</h1>
+    <form id="signInForm">
+      <div class="role-selection">
+        <button type="button" id="staffBtn" class="role-btn staff">👤 Staff</button>
+        <button type="button" id="adminBtn" class="role-btn admin">👨‍💼 Admin</button>
       </div>
+
+      <div class="dropdown-container hidden" id="staffContainer">
+        <label for="staffDropdown"><strong>Staff Name:</strong></label>
+        <select id="staffDropdown">
+          <option value="">Loading staff...</option>
+        </select>
+      </div>
+
+      <div class="dropdown-container hidden" id="adminContainer">
+        <label for="adminDropdown"><strong>Admin Name:</strong></label>
+        <select id="adminDropdown">
+          <option value="">Loading admins...</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
+
+      <button type="button" class="btn" id="submitSignIn">Sign In</button>
+    </form>
+    <div class="links">
+      <p>Don't have an account?</p>
+      <a href="/register"><button class="btn-secondary">Register</button></a>
     </div>
   </div>
 
+  <!-- Firebase Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -366,6 +404,7 @@
         dropdown.appendChild(option);
       });
     }
+
     loadUsersByRole("staff", staffDropdown);
     loadUsersByRole("admin", adminDropdown);
 
