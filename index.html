@@ -25,11 +25,11 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow: hidden; /* Prevent scrollbars from animations */
-      padding: 16px;
+      overflow: hidden;
+      padding: 12px;
     }
-    
-    /* === Full-Screen Animated Background === */
+
+    /* === Optimized Animated Background === */
     .particles, .bg-shapes {
       position: fixed;
       top: 0;
@@ -37,42 +37,51 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      pointer-events: none; /* Ensure it doesn't block clicks */
+      pointer-events: none;
     }
 
-    .floating-shapes {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
+    .floating-shapes { position: absolute; width: 100%; height: 100%; }
 
     .shape {
       position: absolute;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      animation: float 6s ease-in-out infinite;
+      animation: float 8s ease-in-out infinite;
     }
-    .shape:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; animation-duration: 8s; }
-    .shape:nth-child(2) { width: 120px; height: 120px; top: 60%; left: 80%; animation-delay: 2s; animation-duration: 10s; }
-    .shape:nth-child(3) { width: 60px; height: 60px; top: 80%; left: 20%; animation-delay: 4s; animation-duration: 7s; }
-    .shape:nth-child(4) { width: 100px; height: 100px; top: 10%; left: 70%; animation-delay: 1s; animation-duration: 9s; }
-    .shape:nth-child(5) { width: 40px; height: 40px; top: 40%; left: 5%; animation-delay: 3s; animation-duration: 6s; }
-    .shape:nth-child(6) { width: 90px; height: 90px; top: 70%; left: 60%; animation-delay: 5s; animation-duration: 11s; }
+
+    /* Desktop sizes */
+    .shape:nth-child(1) { width: 60px; height: 60px; top: 20%; left: 10%; animation-duration: 9s; }
+    .shape:nth-child(2) { width: 90px; height: 90px; top: 65%; left: 80%; animation-duration: 12s; }
+    .shape:nth-child(3) { width: 45px; height: 45px; top: 80%; left: 20%; animation-duration: 8s; }
+    .shape:nth-child(4) { width: 75px; height: 75px; top: 10%; left: 70%; animation-duration: 10s; }
+    .shape:nth-child(5) { width: 30px; height: 30px; top: 40%; left: 5%; animation-duration: 7s; }
+    .shape:nth-child(6) { width: 65px; height: 65px; top: 70%; left: 60%; animation-duration: 13s; }
+
+    /* Mobile: reduce size */
+    @media (max-width: 768px) {
+      .shape:nth-child(1) { width: 40px; height: 40px; }
+      .shape:nth-child(2) { width: 60px; height: 60px; }
+      .shape:nth-child(3) { width: 30px; height: 30px; }
+      .shape:nth-child(4) { width: 50px; height: 50px; }
+      .shape:nth-child(5) { width: 20px; height: 20px; }
+      .shape:nth-child(6) { width: 45px; height: 45px; }
+    }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0); opacity: 0.7; }
-      50% { transform: translateY(-30px) rotate(180deg); opacity: 1; }
+      0%, 100% { transform: translateY(0) rotate(0); opacity: 0.6; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
     }
 
     .wave {
       position: absolute;
       width: 200%;
       height: 200%;
-      background: linear-gradient(45deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.05) 100%);
-      animation: wave 15s linear infinite;
+      background: linear-gradient(45deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.08) 75%, rgba(255,255,255,0.03) 100%);
+      animation: wave 20s linear infinite;
+      opacity: 0.6;
     }
-    .wave:nth-child(2) { animation-delay: -5s; animation-duration: 20s; opacity: 0.5; }
-    .wave:nth-child(3) { animation-delay: -10s; animation-duration: 25s; opacity: 0.3; }
+    .wave:nth-child(2) { animation-delay: -7s; opacity: 0.4; }
+    .wave:nth-child(3) { animation-delay: -14s; opacity: 0.2; }
 
     @keyframes wave {
       0% { transform: rotate(0); }
@@ -81,21 +90,19 @@
 
     .particle {
       position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.8);
+      width: 3px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.7);
       border-radius: 50%;
-      animation: particle 8s linear infinite;
+      animation: particle 10s linear infinite;
     }
-    .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-    .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
-    .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
-    .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
-    .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
-    .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
-    .particle:nth-child(7) { left: 70%; animation-delay: 6s; }
-    .particle:nth-child(8) { left: 80%; animation-delay: 7s; }
-    .particle:nth-child(9) { left: 90%; animation-delay: 8s; }
+
+    @media (max-width: 768px) {
+      .particle {
+        width: 2px;
+        height: 2px;
+      }
+    }
 
     @keyframes particle {
       0% { transform: translateY(100vh) scale(0); opacity: 0; }
@@ -104,112 +111,103 @@
       100% { transform: translateY(-100vh) scale(0); opacity: 0; }
     }
 
-    /* === Responsive Login Container === */
+    /* === Smaller, Responsive Login Container === */
     .container {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
       width: 100%;
-      max-width: 450px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      animation: slideUp 0.6s ease-out;
+      max-width: 400px; /* Reduced from 450px */
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      animation: slideUp 0.5s ease-out;
       z-index: 10;
     }
 
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .form-title {
       text-align: center;
       color: #333;
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       position: relative;
     }
 
     @media (min-width: 600px) {
-      .form-title { font-size: 2.5rem; }
+      .form-title { font-size: 2.2rem; }
     }
 
     .form-title::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 60px;
+      width: 50px;
       height: 3px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       border-radius: 2px;
     }
 
-    /* Role buttons */
+    /* Rest of the styles (unchanged but compact) */
     .role-selection {
       display: flex;
       justify-content: space-between;
-      margin: 20px 0;
-      gap: 16px;
+      margin: 18px 0;
+      gap: 12px;
     }
 
     .role-btn {
       flex: 1;
-      padding: 18px;
+      padding: 16px;
       border: none;
-      border-radius: 15px;
-      font-size: 18px;
+      border-radius: 14px;
+      font-size: 17px;
       font-weight: 700;
       color: white;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-    }
-
-    @media (min-width: 600px) {
-      .role-btn { padding: 25px; font-size: 20px; }
-    }
-
-    .role-btn.staff,
-    .role-btn.admin {
+      gap: 8px;
       background: #5530ddb4;
     }
 
+    @media (min-width: 600px) {
+      .role-btn { padding: 22px; font-size: 19px; }
+    }
+
     .role-btn.active {
-      transform: scale(1.03);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      transform: scale(1.02);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.18);
     }
 
-    .dropdown-container {
-      margin: 20px 0;
-    }
-
+    .dropdown-container { margin: 18px 0; }
     .dropdown-container label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: #333;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     select {
       width: 100%;
-      padding: 14px 12px;
+      padding: 12px;
       border-radius: 10px;
-      font-size: 16px;
+      font-size: 15px;
       outline: none;
       border: 2px solid #e1e5e9;
-      margin-bottom: 10px;
-      background: #f8f9fa;
-      transition: all 0.3s ease;
+      background: #f9fbfd;
+      transition: all 0.3s;
       appearance: none;
-      padding-right: 40px;
       font-weight: 600;
     }
 
@@ -217,48 +215,35 @@
       border-color: #667eea;
       background: #fff;
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      transform: translateY(-2px);
     }
 
-    #staffDropdown {
-      background: #e6f0ff;
-      border: 2px solid #3399ff;
-      color: #003366;
-    }
+    #staffDropdown { background: #e6f0ff; border-color: #3399ff; color: #003366; }
+    #adminDropdown { background: #fff4e6; border-color: #ff9933; color: #663300; }
 
-    #adminDropdown {
-      background: #fff4e6;
-      border: 2px solid #ff9933;
-      color: #663300;
-    }
-
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     .input-group {
       position: relative;
-      margin: 20px 0;
+      margin: 18px 0;
     }
 
     .input-group i {
       position: absolute;
-      left: 15px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
       color: #667eea;
-      font-size: 18px;
-      z-index: 2;
+      font-size: 17px;
     }
 
     .input-group input {
-      width: calc(100% - 65px);
-      padding: 14px 15px 14px 50px;
+      width: calc(100% - 60px);
+      padding: 12px 12px 12px 48px;
       border: 2px solid #e1e5e9;
       border-radius: 10px;
-      font-size: 16px;
-      background: #f8f9fa;
-      transition: all 0.3s ease;
+      font-size: 15px;
+      background: #f9fbfd;
+      transition: all 0.3s;
       outline: none;
       font-weight: 600;
     }
@@ -267,16 +252,13 @@
       border-color: #667eea;
       background: #fff;
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      transform: translateY(-2px);
     }
 
-    .input-group input::placeholder {
-      color: #adb5bd;
-    }
+    .input-group input::placeholder { color: #adb5bd; }
 
     .btn {
       width: 100%;
-      padding: 14px;
+      padding: 13px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       border: none;
@@ -284,14 +266,14 @@
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.3s ease;
-      margin: 20px 0;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s;
+      margin: 18px 0;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
     }
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
     }
 
     .btn-secondary {
@@ -299,12 +281,12 @@
       color: white;
       border: none;
       border-radius: 50px;
-      padding: 12px 25px;
+      padding: 10px 22px;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
       width: auto;
       margin: 0 auto;
       display: block;
@@ -312,33 +294,25 @@
 
     .btn-secondary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+      box-shadow: 0 6px 18px rgba(40, 167, 69, 0.4);
     }
 
     .links {
       text-align: center;
-      margin-top: 24px;
+      margin-top: 22px;
     }
 
-    /* Mobile optimization */
+    /* Mobile stacking */
     @media (max-width: 480px) {
-      .role-selection {
-        flex-direction: column;
-        gap: 12px;
-      }
-      .role-btn {
-        padding: 16px;
-        font-size: 18px;
-      }
-      .container {
-        padding: 24px;
-      }
+      .role-selection { flex-direction: column; }
+      .container { padding: 20px; }
+      .form-title { font-size: 1.7rem; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Full-screen animated background -->
+  <!-- Optimized animated background -->
   <div class="particles" id="particles">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
@@ -352,12 +326,10 @@
     </div>
   </div>
 
-  <!-- Centered, responsive login form -->
+  <!-- Smaller, responsive login form -->
   <div class="container">
     <h1 class="form-title">LOGIN</h1>
     <form id="signInForm">
-      <div id="signInMessage" class="messageDiv" style="display:none;"></div>
-
       <div class="role-selection">
         <button type="button" id="staffBtn" class="role-btn staff">👤 Staff</button>
         <button type="button" id="adminBtn" class="role-btn admin">👨‍💼 Admin</button>
@@ -390,6 +362,7 @@
     </div>
   </div>
 
+  <!-- Firebase logic (unchanged) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -454,12 +427,9 @@
 
     signInBtn.addEventListener("click", async (e) => {
       e.preventDefault();
-
-      let email = "";
-      if (selectedRole === "staff") email = staffDropdown.value;
-      else if (selectedRole === "admin") email = adminDropdown.value;
-
+      let email = selectedRole === "staff" ? staffDropdown.value : adminDropdown.value;
       const password = passwordInput.value;
+
       if (!email || !password || !selectedRole) {
         alert("⚠️ Please select role, name and enter password.");
         return;
@@ -467,13 +437,9 @@
 
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        localStorage.setItem("loggedInUserId", user.uid);
-
-        if (selectedRole === "staff") window.location.href = "dashboard.html";
-        else window.location.href = "admin-dashboard.html";
+        localStorage.setItem("loggedInUserId", userCredential.user.uid);
+        window.location.href = selectedRole === "staff" ? "dashboard.html" : "admin-dashboard.html";
       } catch (err) {
-        console.error("🔥 Login error:", err.message);
         alert("Login failed: " + err.message);
       }
     });
