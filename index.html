@@ -7,44 +7,185 @@
 
   <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  <link rel="stylesheet" href="style.css"/>
-  <script type="module" src="firebaseauth.js"></script>
+  
   <style>
-    body {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600; /* bold default */
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Reset and base styles */
+    * {
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
+      display: flex;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    /* Main layout container with scaled interface */
+    .main-wrapper {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+      transform: scale(0.5);
+      transform-origin: top left;
+      width: 200vw;
+      height: 200vh;
+    }
+    
+    /* Sidebar styles */
+    .sidebar {
+      width: 250px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 10px;
+    }
+    
+    .logo i {
+      font-size: 24px;
+      color: white;
+      margin-right: 10px;
+    }
+    
+    .logo span {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .nav-links {
+      list-style: none;
+      flex: 1;
+    }
+    
+    .nav-links li {
+      margin-bottom: 10px;
+    }
+    
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    .nav-links i {
+      margin-right: 12px;
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+    
+    .nav-text {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    
+    /* Mobile menu toggle */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 20;
+    }
+    
+    /* Login container */
+    .login-container {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow-x: hidden;
+      padding: 20px;
     }
     
     /* Animated Background */
-    .particles, .bg-shapes { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; overflow:hidden; }
-    .floating-shapes { position:absolute; width:100%; height:100%; }
-    .shape { position:absolute; background:rgba(255,255,255,0.1); border-radius:50%; animation:float 6s ease-in-out infinite; }
-    .shape:nth-child(1){width:80px;height:80px;top:20%;left:10%;animation-delay:0s;animation-duration:8s;}
-    .shape:nth-child(2){width:120px;height:120px;top:60%;left:80%;animation-delay:2s;animation-duration:10s;}
-    .shape:nth-child(3){width:60px;height:60px;top:80%;left:20%;animation-delay:4s;animation-duration:7s;}
-    .shape:nth-child(4){width:100px;height:100px;top:10%;left:70%;animation-delay:1s;animation-duration:9s;}
-    .shape:nth-child(5){width:40px;height:40px;top:40%;left:5%;animation-delay:3s;animation-duration:6s;}
-    .shape:nth-child(6){width:90px;height:90px;top:70%;left:60%;animation-delay:5s;animation-duration:11s;}
-    @keyframes float {0%,100%{transform:translateY(0) rotate(0);opacity:.7;}50%{transform:translateY(-30px) rotate(180deg);opacity:1;}}
+    .particles, .bg-shapes { 
+      position: fixed; 
+      top:0; 
+      left:0; 
+      width:100%; 
+      height:100%; 
+      z-index:-1; 
+      overflow:hidden; 
+    }
+    .floating-shapes { 
+      position:absolute; 
+      width:100%; 
+      height:100%; 
+    }
+    .shape { 
+      position:absolute; 
+      background:rgba(255,255,255,0.1); 
+      border-radius:50%; 
+      animation:float 6s ease-in-out infinite; 
+    }
+    .shape:nth-child(1){width:40px;height:40px;top:20%;left:10%;animation-delay:0s;animation-duration:8s;}
+    .shape:nth-child(2){width:60px;height:60px;top:60%;left:80%;animation-delay:2s;animation-duration:10s;}
+    .shape:nth-child(3){width:30px;height:30px;top:80%;left:20%;animation-delay:4s;animation-duration:7s;}
+    .shape:nth-child(4){width:50px;height:50px;top:10%;left:70%;animation-delay:1s;animation-duration:9s;}
+    .shape:nth-child(5){width:20px;height:20px;top:40%;left:5%;animation-delay:3s;animation-duration:6s;}
+    .shape:nth-child(6){width:45px;height:45px;top:70%;left:60%;animation-delay:5s;animation-duration:11s;}
+    @keyframes float {
+      0%,100%{transform:translateY(0) rotate(0);opacity:.7;} 
+      50%{transform:translateY(-15px) rotate(180deg);opacity:1;}
+    }
 
-    .wave {position:absolute;width:200%;height:200%;background:linear-gradient(45deg,rgba(255,255,255,0.05)0%,rgba(255,255,255,0.1)25%,rgba(255,255,255,0.05)50%,rgba(255,255,255,0.1)75%,rgba(255,255,255,0.05)100%);animation:wave 15s linear infinite;}
+    .wave {
+      position:absolute;
+      width:200%;
+      height:200%;
+      background:linear-gradient(45deg,rgba(255,255,255,0.05)0%,rgba(255,255,255,0.1)25%,rgba(255,255,255,0.05)50%,rgba(255,255,255,0.1)75%,rgba(255,255,255,0.05)100%);
+      animation:wave 15s linear infinite;
+    }
     .wave:nth-child(2){animation-delay:-5s;animation-duration:20s;opacity:.5;}
     .wave:nth-child(3){animation-delay:-10s;animation-duration:25s;opacity:.3;}
-    @keyframes wave{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+    @keyframes wave{
+      0%{transform:rotate(0)} 
+      100%{transform:rotate(360deg)}
+    }
 
-    .particle {position:absolute;width:4px;height:4px;background:rgba(255,255,255,0.8);border-radius:50%;animation:particle 8s linear infinite;}
+    .particle {
+      position:absolute;
+      width:2px;
+      height:2px;
+      background:rgba(255,255,255,0.8);
+      border-radius:50%;
+      animation:particle 8s linear infinite;
+    }
     .particle:nth-child(1){left:10%;animation-delay:0s;}
     .particle:nth-child(2){left:20%;animation-delay:1s;}
     .particle:nth-child(3){left:30%;animation-delay:2s;}
@@ -54,7 +195,12 @@
     .particle:nth-child(7){left:70%;animation-delay:6s;}
     .particle:nth-child(8){left:80%;animation-delay:7s;}
     .particle:nth-child(9){left:90%;animation-delay:8s;}
-    @keyframes particle{0%{transform:translateY(100vh) scale(0);opacity:0;}10%{opacity:1;transform:scale(1);}90%{opacity:1;}100%{transform:translateY(-100vh) scale(0);opacity:0;}}
+    @keyframes particle{
+      0%{transform:translateY(100vh) scale(0);opacity:0;} 
+      10%{opacity:1;transform:scale(1);} 
+      90%{opacity:1;} 
+      100%{transform:translateY(-100vh) scale(0);opacity:0;}
+    }
 
     .container {
       background: rgba(255, 255, 255, 0.95);
@@ -98,67 +244,161 @@
     .btn-secondary{background:linear-gradient(135deg,#28a745,#20c997);color:white;border:none;border-radius:50px;padding:12px 25px;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 15px rgba(40,167,69,0.3);}
     .btn-secondary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(40,167,69,0.4);}
     .links{text-align:center;margin-top:30px;}
+    
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100vh;
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      .nav-text {
+        display: none;
+      }
+      
+      .sidebar.active .nav-text {
+        display: inline;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 25px;
+      }
+      
+      .form-title {
+        font-size: 2rem;
+      }
+      
+      .role-btn {
+        padding: 18px;
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <!-- Animated background -->
-  <div class="particles" id="particles">
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-  </div>
-  <div class="bg-shapes" id="bgShapes">
-    <div class="wave"></div><div class="wave"></div><div class="wave"></div>
-    <div class="floating-shapes">
-      <div class="shape"></div><div class="shape"></div><div class="shape"></div>
-      <div class="shape"></div><div class="shape"></div><div class="shape"></div>
-    </div>
-  </div>
-
-  <!-- Login Form -->
-  <div class="container">
-    <h1 class="form-title">LOGIN</h1>
-    <form id="signInForm">
-      <div id="signInMessage" class="messageDiv" style="display:none;"></div>
-
-      <!-- Role selection buttons -->
-      <div class="role-selection">
-        <button type="button" id="staffBtn" class="role-btn staff">👤 Staff</button>
-        <button type="button" id="adminBtn" class="role-btn admin">👨‍💼 Admin</button>
-      </div>
-
-      <!-- Staff Dropdown -->
-      <div class="dropdown-container hidden" id="staffContainer">
-        <label for="staffDropdown"><strong>Staff Name:</strong></label>
-        <select id="staffDropdown">
-          <option value="">Loading staff...</option>
-        </select>
-      </div>
-
-      <!-- Admin Dropdown -->
-      <div class="dropdown-container hidden" id="adminContainer">
-        <label for="adminDropdown"><strong>Admin Name:</strong></label>
-        <select id="adminDropdown">
-          <option value="">Loading admins...</option>
-        </select>
-      </div>
-
-      <!-- Password -->
-      <div class="input-group">
+  <!-- Mobile menu toggle button -->
+  <button class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+  
+  <!-- Main container with scaled interface -->
+  <div class="main-wrapper">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+      <div class="logo">
         <i class="fas fa-lock"></i>
-        <input type="password" id="password" placeholder="Password" required />
+        <span>Secure Login</span>
+      </div>
+      
+      <ul class="nav-links">
+        <li><a href="#" class="active"><i class="fas fa-home"></i> <span class="nav-text">Dashboard</span></a></li>
+        <li><a href="#"><i class="fas fa-user"></i> <span class="nav-text">Profile</span></a></li>
+        <li><a href="#"><i class="fas fa-cog"></i> <span class="nav-text">Settings</span></a></li>
+        <li><a href="#"><i class="fas fa-chart-line"></i> <span class="nav-text">Analytics</span></a></li>
+        <li><a href="#"><i class="fas fa-envelope"></i> <span class="nav-text">Messages</span></a></li>
+        <li><a href="#"><i class="fas fa-question-circle"></i> <span class="nav-text">Help</span></a></li>
+        <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span class="nav-text">Logout</span></a></li>
+      </ul>
+    </div>
+    
+    <!-- Login Form -->
+    <div class="login-container">
+      <!-- Animated background -->
+      <div class="particles" id="particles">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      </div>
+      <div class="bg-shapes" id="bgShapes">
+        <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+        <div class="floating-shapes">
+          <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+          <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+        </div>
       </div>
 
-      <button type="button" class="btn" id="submitSignIn">Sign In</button>
-    </form>
-    <div class="links">
-      <p>Don't have an account?</p>
-      <a href="register.html"><button class="btn-secondary">Register</button></a>
+      <div class="container">
+        <h1 class="form-title">LOGIN</h1>
+        <form id="signInForm">
+          <div id="signInMessage" class="messageDiv" style="display:none;"></div>
+
+          <!-- Role selection buttons -->
+          <div class="role-selection">
+            <button type="button" id="staffBtn" class="role-btn staff">👤 Staff</button>
+            <button type="button" id="adminBtn" class="role-btn admin">👨‍💼 Admin</button>
+          </div>
+
+          <!-- Staff Dropdown -->
+          <div class="dropdown-container hidden" id="staffContainer">
+            <label for="staffDropdown"><strong>Staff Name:</strong></label>
+            <select id="staffDropdown">
+              <option value="">Loading staff...</option>
+            </select>
+          </div>
+
+          <!-- Admin Dropdown -->
+          <div class="dropdown-container hidden" id="adminContainer">
+            <label for="adminDropdown"><strong>Admin Name:</strong></label>
+            <select id="adminDropdown">
+              <option value="">Loading admins...</option>
+            </select>
+          </div>
+
+          <!-- Password -->
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Password" required />
+          </div>
+
+          <button type="button" class="btn" id="submitSignIn">Sign In</button>
+        </form>
+        <div class="links">
+          <p>Don't have an account?</p>
+          <a href="register.html"><button class="btn-secondary">Register</button></a>
+        </div>
+      </div>
     </div>
   </div>
 
   <script type="module">
+    // Mobile menu toggle functionality
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      // Toggle menu icon
+      if (sidebar.classList.contains('active')) {
+        menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+      } else {
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      }
+    });
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && e.target !== menuToggle) {
+          sidebar.classList.remove('active');
+          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+      }
+    });
+    
+    // Firebase functionality
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
@@ -224,40 +464,39 @@
       staffBtn.classList.remove("active");
     });
 
-// Login
-signInBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
+    // Login
+    signInBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
 
-  let email = "";
-  if (selectedRole === "staff") {
-    email = staffDropdown.value;
-  } else if (selectedRole === "admin") {
-    email = adminDropdown.value;
-  }
+      let email = "";
+      if (selectedRole === "staff") {
+        email = staffDropdown.value;
+      } else if (selectedRole === "admin") {
+        email = adminDropdown.value;
+      }
 
-  const password = passwordInput.value;
-  if (!email || !password || !selectedRole) {
-    alert("⚠️ Please select role, name and enter password.");
-    return;
-  }
+      const password = passwordInput.value;
+      if (!email || !password || !selectedRole) {
+        alert("⚠️ Please select role, name and enter password.");
+        return;
+      }
 
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    localStorage.setItem("loggedInUserId", user.uid);
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        localStorage.setItem("loggedInUserId", user.uid);
 
-    // Redirect based on selected role
-    if (selectedRole === "staff") {
-      window.location.href = "dashboard.html";
-    } else if (selectedRole === "admin") {
-      window.location.href = "admin-dashboard.html";
-    }
-  } catch (err) {
-    console.error("🔥 Login error:", err.message);
-    alert("Login failed: " + err.message);
-  }
-});
+        // Redirect based on selected role
+        if (selectedRole === "staff") {
+          window.location.href = "dashboard.html";
+        } else if (selectedRole === "admin") {
+          window.location.href = "admin-dashboard.html";
+        }
+      } catch (err) {
+        console.error("🔥 Login error:", err.message);
+        alert("Login failed: " + err.message);
+      }
+    });
   </script>
 </body>
 </html>
-
