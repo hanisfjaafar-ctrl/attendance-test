@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   
   <style>
-    /* Reset and base styles */
     * {
       margin: 0;
       padding: 0;
@@ -23,113 +22,23 @@
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       display: flex;
-      overflow-x: hidden;
+      align-items: center;
+      justify-content: center;
       position: relative;
+      overflow-x: hidden;
+      padding: 0;
+      margin: 0;
     }
     
-    /* Main layout container with scaled interface */
-    .main-wrapper {
-      display: flex;
-      width: 100%;
-      min-height: 100vh;
+    /* Main container with scaled interface */
+    .scaled-container {
       transform: scale(0.5);
       transform-origin: top left;
       width: 200vw;
       height: 200vh;
-    }
-    
-    /* Sidebar styles */
-    .sidebar {
-      width: 250px;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      border-right: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.3s ease;
-      z-index: 10;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
-      margin-bottom: 30px;
-      padding: 10px;
-    }
-    
-    .logo i {
-      font-size: 24px;
-      color: white;
-      margin-right: 10px;
-    }
-    
-    .logo span {
-      font-size: 20px;
-      font-weight: 700;
-      color: white;
-    }
-    
-    .nav-links {
-      list-style: none;
-      flex: 1;
-    }
-    
-    .nav-links li {
-      margin-bottom: 10px;
-    }
-    
-    .nav-links a {
-      display: flex;
-      align-items: center;
-      padding: 12px 15px;
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-    
-    .nav-links a:hover, .nav-links a.active {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-    }
-    
-    .nav-links i {
-      margin-right: 12px;
-      font-size: 18px;
-      width: 24px;
-      text-align: center;
-    }
-    
-    .nav-text {
-      white-space: nowrap;
-      overflow: hidden;
-    }
-    
-    /* Mobile menu toggle */
-    .menu-toggle {
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-      z-index: 20;
-    }
-    
-    /* Login container */
-    .login-container {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
     }
     
     /* Animated Background */
@@ -213,192 +122,250 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
       animation: slideUp 0.6s ease-out;
     }
-    @keyframes slideUp {from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-
-    .form-title {text-align:center;color:#333;font-size:2.5rem;font-weight:700;margin-bottom:40px;position:relative;}
-    .form-title::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:60px;height:3px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:2px;}
-
-    /* Role buttons */
-    .role-selection{display:flex;justify-content:space-between;margin:20px 0;}
-    .role-btn{flex:1;padding:25px;margin:0 10px;border:none;border-radius:15px;font-size:20px;font-weight:700;color:white;cursor:pointer;transition:all .3s ease;display:flex;align-items:center;justify-content:center;gap:10px;}
-    .role-btn.staff{background:#5530ddb4;}
-    .role-btn.admin{background:#5530ddb4;}
-    .role-btn.active{transform:scale(1.05);box-shadow:0 6px 20px rgba(0,0,0,0.2);}
-
-    .dropdown-container {margin:20px 0;}
-    .dropdown-container label {display:block;margin-bottom:8px;color:#333;font-weight:700;font-size:14px;}
-    select {width:100%;padding:15px 12px;border-radius:10px;font-size:16px;outline:none;border:2px solid #e1e5e9;margin-bottom:10px;background:#f8f9fa;transition:all .3s ease;appearance:none;padding-right:40px;font-weight:600;}
-    select:focus {border-color:#667eea;background:#fff;box-shadow:0 0 0 3px rgba(102,126,234,0.1);transform:translateY(-2px);}
-    #staffDropdown{background:#e6f0ff;border:2px solid #3399ff;color:#003366;}
-    #adminDropdown{background:#fff4e6;border:2px solid #ff9933;color:#663300;}
-    .hidden{display:none;}
-
-    .input-group{position:relative;margin:20px 0;}
-    .input-group i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#667eea;font-size:18px;z-index:2;}
-    .input-group input{width:calc(100% - 65px);padding:15px 15px 15px 50px;border:2px solid #e1e5e9;border-radius:10px;font-size:16px;background:#f8f9fa;transition:all .3s ease;outline:none;font-weight:600;}
-    .input-group input:focus{border-color:#667eea;background:#fff;box-shadow:0 0 0 3px rgba(102,126,234,0.1);transform:translateY(-2px);}
-    .input-group input::placeholder{color:#adb5bd;}
-
-    .btn{width:100%;padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s ease;margin:20px 0;box-shadow:0 4px 15px rgba(102,126,234,0.3);}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,0.4);}
-    .btn-secondary{background:linear-gradient(135deg,#28a745,#20c997);color:white;border:none;border-radius:50px;padding:12px 25px;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 15px rgba(40,167,69,0.3);}
-    .btn-secondary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(40,167,69,0.4);}
-    .links{text-align:center;margin-top:30px;}
-    
-    /* Responsive styles */
-    @media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        left: -250px;
-        top: 0;
-        height: 100vh;
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
       }
-      
-      .sidebar.active {
-        left: 0;
-      }
-      
-      .menu-toggle {
-        display: block;
-      }
-      
-      .nav-text {
-        display: none;
-      }
-      
-      .sidebar.active .nav-text {
-        display: inline;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
-    
-    @media (max-width: 480px) {
-      .container {
-        padding: 25px;
-      }
-      
-      .form-title {
-        font-size: 2rem;
-      }
-      
-      .role-btn {
-        padding: 18px;
-        font-size: 16px;
-      }
+
+    .form-title {
+      text-align: center;
+      color: #333;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .form-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    /* Role buttons */
+    .role-selection {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    .role-btn {
+      flex: 1;
+      padding: 25px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 15px;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .role-btn.staff {
+      background: #5530ddb4;
+    }
+    .role-btn.admin {
+      background: #5530ddb4;
+    }
+    .role-btn.active {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-container {
+      margin: 20px 0;
+    }
+    .dropdown-container label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    select {
+      width: 100%;
+      padding: 15px 12px;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+      border: 2px solid #e1e5e9;
+      margin-bottom: 10px;
+      background: #f8f9fa;
+      transition: all .3s ease;
+      appearance: none;
+      padding-right: 40px;
+      font-weight: 600;
+    }
+    select:focus {
+      border-color: #667eea;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+    }
+    #staffDropdown {
+      background: #e6f0ff;
+      border: 2px solid #3399ff;
+      color: #003366;
+    }
+    #adminDropdown {
+      background: #fff4e6;
+      border: 2px solid #ff9933;
+      color: #663300;
+    }
+    .hidden {
+      display: none;
+    }
+
+    .input-group {
+      position: relative;
+      margin: 20px 0;
+    }
+    .input-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #667eea;
+      font-size: 18px;
+      z-index: 2;
+    }
+    .input-group input {
+      width: calc(100% - 65px);
+      padding: 15px 15px 15px 50px;
+      border: 2px solid #e1e5e9;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #f8f9fa;
+      transition: all .3s ease;
+      outline: none;
+      font-weight: 600;
+    }
+    .input-group input:focus {
+      border-color: #667eea;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+    }
+    .input-group input::placeholder {
+      color: #adb5bd;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .3s ease;
+      margin: 20px 0;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    .btn-secondary {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 25px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .3s ease;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+    .links {
+      text-align: center;
+      margin-top: 30px;
     }
   </style>
 </head>
 
 <body>
-  <!-- Mobile menu toggle button -->
-  <button class="menu-toggle" id="menuToggle">
-    <i class="fas fa-bars"></i>
-  </button>
-  
   <!-- Main container with scaled interface -->
-  <div class="main-wrapper">
-    <!-- Sidebar Navigation -->
-    <div class="sidebar" id="sidebar">
-      <div class="logo">
-        <i class="fas fa-lock"></i>
-        <span>Secure Login</span>
-      </div>
-      
-      <ul class="nav-links">
-        <li><a href="#" class="active"><i class="fas fa-home"></i> <span class="nav-text">Dashboard</span></a></li>
-        <li><a href="#"><i class="fas fa-user"></i> <span class="nav-text">Profile</span></a></li>
-        <li><a href="#"><i class="fas fa-cog"></i> <span class="nav-text">Settings</span></a></li>
-        <li><a href="#"><i class="fas fa-chart-line"></i> <span class="nav-text">Analytics</span></a></li>
-        <li><a href="#"><i class="fas fa-envelope"></i> <span class="nav-text">Messages</span></a></li>
-        <li><a href="#"><i class="fas fa-question-circle"></i> <span class="nav-text">Help</span></a></li>
-        <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span class="nav-text">Logout</span></a></li>
-      </ul>
+  <div class="scaled-container">
+    <!-- Animated background -->
+    <div class="particles" id="particles">
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     </div>
-    
+    <div class="bg-shapes" id="bgShapes">
+      <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+      <div class="floating-shapes">
+        <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+        <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+      </div>
+    </div>
+
     <!-- Login Form -->
-    <div class="login-container">
-      <!-- Animated background -->
-      <div class="particles" id="particles">
-        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-      </div>
-      <div class="bg-shapes" id="bgShapes">
-        <div class="wave"></div><div class="wave"></div><div class="wave"></div>
-        <div class="floating-shapes">
-          <div class="shape"></div><div class="shape"></div><div class="shape"></div>
-          <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+    <div class="container">
+      <h1 class="form-title">LOGIN</h1>
+      <form id="signInForm">
+        <div id="signInMessage" class="messageDiv" style="display:none;"></div>
+
+        <!-- Role selection buttons -->
+        <div class="role-selection">
+          <button type="button" id="staffBtn" class="role-btn staff">👤 Staff</button>
+          <button type="button" id="adminBtn" class="role-btn admin">👨‍💼 Admin</button>
         </div>
-      </div>
 
-      <div class="container">
-        <h1 class="form-title">LOGIN</h1>
-        <form id="signInForm">
-          <div id="signInMessage" class="messageDiv" style="display:none;"></div>
-
-          <!-- Role selection buttons -->
-          <div class="role-selection">
-            <button type="button" id="staffBtn" class="role-btn staff">👤 Staff</button>
-            <button type="button" id="adminBtn" class="role-btn admin">👨‍💼 Admin</button>
-          </div>
-
-          <!-- Staff Dropdown -->
-          <div class="dropdown-container hidden" id="staffContainer">
-            <label for="staffDropdown"><strong>Staff Name:</strong></label>
-            <select id="staffDropdown">
-              <option value="">Loading staff...</option>
-            </select>
-          </div>
-
-          <!-- Admin Dropdown -->
-          <div class="dropdown-container hidden" id="adminContainer">
-            <label for="adminDropdown"><strong>Admin Name:</strong></label>
-            <select id="adminDropdown">
-              <option value="">Loading admins...</option>
-            </select>
-          </div>
-
-          <!-- Password -->
-          <div class="input-group">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="password" placeholder="Password" required />
-          </div>
-
-          <button type="button" class="btn" id="submitSignIn">Sign In</button>
-        </form>
-        <div class="links">
-          <p>Don't have an account?</p>
-          <a href="register.html"><button class="btn-secondary">Register</button></a>
+        <!-- Staff Dropdown -->
+        <div class="dropdown-container hidden" id="staffContainer">
+          <label for="staffDropdown"><strong>Staff Name:</strong></label>
+          <select id="staffDropdown">
+            <option value="">Loading staff...</option>
+          </select>
         </div>
+
+        <!-- Admin Dropdown -->
+        <div class="dropdown-container hidden" id="adminContainer">
+          <label for="adminDropdown"><strong>Admin Name:</strong></label>
+          <select id="adminDropdown">
+            <option value="">Loading admins...</option>
+          </select>
+        </div>
+
+        <!-- Password -->
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" placeholder="Password" required />
+        </div>
+
+        <button type="button" class="btn" id="submitSignIn">Sign In</button>
+      </form>
+      <div class="links">
+        <p>Don't have an account?</p>
+        <a href="register.html"><button class="btn-secondary">Register</button></a>
       </div>
     </div>
   </div>
 
   <script type="module">
-    // Mobile menu toggle functionality
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.getElementById('sidebar');
-    
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-      // Toggle menu icon
-      if (sidebar.classList.contains('active')) {
-        menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-      } else {
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      }
-    });
-    
-    // Close sidebar when clicking outside on mobile
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && e.target !== menuToggle) {
-          sidebar.classList.remove('active');
-          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
-      }
-    });
-    
-    // Firebase functionality
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
