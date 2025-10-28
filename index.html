@@ -417,10 +417,8 @@
 <body>
   <div class="container">
     <div class="particles">
-      <!-- Particles -->
       <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
       <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
-      <!-- Magical Orbs -->
       <div class="magical-orb"></div><div class="magical-orb"></div><div class="magical-orb"></div><div class="magical-orb"></div>
       <div class="magical-orb"></div><div class="magical-orb"></div><div class="magical-orb"></div><div class="magical-orb"></div>
       <div class="magical-orb"></div><div class="magical-orb"></div>
@@ -474,7 +472,7 @@
     </div>
   </div>
 
-  <!-- Non-Firebase UI logic (Element SDK + fallback) -->
+  <!-- Non-Firebase UI logic (Element SDK + Register Redirect) -->
   <script>
     const defaultConfig = {
       form_title: "LOGIN",
@@ -527,12 +525,13 @@
       hideMessage();
     }
 
+    // ✅ Register button now redirects to register.html
     function handleRegister() {
-      registerBtn.style.transform = 'scale(0.95)';
+      registerBtn.style.transform = 'scale(0.98)';
       setTimeout(() => {
         registerBtn.style.transform = '';
-        showMessage('Registration feature would open here!', 'info');
-      }, 150);
+        window.location.href = 'register.html';
+      }, 100);
     }
 
     staffBtn.addEventListener('click', () => selectRole('staff'));
@@ -590,7 +589,7 @@
     }
   </script>
 
-  <!-- ✅ Firebase Auth + Firestore Integration -->
+  <!-- ✅ Firebase Auth + Firestore -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -658,66 +657,4 @@
           const option = document.createElement("option");
           option.value = user.email;
           option.textContent = `${user.firstName} ${user.lastName}`;
-          dropdown.appendChild(option);
-        });
-      } catch (error) {
-        console.error(`Error loading ${role} users:`, error);
-        dropdown.innerHTML = `<option value="">Error: ${error.message}</option>`;
-      }
-    }
-
-    // Load users on page load
-    loadUsersByRole("staff", staffDropdown);
-    loadUsersByRole("admin", adminDropdown);
-
-    staffBtn.addEventListener("click", () => {
-      selectedRole = "staff";
-      staffContainer.classList.remove("hidden");
-      adminContainer.classList.add("hidden");
-      staffBtn.classList.add("active");
-      adminBtn.classList.remove("active");
-      hideMessage();
-    });
-
-    adminBtn.addEventListener("click", () => {
-      selectedRole = "admin";
-      adminContainer.classList.remove("hidden");
-      staffContainer.classList.add("hidden");
-      adminBtn.classList.add("active");
-      staffBtn.classList.remove("active");
-      hideMessage();
-    });
-
-    submitBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-
-      const email = selectedRole === "staff" ? staffDropdown.value : adminDropdown.value;
-      const password = passwordInput.value;
-
-      if (!email) {
-        showMessage("Please select your name.", "error");
-        const dropdown = selectedRole === "staff" ? staffDropdown : adminDropdown;
-        dropdown.style.animation = 'shake 0.5s ease-in-out';
-        setTimeout(() => dropdown.style.animation = '', 500);
-        return;
-      }
-
-      if (!password) {
-        showMessage("Please enter your password.", "error");
-        passwordInput.style.animation = 'shake 0.5s ease-in-out';
-        setTimeout(() => passwordInput.style.animation = '', 500);
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>Signing In...</span>';
-
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        localStorage.setItem("loggedInUserId", userCredential.user.uid);
-
-        hideMessage();
-        successMessage.style.display = 'block';
-        successMessage.textContent = `Welcome! Redirecting to ${selectedRole} dashboard...`;
-
-    
+          dropdown.appendChild(opt
