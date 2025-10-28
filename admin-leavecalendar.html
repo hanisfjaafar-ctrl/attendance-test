@@ -25,7 +25,7 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 140px; /* Exactly as in your reference */
+      width: 140px;
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -40,7 +40,7 @@
     }
 
     .sidebar.expanded {
-      width: 220px; /* Expanded width */
+      width: 220px;
     }
 
     .sidebar-header {
@@ -163,10 +163,6 @@
       text-transform: uppercase;
     }
 
-    .user-details {
-      flex: 1;
-    }
-
     .user-name {
       font-weight: 600;
       color: #333;
@@ -195,7 +191,7 @@
     }
 
     .container {
-      max-width: 600px; /* Exactly as in your reference */
+      max-width: 600px;
       margin: 0 auto;
       background: #fff;
       padding: 20px;
@@ -240,27 +236,37 @@
       height: 400px;
     }
 
-    /* Filters */
-    .filters {
+    /* ===== VERTICAL FILTERS ===== */
+    .filters-container {
       display: flex;
       justify-content: center;
-      gap: 10px;
       margin-bottom: 20px;
-      flex-wrap: wrap;
+    }
+
+    .filters {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 220px;
+      align-items: center;
     }
 
     .filter-btn {
-      padding: 8px 16px;
+      width: 100%;
+      padding: 10px 16px;
       border: none;
-      border-radius: 50px;
-      font-size: 0.85rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       color: white;
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .filter-btn.pending { background: linear-gradient(135deg, #ff9800, #ff5722); }
@@ -268,8 +274,15 @@
     .filter-btn.rejected { background: linear-gradient(135deg, #f44336, #c62828); }
     .filter-btn.all { background: linear-gradient(135deg, #667eea, #764ba2); }
 
-    .filter-btn:hover { transform: translateY(-2px); }
-    .filter-btn.active { transform: scale(1.03); }
+    .filter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .filter-btn.active {
+      transform: scale(1.02);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.6);
+    }
 
     /* Monthly Filter */
     .monthly-filter-container {
@@ -445,21 +458,10 @@
         padding: 16px;
       }
 
-      .filters {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .filter-btn {
-        width: 100%;
-        max-width: 250px;
-        justify-content: center;
-      }
-      
       .google-calendar-iframe {
         height: 300px;
       }
-      
+
       .requests-header {
         flex-direction: column;
         align-items: stretch;
@@ -517,20 +519,22 @@
         </iframe>
       </div>
 
-      <!-- Filters -->
-      <div class="filters">
-        <button class="filter-btn all active" data-filter="all">
-          <i class="fas fa-filter"></i> All
-        </button>
-        <button class="filter-btn pending" data-filter="pending">
-          <i class="fas fa-clock"></i> Pending
-        </button>
-        <button class="filter-btn approved" data-filter="approved">
-          <i class="fas fa-check-circle"></i> Approved
-        </button>
-        <button class="filter-btn rejected" data-filter="rejected">
-          <i class="fas fa-times-circle"></i> Rejected
-        </button>
+      <!-- Vertical Filters -->
+      <div class="filters-container">
+        <div class="filters">
+          <button class="filter-btn all active" data-filter="all">
+            <i class="fas fa-filter"></i> All
+          </button>
+          <button class="filter-btn pending" data-filter="pending">
+            <i class="fas fa-clock"></i> Pending
+          </button>
+          <button class="filter-btn approved" data-filter="approved">
+            <i class="fas fa-check-circle"></i> Approved
+          </button>
+          <button class="filter-btn rejected" data-filter="rejected">
+            <i class="fas fa-times-circle"></i> Rejected
+          </button>
+        </div>
       </div>
 
       <!-- Leave Requests -->
@@ -607,7 +611,6 @@
     let currentFilter = "all";
     let currentMonthFilter = "all";
 
-    // ✅ EXACTLY MATCHES YOUR DASHBOARD TOGGLE LOGIC
     toggleSidebar.addEventListener("click", () => {
       const isMobile = window.innerWidth <= 768;
       if (isMobile) {
