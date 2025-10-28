@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attendance Management</title>
+  <!-- Fixed CDN URLs (removed extra spaces) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -24,7 +25,7 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 140px; /* Halved */
+      width: 140px; /* Default desktop size */
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -38,13 +39,18 @@
       backdrop-filter: blur(10px);
     }
 
-    /* Mobile: start collapsed */
+    /* Expanded state (used on both mobile & desktop) */
+    .sidebar.expanded {
+      width: 220px;
+    }
+
+    /* Mobile override: start collapsed */
     @media (max-width: 768px) {
       .sidebar {
         width: 60px;
       }
       .sidebar.expanded {
-        width: 200px;
+        width: 220px;
       }
     }
 
@@ -81,8 +87,10 @@
       white-space: nowrap;
     }
 
-    /* Hide text when collapsed (desktop or mobile) */
-    .sidebar:not(.expanded) .logo-text {
+    /* Hide text when NOT expanded */
+    .sidebar:not(.expanded) .logo-text,
+    .sidebar:not(.expanded) .user-details,
+    .sidebar:not(.expanded) .nav-item span {
       display: none;
     }
 
@@ -137,10 +145,6 @@
       text-align: center;
     }
 
-    .sidebar:not(.expanded) .nav-item span {
-      display: none;
-    }
-
     .sidebar:not(.expanded) .nav-item {
       justify-content: center;
       padding: 12px;
@@ -169,10 +173,6 @@
       text-transform: uppercase;
     }
 
-    .user-details {
-      flex: 1;
-    }
-
     .user-name {
       font-weight: 600;
       color: #333;
@@ -184,10 +184,6 @@
       color: #777;
     }
 
-    .sidebar:not(.expanded) .user-details {
-      display: none;
-    }
-
     /* ===== MAIN CONTENT ===== */
     .main-content {
       flex: 1;
@@ -196,17 +192,21 @@
       transition: margin-left 0.3s ease;
     }
 
+    .sidebar.expanded ~ .main-content {
+      margin-left: 220px;
+    }
+
     @media (max-width: 768px) {
       .main-content {
         margin-left: 60px;
       }
       .sidebar.expanded ~ .main-content {
-        margin-left: 200px;
+        margin-left: 220px;
       }
     }
 
     .container {
-      max-width: 600px; /* Halved */
+      max-width: 600px;
       margin: 0 auto;
       background: #fff;
       padding: 20px;
@@ -216,7 +216,7 @@
 
     h2 {
       text-align: center;
-      font-size: 1.8rem; /* Reduced */
+      font-size: 1.8rem;
       font-weight: 700;
       color: #333;
       margin-bottom: 20px;
@@ -532,7 +532,7 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Scripts (fixed URLs) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
@@ -552,7 +552,6 @@
     const auth = getAuth();
     const db = getFirestore();
 
-    // DOM
     const sidebar = document.getElementById("sidebar");
     const toggleBtn = document.getElementById("toggleBtn");
     const navLinks = document.getElementById("navLinks");
@@ -570,26 +569,17 @@
     const absentListDiv = document.getElementById("absentList");
     const detailsModal = document.getElementById("detailsModal");
 
-    // Today
     const today = new Date();
     datePicker.valueAsDate = today;
 
-    // Toggle sidebar (mobile expand)
+    // ✅ Unified toggle logic for ALL screen sizes
     toggleBtn.addEventListener("click", () => {
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        sidebar.classList.toggle("expanded");
-        const icon = toggleBtn.querySelector("i");
-        icon.className = sidebar.classList.contains("expanded") 
-          ? "fas fa-chevron-left" 
-          : "fas fa-chevron-right";
+      sidebar.classList.toggle("expanded");
+      const icon = toggleBtn.querySelector("i");
+      if (sidebar.classList.contains("expanded")) {
+        icon.className = "fas fa-chevron-left";
       } else {
-        // On desktop: just collapse/expand between 140px and 200px
-        sidebar.classList.toggle("expanded");
-        const icon = toggleBtn.querySelector("i");
-        icon.className = sidebar.classList.contains("expanded") 
-          ? "fas fa-chevron-left" 
-          : "fas fa-chevron-right";
+        icon.className = "fas fa-chevron-right";
       }
     });
 
@@ -601,7 +591,6 @@
       if (e.target === detailsModal) detailsModal.style.display = "none";
     });
 
-    // Helpers
     function formatDateForDisplay(dateString) {
       const date = new Date(dateString);
       return date.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "short", day: "numeric" });
@@ -799,4 +788,3 @@
   </script>
 </body>
 </html>
-
