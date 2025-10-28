@@ -137,6 +137,7 @@
             animation: tail 3s linear infinite;
         }
 
+        /* All shooting stars from different positions but same diagonal direction */
         .shooting-star:nth-child(9) {
             top: 10%;
             left: -10px;
@@ -146,25 +147,114 @@
         .shooting-star:nth-child(10) {
             top: 30%;
             left: -10px;
-            animation-delay: 4s;
+            animation-delay: 2s;
         }
 
         .shooting-star:nth-child(11) {
             top: 60%;
             left: -10px;
-            animation-delay: 8s;
+            animation-delay: 4s;
         }
 
         .shooting-star:nth-child(12) {
             top: 80%;
             left: -10px;
-            animation-delay: 12s;
+            animation-delay: 1.5s;
         }
 
         .shooting-star:nth-child(13) {
-            top: 20%;
+            top: 45%;
             left: -10px;
-            animation-delay: 16s;
+            animation-delay: 3.5s;
+        }
+
+        /* Shooting stars from RIGHT side - same diagonal direction */
+        .shooting-star:nth-child(14) {
+            top: 15%;
+            right: -10px;
+            left: auto;
+            animation-delay: 1s;
+        }
+
+        .shooting-star:nth-child(15) {
+            top: 35%;
+            right: -10px;
+            left: auto;
+            animation-delay: 3s;
+        }
+
+        .shooting-star:nth-child(16) {
+            top: 55%;
+            right: -10px;
+            left: auto;
+            animation-delay: 5s;
+        }
+
+        .shooting-star:nth-child(17) {
+            top: 75%;
+            right: -10px;
+            left: auto;
+            animation-delay: 2.5s;
+        }
+
+        .shooting-star:nth-child(18) {
+            top: 25%;
+            right: -10px;
+            left: auto;
+            animation-delay: 4.5s;
+        }
+
+        /* Shooting stars from TOP - same diagonal direction */
+        .shooting-star:nth-child(19) {
+            top: -10px;
+            left: 20%;
+            animation-delay: 0.5s;
+        }
+
+        .shooting-star:nth-child(20) {
+            top: -10px;
+            left: 40%;
+            animation-delay: 2.5s;
+        }
+
+        .shooting-star:nth-child(21) {
+            top: -10px;
+            left: 60%;
+            animation-delay: 4.5s;
+        }
+
+        .shooting-star:nth-child(22) {
+            top: -10px;
+            left: 80%;
+            animation-delay: 1.8s;
+        }
+
+        .shooting-star:nth-child(23) {
+            top: -10px;
+            left: 10%;
+            animation-delay: 3.8s;
+        }
+
+        /* Shooting stars from BOTTOM - same diagonal direction */
+        .shooting-star:nth-child(24) {
+            bottom: -10px;
+            top: auto;
+            left: 25%;
+            animation-delay: 1.2s;
+        }
+
+        .shooting-star:nth-child(25) {
+            bottom: -10px;
+            top: auto;
+            left: 50%;
+            animation-delay: 3.2s;
+        }
+
+        .shooting-star:nth-child(26) {
+            bottom: -10px;
+            top: auto;
+            left: 75%;
+            animation-delay: 5.2s;
         }
 
         @keyframes float {
@@ -525,6 +615,19 @@
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
    </div>
    <div class="twinkling-stars">
     <div class="twinkling-star"></div>
@@ -571,24 +674,7 @@
             register_button_text: "Register"
         };
 
-        // Sample data for staff and admin names
-        const userData = {
-            staff: [
-                "Sarah Johnson",
-                "Michael Chen",
-                "Emily Rodriguez",
-                "David Kim",
-                "Jessica Taylor",
-                "Alex Thompson"
-            ],
-            admin: [
-                "Robert Wilson",
-                "Lisa Anderson",
-                "James Martinez",
-                "Maria Garcia",
-                "Thomas Brown"
-            ]
-        };
+        // Firebase will load real user data dynamically
 
         let currentRole = 'staff';
 
@@ -607,30 +693,10 @@
 
         // Initialize the page
         function init() {
-            populateDropdowns();
             setupEventListeners();
         }
 
-        // Populate dropdowns with user data
-        function populateDropdowns() {
-            // Populate staff dropdown
-            staffDropdown.innerHTML = '<option value="">Choose your name...</option>';
-            userData.staff.forEach(name => {
-                const option = document.createElement('option');
-                option.value = name;
-                option.textContent = name;
-                staffDropdown.appendChild(option);
-            });
-
-            // Populate admin dropdown
-            adminDropdown.innerHTML = '<option value="">Choose your name...</option>';
-            userData.admin.forEach(name => {
-                const option = document.createElement('option');
-                option.value = name;
-                option.textContent = name;
-                adminDropdown.appendChild(option);
-            });
-        }
+        // Firebase will populate dropdowns dynamically
 
         // Setup event listeners
         function setupEventListeners() {
@@ -795,5 +861,131 @@
         // Initialize the application
         init();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99583ec480db13db',t:'MTc2MTYzMTU2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+        // --- Firebase Config ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
+          authDomain: "login-form-84016.firebaseapp.com",
+          projectId: "login-form-84016",
+          storageBucket: "login-form-84016.firebasestorage.app",
+          messagingSenderId: "568483509830",
+          appId: "1:568483509830:web:0d6de2a1537154bd67fc47",
+          measurementId: "G-KCGTMGB6HB"
+        };
+
+        // Init Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const staffContainer = document.getElementById("staffContainer");
+        const adminContainer = document.getElementById("adminContainer");
+        const staffDropdown = document.getElementById("staffDropdown");
+        const adminDropdown = document.getElementById("adminDropdown");
+        const signInBtn = document.getElementById("submitSignIn");
+        const passwordInput = document.getElementById("password");
+
+        const staffBtn = document.getElementById("staffBtn");
+        const adminBtn = document.getElementById("adminBtn");
+
+        let selectedRole = "staff"; // Default to staff
+
+        // Load staff/admin users from Firestore
+        async function loadUsersByRole(role, dropdown) {
+          dropdown.innerHTML = `<option value="">-- Select ${role} --</option>`;
+          try {
+            const q = query(collection(db, "users"), where("role", "==", role));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach(docSnap => {
+              const user = docSnap.data();
+              let option = document.createElement("option");
+              option.value = user.email;
+              option.textContent = user.firstName + " " + user.lastName;
+              dropdown.appendChild(option);
+            });
+          } catch (error) {
+            console.error(`Error loading ${role} users:`, error);
+            // Fallback to show message in dropdown
+            dropdown.innerHTML = `<option value="">Error loading ${role} users</option>`;
+          }
+        }
+
+        // Load users when page loads
+        loadUsersByRole("staff", staffDropdown);
+        loadUsersByRole("admin", adminDropdown);
+
+        // Staff/Admin button click - override the existing event listeners
+        document.getElementById("staffBtn").addEventListener("click", () => {
+          selectedRole = "staff";
+          staffContainer.classList.remove("hidden");
+          adminContainer.classList.add("hidden");
+          staffBtn.classList.add("active");
+          adminBtn.classList.remove("active");
+          hideMessage();
+        });
+
+        document.getElementById("adminBtn").addEventListener("click", () => {
+          selectedRole = "admin";
+          adminContainer.classList.remove("hidden");
+          staffContainer.classList.add("hidden");
+          adminBtn.classList.add("active");
+          staffBtn.classList.remove("active");
+          hideMessage();
+        });
+
+        // Login - override the existing sign in handler
+        document.getElementById("submitSignIn").addEventListener("click", async (e) => {
+          e.preventDefault();
+
+          let email = "";
+          if (selectedRole === "staff") {
+            email = staffDropdown.value;
+          } else if (selectedRole === "admin") {
+            email = adminDropdown.value;
+          }
+
+          const password = passwordInput.value;
+          if (!email || !password || !selectedRole) {
+            showMessage("⚠️ Please select role, name and enter password.", "error");
+            return;
+          }
+
+          try {
+            // Show loading state
+            signInBtn.disabled = true;
+            signInBtn.innerHTML = '<span>Signing In...</span>';
+            
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            localStorage.setItem("loggedInUserId", user.uid);
+
+            // Show success message
+            hideMessage();
+            successMessage.style.display = 'block';
+            successMessage.innerHTML = `Welcome! Redirecting to ${selectedRole} dashboard...`;
+
+            // Redirect based on selected role
+            setTimeout(() => {
+              if (selectedRole === "staff") {
+                window.open("dashboard.html", "_blank");
+              } else if (selectedRole === "admin") {
+                window.open("admin-dashboard.html", "_blank");
+              }
+            }, 1500);
+
+          } catch (err) {
+            console.error("🔥 Login error:", err.message);
+            showMessage("Login failed: " + err.message, "error");
+            
+            // Reset button state
+            signInBtn.disabled = false;
+            signInBtn.innerHTML = '<span>Sign In</span>';
+          }
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99584e0cc02413db',t:'MTc2MTYzMjE5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
