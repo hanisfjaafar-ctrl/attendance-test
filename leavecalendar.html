@@ -8,7 +8,7 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     * {
@@ -162,10 +162,6 @@
       font-weight: bold;
       font-size: 14px;
       text-transform: uppercase;
-    }
-
-    .user-details {
-      flex: 1;
     }
 
     .user-name {
@@ -556,20 +552,45 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* ===== RESPONSIVE CONTENT (sidebar behavior unchanged) ===== */
+    /* ===== RESPONSIVE BEHAVIOR (MATCHES ADMIN) ===== */
     @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+      }
+
+      .sidebar.expanded {
+        width: 220px;
+      }
+
+      .sidebar:not(.expanded) .logo-text,
+      .sidebar:not(.expanded) .user-details,
+      .sidebar:not(.expanded) .nav-item span {
+        display: none;
+      }
+
+      .sidebar:not(.expanded) .nav-item {
+        justify-content: center;
+        padding: 12px;
+        gap: 0;
+      }
+
       .main-content {
+        margin-left: 60px;
         padding: 12px;
       }
-      
+
+      .sidebar.expanded ~ .main-content {
+        margin-left: 220px;
+      }
+
       .container {
         padding: 16px;
       }
-      
+
       .google-calendar-iframe {
         height: 350px;
       }
-      
+
       h2 {
         font-size: 1.4rem;
       }
@@ -577,8 +598,6 @@
   </style>
 </head>
 <body>
-  <!-- NO menu-toggle button -->
-
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -697,10 +716,19 @@
 
   <!-- Firebase SDK -->
   <script type="module">
-    // ✅ Unified sidebar toggle (same on all devices)
+    // ✅ Unified responsive sidebar toggle (matches admin behavior)
     document.getElementById('toggleSidebar').addEventListener('click', function() {
       const sidebar = document.querySelector('.sidebar');
-      sidebar.classList.toggle('expanded');
+      const isMobile = window.innerWidth <= 768;
+      
+      if (isMobile) {
+        // On mobile: toggle between 60px and 220px
+        sidebar.classList.toggle('expanded');
+      } else {
+        // On desktop: toggle between 140px and 220px
+        sidebar.classList.toggle('expanded');
+      }
+      
       const icon = this.querySelector('i');
       icon.className = sidebar.classList.contains('expanded') 
         ? 'fas fa-chevron-left' 
@@ -752,7 +780,6 @@
     const sidebarUserEmail = document.getElementById("sidebarUserEmail");
     const navLinks = document.getElementById("navLinks");
 
-    // Build nav
     function addNavLink(text, icon, link, isActive = false) {
       const a = document.createElement("a");
       a.className = `nav-item ${isActive ? 'active' : ''}`;
