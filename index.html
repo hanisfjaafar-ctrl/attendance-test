@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
- <head>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Form</title>
@@ -8,994 +8,642 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-        body {
-            box-sizing: border-box;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    body {
+      box-sizing: border-box;
+    }
 
-        html, body {
-            height: 100%;
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .container {
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
 
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+    .container {
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
 
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            animation: float 8s ease-in-out infinite;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-        .particle:nth-child(1) {
-            width: 8px;
-            height: 8px;
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
 
-        .particle:nth-child(2) {
-            width: 12px;
-            height: 12px;
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-        }
+    .particle:nth-child(1) { width: 8px; height: 8px; top: 20%; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 12px; height: 12px; top: 60%; left: 80%; animation-delay: 2s; }
+    .particle:nth-child(3) { width: 6px; height: 6px; top: 80%; left: 20%; animation-delay: 4s; }
+    .particle:nth-child(4) { width: 10px; height: 10px; top: 30%; left: 70%; animation-delay: 1s; }
+    .particle:nth-child(5) { width: 14px; height: 14px; top: 70%; left: 50%; animation-delay: 3s; }
+    .particle:nth-child(6) { width: 8px; height: 8px; top: 15%; left: 60%; animation-delay: 5s; }
+    .particle:nth-child(7) { width: 16px; height: 16px; top: 40%; left: 30%; animation-delay: 6s; }
+    .particle:nth-child(8) { width: 5px; height: 5px; top: 90%; left: 70%; animation-delay: 7s; }
 
-        .particle:nth-child(3) {
-            width: 6px;
-            height: 6px;
-            top: 80%;
-            left: 20%;
-            animation-delay: 4s;
-        }
+    .magical-orb {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(102, 126, 234, 0.6), rgba(118, 75, 162, 0.4));
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(118, 75, 162, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2);
+      animation: orbFloat 8s ease-in-out infinite;
+    }
 
-        .particle:nth-child(4) {
-            width: 10px;
-            height: 10px;
-            top: 30%;
-            left: 70%;
-            animation-delay: 1s;
-        }
+    .magical-orb::before {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 20%;
+      width: 30%;
+      height: 30%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: orbGlow 3s ease-in-out infinite alternate;
+    }
 
-        .particle:nth-child(5) {
-            width: 14px;
-            height: 14px;
-            top: 70%;
-            left: 50%;
-            animation-delay: 3s;
-        }
+    .magical-orb::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+      border-radius: 50%;
+      animation: orbAura 4s ease-in-out infinite;
+    }
 
-        .particle:nth-child(6) {
-            width: 8px;
-            height: 8px;
-            top: 15%;
-            left: 60%;
-            animation-delay: 5s;
-        }
+    /* Large Orbs */
+    .magical-orb:nth-child(9)  { width: 60px; height: 60px; top: 20%; left: 15%; animation-duration: 12s; }
+    .magical-orb:nth-child(10) { width: 45px; height: 45px; top: 70%; left: 80%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(56,239,125,0.6), rgba(17,153,142,0.4)); box-shadow: 0 0 20px rgba(56,239,125,0.6), 0 0 40px rgba(17,153,142,0.4), inset 0 0 20px rgba(255,255,255,0.2); animation-duration: 10s; }
+    .magical-orb:nth-child(11) { width: 35px; height: 35px; top: 40%; left: 70%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(239,68,68,0.6), rgba(220,38,127,0.4)); box-shadow: 0 0 20px rgba(239,68,68,0.6), 0 0 40px rgba(220,38,127,0.4), inset 0 0 20px rgba(255,255,255,0.2); animation-duration: 14s; }
 
-        .particle:nth-child(7) {
-            width: 16px;
-            height: 16px;
-            top: 40%;
-            left: 30%;
-            animation-delay: 6s;
-        }
+    /* Medium Orbs */
+    .magical-orb:nth-child(12) { width: 25px; height: 25px; top: 60%; left: 25%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(168,85,247,0.6), rgba(147,51,234,0.4)); box-shadow: 0 0 15px rgba(168,85,247,0.6), 0 0 30px rgba(147,51,234,0.4), inset 0 0 15px rgba(255,255,255,0.2); animation-duration: 9s; }
+    .magical-orb:nth-child(13) { width: 40px; height: 40px; top: 15%; left: 60%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(59,130,246,0.6), rgba(37,99,235,0.4)); box-shadow: 0 0 20px rgba(59,130,246,0.6), 0 0 40px rgba(37,99,235,0.4), inset 0 0 20px rgba(255,255,255,0.2); animation-duration: 11s; }
+    .magical-orb:nth-child(14) { width: 30px; height: 30px; top: 80%; left: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(245,158,11,0.6), rgba(217,119,6,0.4)); box-shadow: 0 0 18px rgba(245,158,11,0.6), 0 0 35px rgba(217,119,6,0.4), inset 0 0 18px rgba(255,255,255,0.2); animation-duration: 13s; }
 
-        .particle:nth-child(8) {
-            width: 5px;
-            height: 5px;
-            top: 90%;
-            left: 70%;
-            animation-delay: 7s;
-        }
+    /* Small Orbs */
+    .magical-orb:nth-child(15) { width: 20px; height: 20px; top: 35%; left: 10%; animation-duration: 8s; }
+    .magical-orb:nth-child(16) { width: 18px; height: 18px; top: 55%; left: 85%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(236,72,153,0.6), rgba(219,39,119,0.4)); box-shadow: 0 0 12px rgba(236,72,153,0.6), 0 0 25px rgba(219,39,119,0.4), inset 0 0 12px rgba(255,255,255,0.2); animation-duration: 7s; }
+    .magical-orb:nth-child(17) { width: 22px; height: 22px; top: 25%; left: 40%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(16,185,129,0.6), rgba(5,150,105,0.4)); box-shadow: 0 0 14px rgba(16,185,129,0.6), 0 0 28px rgba(5,150,105,0.4), inset 0 0 14px rgba(255,255,255,0.2); animation-duration: 10s; }
+    .magical-orb:nth-child(18) { width: 28px; height: 28px; top: 75%; left: 15%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(139,92,246,0.6), rgba(124,58,237,0.4)); box-shadow: 0 0 16px rgba(139,92,246,0.6), 0 0 32px rgba(124,58,237,0.4), inset 0 0 16px rgba(255,255,255,0.2); animation-duration: 12s; }
 
-        .magical-orb {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(102, 126, 234, 0.6), rgba(118, 75, 162, 0.4));
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(118, 75, 162, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2);
-            animation: orbFloat 8s ease-in-out infinite;
-        }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0) scale(1); opacity: 0.6; }
+      33% { transform: translateY(-30px) rotate(120deg) scale(1.1); opacity: 1; }
+      66% { transform: translateY(-15px) rotate(240deg) scale(0.9); opacity: 0.8; }
+    }
 
-        .magical-orb::before {
-            content: '';
-            position: absolute;
-            top: 15%;
-            left: 20%;
-            width: 30%;
-            height: 30%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: orbGlow 3s ease-in-out infinite alternate;
-        }
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
+      25% { transform: translateY(-30px) translateX(20px) scale(1.1); opacity: 1; }
+      50% { transform: translateY(-10px) translateX(-15px) scale(0.9); opacity: 0.9; }
+      75% { transform: translateY(-40px) translateX(10px) scale(1.05); opacity: 1; }
+    }
 
-        .magical-orb::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
-            border-radius: 50%;
-            animation: orbAura 4s ease-in-out infinite;
-        }
+    @keyframes orbGlow {
+      0% { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.3); }
+    }
 
-        /* Large Orbs */
-        .magical-orb:nth-child(9) {
-            width: 60px;
-            height: 60px;
-            top: 20%;
-            left: 15%;
-            animation-delay: 0s;
-            animation-duration: 12s;
-        }
+    @keyframes orbAura {
+      0% { opacity: 0.3; transform: scale(1) rotate(0); }
+      50% { opacity: 0.1; transform: scale(1.2) rotate(180deg); }
+      100% { opacity: 0.3; transform: scale(1) rotate(360deg); }
+    }
 
-        .magical-orb:nth-child(10) {
-            width: 45px;
-            height: 45px;
-            top: 70%;
-            left: 80%;
-            animation-delay: 2s;
-            animation-duration: 10s;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(56, 239, 125, 0.6), rgba(17, 153, 142, 0.4));
-            box-shadow: 0 0 20px rgba(56, 239, 125, 0.6), 0 0 40px rgba(17, 153, 142, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2);
-        }
+    .twinkling-stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-        .magical-orb:nth-child(11) {
-            width: 35px;
-            height: 35px;
-            top: 40%;
-            left: 70%;
-            animation-delay: 4s;
-            animation-duration: 14s;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(239, 68, 68, 0.6), rgba(220, 38, 127, 0.4));
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6), 0 0 40px rgba(220, 38, 127, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2);
-        }
+    .twinkling-star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s ease-in-out infinite alternate;
+    }
 
-        /* Medium Orbs */
-        .magical-orb:nth-child(12) {
-            width: 25px;
-            height: 25px;
-            top: 60%;
-            left: 25%;
-            animation-delay: 1s;
-            animation-duration: 9s;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(168, 85, 247, 0.6), rgba(147, 51, 234, 0.4));
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6), 0 0 30px rgba(147, 51, 234, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.2);
-        }
+    .twinkling-star:nth-child(1) { top: 15%; left: 20%; animation-delay: 0s; }
+    .twinkling-star:nth-child(2) { top: 25%; left: 80%; animation-delay: 0.5s; }
+    .twinkling-star:nth-child(3) { top: 45%; left: 15%; animation-delay: 1s; }
+    .twinkling-star:nth-child(4) { top: 65%; left: 85%; animation-delay: 1.5s; }
+    .twinkling-star:nth-child(5) { top: 85%; left: 25%; animation-delay: 2s; }
+    .twinkling-star:nth-child(6) { top: 35%; left: 90%; animation-delay: 0.3s; }
+    .twinkling-star:nth-child(7) { top: 75%; left: 10%; animation-delay: 0.8s; }
+    .twinkling-star:nth-child(8) { top: 55%; left: 60%; animation-delay: 1.3s; }
 
-        .magical-orb:nth-child(13) {
-            width: 40px;
-            height: 40px;
-            top: 15%;
-            left: 60%;
-            animation-delay: 3s;
-            animation-duration: 11s;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(59, 130, 246, 0.6), rgba(37, 99, 235, 0.4));
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(37, 99, 235, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2);
-        }
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.5); }
+    }
 
-        .magical-orb:nth-child(14) {
-            width: 30px;
-            height: 30px;
-            top: 80%;
-            left: 50%;
-            animation-delay: 5s;
-            animation-duration: 13s;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(245, 158, 11, 0.6), rgba(217, 119, 6, 0.4));
-            box-shadow: 0 0 18px rgba(245, 158, 11, 0.6), 0 0 35px rgba(217, 119, 6, 0.4), inset 0 0 18px rgba(255, 255, 255, 0.2);
-        }
+    .login-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      padding: 40px;
+      width: 420px;
+      max-width: 90%;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      position: relative;
+      z-index: 2;
+      animation: slideIn 0.8s ease-out;
+    }
 
-        /* Small Orbs */
-        .magical-orb:nth-child(15) {
-            width: 20px;
-            height: 20px;
-            top: 35%;
-            left: 10%;
-            animation-delay: 2.5s;
-            animation-duration: 8s;
-        }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .magical-orb:nth-child(16) {
-            width: 18px;
-            height: 18px;
-            top: 55%;
-            left: 85%;
-            animation-delay: 4.5s;
-            animation-duration: 7s;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(236, 72, 153, 0.6), rgba(219, 39, 119, 0.4));
-            box-shadow: 0 0 12px rgba(236, 72, 153, 0.6), 0 0 25px rgba(219, 39, 119, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.2);
-        }
+    .form-title {
+      text-align: center;
+      color: white;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
 
-        .magical-orb:nth-child(17) {
-            width: 22px;
-            height: 22px;
-            top: 25%;
-            left: 40%;
-            animation-delay: 1.5s;
-            animation-duration: 10s;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(16, 185, 129, 0.6), rgba(5, 150, 105, 0.4));
-            box-shadow: 0 0 14px rgba(16, 185, 129, 0.6), 0 0 28px rgba(5, 150, 105, 0.4), inset 0 0 14px rgba(255, 255, 255, 0.2);
-        }
+    .messageDiv {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
 
-        .magical-orb:nth-child(18) {
-            width: 28px;
-            height: 28px;
-            top: 75%;
-            left: 15%;
-            animation-delay: 3.5s;
-            animation-duration: 12s;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(139, 92, 246, 0.6), rgba(124, 58, 237, 0.4));
-            box-shadow: 0 0 16px rgba(139, 92, 246, 0.6), 0 0 32px rgba(124, 58, 237, 0.4), inset 0 0 16px rgba(255, 255, 255, 0.2);
-        }
+    .role-selection {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg) scale(1);
-                opacity: 0.6;
-            }
-            33% {
-                transform: translateY(-30px) rotate(120deg) scale(1.1);
-                opacity: 1;
-            }
-            66% {
-                transform: translateY(-15px) rotate(240deg) scale(0.9);
-                opacity: 0.8;
-            }
-        }
+    .role-btn {
+      flex: 1;
+      padding: 15px 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
 
-        @keyframes orbFloat {
-            0%, 100% {
-                transform: translateY(0px) translateX(0px) scale(1);
-                opacity: 0.8;
-            }
-            25% {
-                transform: translateY(-30px) translateX(20px) scale(1.1);
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(-10px) translateX(-15px) scale(0.9);
-                opacity: 0.9;
-            }
-            75% {
-                transform: translateY(-40px) translateX(10px) scale(1.05);
-                opacity: 1;
-            }
-        }
+    .role-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
 
-        @keyframes orbGlow {
-            0% {
-                opacity: 0.6;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1.3);
-            }
-        }
+    .role-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
+      transform: translateY(-2px);
+    }
 
-        @keyframes orbAura {
-            0% {
-                opacity: 0.3;
-                transform: scale(1) rotate(0deg);
-            }
-            50% {
-                opacity: 0.1;
-                transform: scale(1.2) rotate(180deg);
-            }
-            100% {
-                opacity: 0.3;
-                transform: scale(1) rotate(360deg);
-            }
-        }
+    .dropdown-container {
+      margin-bottom: 25px;
+    }
 
-        .twinkling-stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+    .dropdown-container.hidden {
+      display: none;
+    }
 
-        .twinkling-star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 2s ease-in-out infinite alternate;
-        }
+    .dropdown-container label {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
 
-        .twinkling-star:nth-child(1) { top: 15%; left: 20%; animation-delay: 0s; }
-        .twinkling-star:nth-child(2) { top: 25%; left: 80%; animation-delay: 0.5s; }
-        .twinkling-star:nth-child(3) { top: 45%; left: 15%; animation-delay: 1s; }
-        .twinkling-star:nth-child(4) { top: 65%; left: 85%; animation-delay: 1.5s; }
-        .twinkling-star:nth-child(5) { top: 85%; left: 25%; animation-delay: 2s; }
-        .twinkling-star:nth-child(6) { top: 35%; left: 90%; animation-delay: 0.3s; }
-        .twinkling-star:nth-child(7) { top: 75%; left: 10%; animation-delay: 0.8s; }
-        .twinkling-star:nth-child(8) { top: 55%; left: 60%; animation-delay: 1.3s; }
+    .dropdown-container select {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
 
-        @keyframes twinkle {
-            0% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1.5);
-            }
-        }
+    .dropdown-container select:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
 
-        .login-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            padding: 40px;
-            width: 420px;
-            max-width: 90%;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-            position: relative;
-            z-index: 2;
-            animation: slideIn 0.8s ease-out;
-        }
+    .dropdown-container select option {
+      background: #764ba2;
+      color: white;
+      padding: 10px;
+    }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .input-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
 
-        .form-title {
-            text-align: center;
-            color: white;
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 30px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
+    .input-group i {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 16px;
+      z-index: 1;
+    }
 
-        .messageDiv {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            color: #ef4444;
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
+    .input-group input {
+      width: 100%;
+      padding: 15px 20px 15px 50px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
 
-        .role-selection {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
 
-        .role-btn {
-            flex: 1;
-            padding: 15px 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-radius: 16px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+    .input-group input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
 
-        .role-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 16px;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      margin-bottom: 25px;
+    }
 
-        .role-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
-            transform: translateY(-2px);
-        }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    }
 
-        .dropdown-container {
-            margin-bottom: 25px;
-        }
+    .btn:active {
+      transform: translateY(0);
+    }
 
-        .dropdown-container.hidden {
-            display: none;
-        }
+    .links {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+    }
 
-        .dropdown-container label {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: block;
-        }
+    .links p {
+      margin-bottom: 15px;
+    }
 
-        .dropdown-container select {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-radius: 16px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
+    .btn-secondary {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      border: none;
+      padding: 12px 30px;
+      border-radius: 12px;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(17, 153, 142, 0.3);
+    }
 
-        .dropdown-container select:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(17, 153, 142, 0.4);
+    }
 
-        .dropdown-container select option {
-            background: #764ba2;
-            color: white;
-            padding: 10px;
-        }
+    .success-message {
+      background: rgba(56, 239, 125, 0.2);
+      border: 1px solid rgba(56, 239, 125, 0.4);
+      color: #38ef7d;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: 500;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
 
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .input-group i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 16px;
-            z-index: 1;
-        }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
 
-        .input-group input {
-            width: 100%;
-            padding: 15px 20px 15px 50px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-radius: 16px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-            margin-bottom: 25px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .links {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
-        }
-
-        .links p {
-            margin-bottom: 15px;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 12px;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.3);
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(17, 153, 142, 0.4);
-        }
-
-        .success-message {
-            background: rgba(56, 239, 125, 0.2);
-            border: 1px solid rgba(56, 239, 125, 0.4);
-            color: #38ef7d;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            margin-top: 20px;
-            font-weight: 500;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 30px 25px;
-                margin: 20px;
-            }
-            
-            .form-title {
-                font-size: 28px;
-                margin-bottom: 25px;
-            }
-            
-            .role-selection {
-                flex-direction: column;
-                gap: 12px;
-            }
-        }
-    </style>
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 30px 25px;
+        margin: 20px;
+      }
+      .form-title {
+        font-size: 28px;
+        margin-bottom: 25px;
+      }
+      .role-selection {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+  </style>
   <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
- </head>
- <body>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
   <div class="container">
-   <div class="particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="magical-orb"></div>
-    <div class="magical-orb"></div>
-    <div class="magical-orb"></div>
-    <div class="magical-orb"></div>
-    <div class="magical-orb"></div>
-    <div class="magical-orb"></div>
-    <div class="magical-orb"></div>
-    <div class="magical-orb"></div>
-    <div class="magical-orb"></div>
-    <div class="magical-orb"></div>
-   </div>
-   <div class="twinkling-stars">
-    <div class="twinkling-star"></div>
-    <div class="twinkling-star"></div>
-    <div class="twinkling-star"></div>
-    <div class="twinkling-star"></div>
-    <div class="twinkling-star"></div>
-    <div class="twinkling-star"></div>
-    <div class="twinkling-star"></div>
-    <div class="twinkling-star"></div>
-   </div>
-   <div class="login-card">
-    <h1 class="form-title" id="formTitle">LOGIN</h1>
-    <form id="signInForm">
-     <div id="signInMessage" class="messageDiv" style="display:none;"></div><!-- Role selection buttons -->
-     <div class="role-selection"><button type="button" id="staffBtn" class="role-btn staff active"> <span>👤</span> <span id="staffButtonText">Staff</span> </button> <button type="button" id="adminBtn" class="role-btn admin"> <span>👨‍💼</span> <span id="adminButtonText">Admin</span> </button>
-     </div><!-- Staff Dropdown -->
-     <div class="dropdown-container" id="staffContainer"><label for="staffDropdown" id="staffLabel"><strong>Staff Name:</strong></label> <select id="staffDropdown"> <option value="">Choose your name...</option> </select>
-     </div><!-- Admin Dropdown -->
-     <div class="dropdown-container hidden" id="adminContainer"><label for="adminDropdown" id="adminLabel"><strong>Admin Name:</strong></label> <select id="adminDropdown"> <option value="">Choose your name...</option> </select>
-     </div><!-- Password -->
-     <div class="input-group"><i class="fas fa-lock"></i> <input type="password" id="password" placeholder="Password" required>
-     </div><button type="button" class="btn" id="submitSignIn"> <span id="signinButtonText">Sign In</span> </button>
-    </form>
-    <div class="links">
-     <p id="registerText">Don't have an account?</p><button class="btn-secondary" id="registerBtn"> <span id="registerButtonText">Register</span> </button>
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="magical-orb"></div>
+      <div class="magical-orb"></div>
+      <div class="magical-orb"></div>
+      <div class="magical-orb"></div>
+      <div class="magical-orb"></div>
+      <div class="magical-orb"></div>
+      <div class="magical-orb"></div>
+      <div class="magical-orb"></div>
+      <div class="magical-orb"></div>
+      <div class="magical-orb"></div>
     </div>
-    <div class="success-message" id="successMessage">
-     Welcome! Redirecting to your dashboard...
+    <div class="twinkling-stars">
+      <div class="twinkling-star"></div>
+      <div class="twinkling-star"></div>
+      <div class="twinkling-star"></div>
+      <div class="twinkling-star"></div>
+      <div class="twinkling-star"></div>
+      <div class="twinkling-star"></div>
+      <div class="twinkling-star"></div>
+      <div class="twinkling-star"></div>
     </div>
-   </div>
+    <div class="login-card">
+      <h1 class="form-title" id="formTitle">LOGIN</h1>
+      <form id="signInForm">
+        <div id="signInMessage" class="messageDiv" style="display:none;"></div>
+        <div class="role-selection">
+          <button type="button" id="staffBtn" class="role-btn staff active">
+            <span>👤</span> <span id="staffButtonText">Staff</span>
+          </button>
+          <button type="button" id="adminBtn" class="role-btn admin">
+            <span>👨‍💼</span> <span id="adminButtonText">Admin</span>
+          </button>
+        </div>
+        <div class="dropdown-container" id="staffContainer">
+          <label for="staffDropdown" id="staffLabel"><strong>Staff Name:</strong></label>
+          <select id="staffDropdown">
+            <option value="">Choose your name...</option>
+          </select>
+        </div>
+        <div class="dropdown-container hidden" id="adminContainer">
+          <label for="adminDropdown" id="adminLabel"><strong>Admin Name:</strong></label>
+          <select id="adminDropdown">
+            <option value="">Choose your name...</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" placeholder="Password" required>
+        </div>
+        <button type="button" class="btn" id="submitSignIn">
+          <span id="signinButtonText">Sign In</span>
+        </button>
+      </form>
+      <div class="links">
+        <p id="registerText">Don't have an account?</p>
+        <button class="btn-secondary" id="registerBtn">
+          <span id="registerButtonText">Register</span>
+        </button>
+      </div>
+      <div class="success-message" id="successMessage">
+        Welcome! Redirecting to your dashboard...
+      </div>
+    </div>
   </div>
+
+  <!-- Non-Firebase UI logic (Element SDK + fallback) -->
   <script>
-        // Default configuration
-        const defaultConfig = {
-            form_title: "LOGIN",
-            staff_button_text: "Staff",
-            admin_button_text: "Admin",
-            staff_label: "Staff Name:",
-            admin_label: "Admin Name:",
-            password_placeholder: "Password",
-            signin_button_text: "Sign In",
-            register_text: "Don't have an account?",
-            register_button_text: "Register"
-        };
+    const defaultConfig = {
+      form_title: "LOGIN",
+      staff_button_text: "Staff",
+      admin_button_text: "Admin",
+      staff_label: "Staff Name:",
+      admin_label: "Admin Name:",
+      password_placeholder: "Password",
+      signin_button_text: "Sign In",
+      register_text: "Don't have an account?",
+      register_button_text: "Register"
+    };
 
-        // Firebase will load real user data dynamically
+    let currentRole = 'staff';
 
-        let currentRole = 'staff';
+    const staffBtn = document.getElementById('staffBtn');
+    const adminBtn = document.getElementById('adminBtn');
+    const staffContainer = document.getElementById('staffContainer');
+    const adminContainer = document.getElementById('adminContainer');
+    const passwordInput = document.getElementById('password');
+    const registerBtn = document.getElementById('registerBtn');
+    const signInMessage = document.getElementById('signInMessage');
+    const successMessage = document.getElementById('successMessage');
 
-        // DOM elements
-        const staffBtn = document.getElementById('staffBtn');
-        const adminBtn = document.getElementById('adminBtn');
-        const staffContainer = document.getElementById('staffContainer');
-        const adminContainer = document.getElementById('adminContainer');
-        const staffDropdown = document.getElementById('staffDropdown');
-        const adminDropdown = document.getElementById('adminDropdown');
-        const passwordInput = document.getElementById('password');
-        const submitBtn = document.getElementById('submitSignIn');
-        const registerBtn = document.getElementById('registerBtn');
-        const signInMessage = document.getElementById('signInMessage');
-        const successMessage = document.getElementById('successMessage');
+    function showMessage(message, type = 'error') {
+      signInMessage.textContent = message;
+      signInMessage.style.display = 'block';
+      if (type === 'info') {
+        signInMessage.style.background = 'rgba(59, 130, 246, 0.2)';
+        signInMessage.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+        signInMessage.style.color = '#3b82f6';
+      } else {
+        signInMessage.style.background = 'rgba(239, 68, 68, 0.2)';
+        signInMessage.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+        signInMessage.style.color = '#ef4444';
+      }
+    }
 
-        // Initialize the page
-        function init() {
-            setupEventListeners();
-        }
+    function hideMessage() {
+      signInMessage.style.display = 'none';
+    }
 
-        // Firebase will populate dropdowns dynamically
+    function selectRole(role) {
+      currentRole = role;
+      staffBtn.classList.toggle('active', role === 'staff');
+      adminBtn.classList.toggle('active', role === 'admin');
+      staffContainer.classList.toggle('hidden', role !== 'staff');
+      adminContainer.classList.toggle('hidden', role !== 'admin');
+      passwordInput.value = '';
+      hideMessage();
+    }
 
-        // Setup event listeners
-        function setupEventListeners() {
-            staffBtn.addEventListener('click', () => selectRole('staff'));
-            adminBtn.addEventListener('click', () => selectRole('admin'));
-            submitBtn.addEventListener('click', handleSignIn);
-            registerBtn.addEventListener('click', handleRegister);
-            
-            // Form submission prevention
-            document.getElementById('signInForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                handleSignIn();
-            });
-        }
+    function handleRegister() {
+      registerBtn.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        registerBtn.style.transform = '';
+        showMessage('Registration feature would open here!', 'info');
+      }, 150);
+    }
 
-        // Handle role selection
-        function selectRole(role) {
-            currentRole = role;
-            
-            // Update button states
-            staffBtn.classList.toggle('active', role === 'staff');
-            adminBtn.classList.toggle('active', role === 'admin');
-            
-            // Show/hide appropriate dropdown
-            if (role === 'staff') {
-                staffContainer.classList.remove('hidden');
-                adminContainer.classList.add('hidden');
-                staffDropdown.value = '';
-            } else {
-                staffContainer.classList.add('hidden');
-                adminContainer.classList.remove('hidden');
-                adminDropdown.value = '';
-            }
-            
-            // Clear password and hide any messages
-            passwordInput.value = '';
-            hideMessage();
-        }
+    staffBtn.addEventListener('click', () => selectRole('staff'));
+    adminBtn.addEventListener('click', () => selectRole('admin'));
+    registerBtn.addEventListener('click', handleRegister);
 
-        // Handle sign in
-        function handleSignIn() {
-            const selectedName = currentRole === 'staff' ? staffDropdown.value : adminDropdown.value;
-            const password = passwordInput.value;
-            
-            // Validation
-            if (!selectedName) {
-                showMessage('Please select your name.', 'error');
-                const dropdown = currentRole === 'staff' ? staffDropdown : adminDropdown;
-                dropdown.style.animation = 'shake 0.5s ease-in-out';
-                setTimeout(() => {
-                    dropdown.style.animation = '';
-                }, 500);
-                return;
-            }
-            
-            if (!password) {
-                showMessage('Please enter your password.', 'error');
-                passwordInput.style.animation = 'shake 0.5s ease-in-out';
-                setTimeout(() => {
-                    passwordInput.style.animation = '';
-                }, 500);
-                return;
-            }
-            
-            // Simulate authentication
-            hideMessage();
-            successMessage.style.display = 'block';
-            successMessage.innerHTML = `Welcome ${selectedName}! Redirecting to ${currentRole} dashboard...`;
-            
-            // Simulate redirect after 2 seconds
-            setTimeout(() => {
-                successMessage.innerHTML = `Authentication successful! Opening ${currentRole} dashboard...`;
-            }, 1500);
-        }
+    // Element SDK
+    async function onConfigChange(config) {
+      const formTitle = config.form_title || defaultConfig.form_title;
+      const staffButtonText = config.staff_button_text || defaultConfig.staff_button_text;
+      const adminButtonText = config.admin_button_text || defaultConfig.admin_button_text;
+      const staffLabel = config.staff_label || defaultConfig.staff_label;
+      const adminLabel = config.admin_label || defaultConfig.admin_label;
+      const passwordPlaceholder = config.password_placeholder || defaultConfig.password_placeholder;
+      const signinButtonText = config.signin_button_text || defaultConfig.signin_button_text;
+      const registerText = config.register_text || defaultConfig.register_text;
+      const registerButtonText = config.register_button_text || defaultConfig.register_button_text;
 
-        // Handle register button click
-        function handleRegister() {
-            registerBtn.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                registerBtn.style.transform = '';
-                showMessage('Registration feature would open here!', 'info');
-            }, 150);
-        }
+      document.getElementById('formTitle').textContent = formTitle;
+      document.getElementById('staffButtonText').textContent = staffButtonText;
+      document.getElementById('adminButtonText').textContent = adminButtonText;
+      document.getElementById('staffLabel').innerHTML = `<strong>${staffLabel}</strong>`;
+      document.getElementById('adminLabel').innerHTML = `<strong>${adminLabel}</strong>`;
+      document.getElementById('password').placeholder = passwordPlaceholder;
+      document.getElementById('signinButtonText').textContent = signinButtonText;
+      document.getElementById('registerText').textContent = registerText;
+      document.getElementById('registerButtonText').textContent = registerButtonText;
+    }
 
-        // Show message
-        function showMessage(message, type = 'error') {
-            signInMessage.textContent = message;
-            signInMessage.style.display = 'block';
-            
-            if (type === 'info') {
-                signInMessage.style.background = 'rgba(59, 130, 246, 0.2)';
-                signInMessage.style.borderColor = 'rgba(59, 130, 246, 0.4)';
-                signInMessage.style.color = '#3b82f6';
-            } else {
-                signInMessage.style.background = 'rgba(239, 68, 68, 0.2)';
-                signInMessage.style.borderColor = 'rgba(239, 68, 68, 0.4)';
-                signInMessage.style.color = '#ef4444';
-            }
-        }
+    function mapToCapabilities() {
+      return { recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined };
+    }
 
-        // Hide message
-        function hideMessage() {
-            signInMessage.style.display = 'none';
-        }
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["form_title", config.form_title || defaultConfig.form_title],
+        ["staff_button_text", config.staff_button_text || defaultConfig.staff_button_text],
+        ["admin_button_text", config.admin_button_text || defaultConfig.admin_button_text],
+        ["staff_label", config.staff_label || defaultConfig.staff_label],
+        ["admin_label", config.admin_label || defaultConfig.admin_label],
+        ["password_placeholder", config.password_placeholder || defaultConfig.password_placeholder],
+        ["signin_button_text", config.signin_button_text || defaultConfig.signin_button_text],
+        ["register_text", config.register_text || defaultConfig.register_text],
+        ["register_button_text", config.register_button_text || defaultConfig.register_button_text]
+      ]);
+    }
 
-        // Element SDK configuration
-        async function onConfigChange(config) {
-            const formTitle = config.form_title || defaultConfig.form_title;
-            const staffButtonText = config.staff_button_text || defaultConfig.staff_button_text;
-            const adminButtonText = config.admin_button_text || defaultConfig.admin_button_text;
-            const staffLabel = config.staff_label || defaultConfig.staff_label;
-            const adminLabel = config.admin_label || defaultConfig.admin_label;
-            const passwordPlaceholder = config.password_placeholder || defaultConfig.password_placeholder;
-            const signinButtonText = config.signin_button_text || defaultConfig.signin_button_text;
-            const registerText = config.register_text || defaultConfig.register_text;
-            const registerButtonText = config.register_button_text || defaultConfig.register_button_text;
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
 
-            document.getElementById('formTitle').textContent = formTitle;
-            document.getElementById('staffButtonText').textContent = staffButtonText;
-            document.getElementById('adminButtonText').textContent = adminButtonText;
-            document.getElementById('staffLabel').innerHTML = `<strong>${staffLabel}</strong>`;
-            document.getElementById('adminLabel').innerHTML = `<strong>${adminLabel}</strong>`;
-            document.getElementById('password').placeholder = passwordPlaceholder;
-            document.getElementById('signinButtonText').textContent = signinButtonText;
-            document.getElementById('registerText').textContent = registerText;
-            document.getElementById('registerButtonText').textContent = registerButtonText;
-        }
-
-        function mapToCapabilities(config) {
-            return {
-                recolorables: [],
-                borderables: [],
-                fontEditable: undefined,
-                fontSizeable: undefined
-            };
-        }
-
-        function mapToEditPanelValues(config) {
-            return new Map([
-                ["form_title", config.form_title || defaultConfig.form_title],
-                ["staff_button_text", config.staff_button_text || defaultConfig.staff_button_text],
-                ["admin_button_text", config.admin_button_text || defaultConfig.admin_button_text],
-                ["staff_label", config.staff_label || defaultConfig.staff_label],
-                ["admin_label", config.admin_label || defaultConfig.admin_label],
-                ["password_placeholder", config.password_placeholder || defaultConfig.password_placeholder],
-                ["signin_button_text", config.signin_button_text || defaultConfig.signin_button_text],
-                ["register_text", config.register_text || defaultConfig.register_text],
-                ["register_button_text", config.register_button_text || defaultConfig.register_button_text]
-            ]);
-        }
-
-        // Initialize Element SDK
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig,
-                onConfigChange,
-                mapToCapabilities,
-                mapToEditPanelValues
-            });
-        }
-
-        // Initialize the application
-        init();
-    </script>
+  <!-- ✅ Firebase Auth Logic (Clean & Integrated) -->
   <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-        // --- Firebase Config ---
-        const firebaseConfig = {
-          apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
-          authDomain: "login-form-84016.firebaseapp.com",
-          projectId: "login-form-84016",
-          storageBucket: "login-form-84016.firebasestorage.app",
-          messagingSenderId: "568483509830",
-          appId: "1:568483509830:web:0d6de2a1537154bd67fc47",
-          measurementId: "G-KCGTMGB6HB"
-        };
+    const firebaseConfig = {
+      apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
+      authDomain: "login-form-84016.firebaseapp.com",
+      projectId: "login-form-84016",
+      storageBucket: "login-form-84016.firebasestorage.app",
+      messagingSenderId: "568483509830",
+      appId: "1:568483509830:web:0d6de2a1537154bd67fc47",
+      measurementId: "G-KCGTMGB6HB"
+    };
 
-        // Init Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-        const staffContainer = document.getElementById("staffContainer");
-        const adminContainer = document.getElementById("adminContainer");
-        const staffDropdown = document.getElementById("staffDropdown");
-        const adminDropdown = document.getElementById("adminDropdown");
-        const signInBtn = document.getElementById("submitSignIn");
-        const passwordInput = document.getElementById("password");
+    const staffBtn = document.getElementById('staffBtn');
+    const adminBtn = document.getElementById('adminBtn');
+    const staffContainer = document.getElementById('staffContainer');
+    const adminContainer = document.getElementById('adminContainer');
+    const staffDropdown = document.getElementById('staffDropdown');
+    const adminDropdown = document.getElementById('adminDropdown');
+    const passwordInput = document.getElementById('password');
+    const submitBtn = document.getElementById('submitSignIn');
+    const signInMessage = document.getElementById('signInMessage');
+    const successMessage = document.getElementById('successMessage');
 
-        const staffBtn = document.getElementById("staffBtn");
-        const adminBtn = document.getElementById("adminBtn");
+    let selectedRole = 'staff';
 
-        let selectedRole = "staff"; // Default to staff
-
-        // Load staff/admin users from Firestore
-        async function loadUsersByRole(role, dropdown) {
-          dropdown.innerHTML = `<option value="">-- Select ${role} --</option>`;
-          try {
-            const q = query(collection(db, "users"), where("role", "==", role));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach(docSnap => {
-              const user = docSnap.data();
-              let option = document.createElement("option");
-              option.value = user.email;
-              option.textContent = user.firstName + " " + user.lastName;
-              dropdown.appendChild(option);
-            });
-          } catch (error) {
-            console.error(`Error loading ${role} users:`, error);
-            // Fallback to show message in dropdown
-            dropdown.innerHTML = `<option value="">Error loading ${role} users</option>`;
-          }
-        }
-
-        // Load users when page loads
-        loadUsersByRole("staff", staffDropdown);
-        loadUsersByRole("admin", adminDropdown);
-
-        // Staff/Admin button click - override the existing event listeners
-        document.getElementById("staffBtn").addEventListener("click", () => {
-          selectedRole = "staff";
-          staffContainer.classList.remove("hidden");
-          adminContainer.classList.add("hidden");
-          staffBtn.classList.add("active");
-          adminBtn.classList.remove("active");
-          hideMessage();
-        });
-
-        document.getElementById("adminBtn").addEventListener("click", () => {
-          selectedRole = "admin";
-          adminContainer.classList.remove("hidden");
-          staffContainer.classList.add("hidden");
-          adminBtn.classList.add("active");
-          staffBtn.classList.remove("active");
-          hideMessage();
-        });
-
-        // Login - override the existing sign in handler
-        document.getElementById("submitSignIn").addEventListener("click", async (e) => {
-          e.preventDefault();
-
-          let email = "";
-          if (selectedRole === "staff") {
-            email = staffDropdown.value;
-          } else if (selectedRole === "admin") {
-            email = adminDropdown.value;
-          }
-
-          const password = passwordInput.value;
-          if (!email || !password || !selectedRole) {
-            showMessage("⚠️ Please select role, name and enter password.", "error");
-            return;
-          }
-
-          try {
-            // Show loading state
-            signInBtn.disabled = true;
-            signInBtn.innerHTML = '<span>Signing In...</span>';
-            
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            localStorage.setItem("loggedInUserId", user.uid);
-
-            // Show success message
-            hideMessage();
-            successMessage.style.display = 'block';
-            successMessage.innerHTML = `Welcome! Redirecting to ${selectedRole} dashboard...`;
-
-            // Redirect based on selected role
-            setTimeout(() => {
-              if (selectedRole === "staff") {
-                window.open("dashboard.html", "_blank");
-              } else if (selectedRole === "admin") {
-                window.open("admin-dashboard.html", "_blank");
-              }
-            }, 1500);
-
-          } catch (err) {
-            console.error("🔥 Login error:", err.message);
-            showMessage("Login failed: " + err.message, "error");
-            
-            // Reset button state
-            signInBtn.disabled = false;
-            signInBtn.innerHTML = '<span>Sign In</span>';
-          }
-        });
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99585b7c53ae13db',t:'MTc2MTYzMjc0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+    // Reuse existing showMessage/hideMessage
+    function showMessage(text, type = 'error') {
+      signInMessage.textContent = t
