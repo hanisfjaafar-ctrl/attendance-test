@@ -1,447 +1,799 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+ <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login</title>
-
-  <!-- Google Fonts: Poppins -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      padding: 16px;
-    }
+        body {
+            box-sizing: border-box;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* === FULL-PAGE ANIMATED BACKGROUND (Optimized for Mobile) === */
-    .particles, .bg-shapes {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
-      /* Ensure it renders on mobile */
-      will-change: transform;
-    }
+        html, body {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
 
-    .floating-shapes { position: absolute; width: 100%; height: 100%; }
+        .container {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
 
-    .shape {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 50%;
-      animation: float 10s ease-in-out infinite;
-    }
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    /* Desktop sizes */
-    .shape:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; }
-    .shape:nth-child(2) { width: 120px; height: 120px; top: 60%; left: 80%; }
-    .shape:nth-child(3) { width: 60px; height: 60px; top: 80%; left: 20%; }
-    .shape:nth-child(4) { width: 100px; height: 100px; top: 10%; left: 70%; }
-    .shape:nth-child(5) { width: 40px; height: 40px; top: 40%; left: 5%; }
-    .shape:nth-child(6) { width: 90px; height: 90px; top: 70%; left: 60%; }
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
 
-    /* Mobile: reduce size */
-    @media (max-width: 768px) {
-      .shape:nth-child(1) { width: 30px; height: 30px; }
-      .shape:nth-child(2) { width: 45px; height: 45px; }
-      .shape:nth-child(3) { width: 25px; height: 25px; }
-      .shape:nth-child(4) { width: 40px; height: 40px; }
-      .shape:nth-child(5) { width: 20px; height: 20px; }
-      .shape:nth-child(6) { width: 35px; height: 35px; }
-    }
+        .particle:nth-child(1) {
+            width: 8px;
+            height: 8px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0); opacity: 0.6; }
-      50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
-    }
+        .particle:nth-child(2) {
+            width: 12px;
+            height: 12px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
 
-    .wave {
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.07) 25%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.07) 75%, rgba(255,255,255,0.03) 100%);
-      animation: wave 20s linear infinite;
-      opacity: 0.4;
-    }
-    .wave:nth-child(2) { animation-delay: -7s; opacity: 0.25; }
-    .wave:nth-child(3) { animation-delay: -14s; opacity: 0.15; }
+        .particle:nth-child(3) {
+            width: 6px;
+            height: 6px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
 
-    @keyframes wave {
-      0% { transform: rotate(0); }
-      100% { transform: rotate(360deg); }
-    }
+        .particle:nth-child(4) {
+            width: 10px;
+            height: 10px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 1s;
+        }
 
-    .particle {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 50%;
-      animation: particle 10s linear infinite;
-    }
+        .particle:nth-child(5) {
+            width: 14px;
+            height: 14px;
+            top: 70%;
+            left: 50%;
+            animation-delay: 3s;
+        }
 
-    @media (max-width: 768px) {
-      .particle { width: 1.5px; height: 1.5px; }
-    }
+        .particle:nth-child(6) {
+            width: 8px;
+            height: 8px;
+            top: 15%;
+            left: 60%;
+            animation-delay: 5s;
+        }
 
-    @keyframes particle {
-      0% { transform: translateY(100vh) scale(0); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-100vh) scale(0); opacity: 0; }
-    }
+        .particle:nth-child(7) {
+            width: 16px;
+            height: 16px;
+            top: 40%;
+            left: 30%;
+            animation-delay: 6s;
+        }
 
-    /* === Login Container: Full size on desktop, slightly compact on mobile === */
-    .container {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 480px; /* Slightly wider than before */
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      animation: slideUp 0.6s ease-out;
-      z-index: 10;
-    }
+        .particle:nth-child(8) {
+            width: 5px;
+            height: 5px;
+            top: 90%;
+            left: 70%;
+            animation-delay: 7s;
+        }
 
-    @media (max-width: 768px) {
-      .container {
-        padding: 28px;
-        max-width: 420px;
-      }
-    }
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+            animation: shootingStar 3s linear infinite;
+        }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            transform: translateY(-50%);
+            animation: tail 3s linear infinite;
+        }
 
-    .form-title {
-      text-align: center;
-      color: #333;
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 40px;
-      position: relative;
-    }
+        .shooting-star:nth-child(9) {
+            top: 10%;
+            left: -10px;
+            animation-delay: 0s;
+        }
 
-    @media (max-width: 768px) {
-      .form-title { font-size: 2.1rem; margin-bottom: 32px; }
-    }
+        .shooting-star:nth-child(10) {
+            top: 30%;
+            left: -10px;
+            animation-delay: 4s;
+        }
 
-    .form-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 2px;
-    }
+        .shooting-star:nth-child(11) {
+            top: 60%;
+            left: -10px;
+            animation-delay: 8s;
+        }
 
-    /* Rest of styles (unchanged but clean) */
-    .role-selection {
-      display: flex;
-      justify-content: space-between;
-      margin: 20px 0;
-      gap: 12px;
-    }
+        .shooting-star:nth-child(12) {
+            top: 80%;
+            left: -10px;
+            animation-delay: 12s;
+        }
 
-    .role-btn {
-      flex: 1;
-      padding: 25px;
-      border: none;
-      border-radius: 15px;
-      font-size: 20px;
-      font-weight: 700;
-      color: white;
-      cursor: pointer;
-      background: #5530ddb4;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
+        .shooting-star:nth-child(13) {
+            top: 20%;
+            left: -10px;
+            animation-delay: 16s;
+        }
 
-    @media (max-width: 768px) {
-      .role-btn { padding: 20px; font-size: 18px; }
-    }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.6;
+            }
+            33% {
+                transform: translateY(-30px) rotate(120deg) scale(1.1);
+                opacity: 1;
+            }
+            66% {
+                transform: translateY(-15px) rotate(240deg) scale(0.9);
+                opacity: 0.8;
+            }
+        }
 
-    .role-btn.active {
-      transform: scale(1.03);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-    }
+        @keyframes shootingStar {
+            0% {
+                transform: translateX(0) translateY(0) rotate(45deg);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(300px) translateY(300px) rotate(45deg);
+                opacity: 0;
+            }
+        }
 
-    .dropdown-container { margin: 20px 0; }
-    .dropdown-container label {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: 700;
-      font-size: 14px;
-    }
+        @keyframes tail {
+            0% {
+                width: 0;
+            }
+            30% {
+                width: 100px;
+            }
+            100% {
+                width: 0;
+            }
+        }
 
-    select {
-      width: 100%;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 16px;
-      outline: none;
-      border: 2px solid #e1e5e9;
-      background: #f8f9fa;
-      transition: all 0.3s;
-      appearance: none;
-      font-weight: 600;
-    }
+        .twinkling-stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    select:focus {
-      border-color: #667eea;
-      background: #fff;
-      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
-    }
+        .twinkling-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite alternate;
+        }
 
-    #staffDropdown { background: #e6f0ff; border: 2px solid #3399ff; color: #003366; }
-    #adminDropdown { background: #fff4e6; border: 2px solid #ff9933; color: #663300; }
+        .twinkling-star:nth-child(1) { top: 15%; left: 20%; animation-delay: 0s; }
+        .twinkling-star:nth-child(2) { top: 25%; left: 80%; animation-delay: 0.5s; }
+        .twinkling-star:nth-child(3) { top: 45%; left: 15%; animation-delay: 1s; }
+        .twinkling-star:nth-child(4) { top: 65%; left: 85%; animation-delay: 1.5s; }
+        .twinkling-star:nth-child(5) { top: 85%; left: 25%; animation-delay: 2s; }
+        .twinkling-star:nth-child(6) { top: 35%; left: 90%; animation-delay: 0.3s; }
+        .twinkling-star:nth-child(7) { top: 75%; left: 10%; animation-delay: 0.8s; }
+        .twinkling-star:nth-child(8) { top: 55%; left: 60%; animation-delay: 1.3s; }
 
-    .hidden { display: none; }
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
 
-    .input-group {
-      position: relative;
-      margin: 20px 0;
-    }
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            width: 420px;
+            max-width: 90%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 2;
+            animation: slideIn 0.8s ease-out;
+        }
 
-    .input-group i {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #667eea;
-      font-size: 18px;
-      z-index: 2;
-    }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .input-group input {
-      width: calc(100% - 65px);
-      padding: 15px 15px 15px 50px;
-      border: 2px solid #e1e5e9; /* Matches button border */
-      border-radius: 10px;
-      font-size: 16px;
-      background: #f8f9fa;
-      transition: all 0.3s;
-      outline: none;
-      font-weight: 600;
-    }
+        .form-title {
+            text-align: center;
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    .input-group input:focus {
-      border-color: #667eea;
-      background: #fff;
-      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
-    }
+        .messageDiv {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #ef4444;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
 
-    .input-group input::placeholder { color: #adb5bd; }
+        .role-selection {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
 
-    .btn {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin: 20px 0;
-      box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-    }
+        .role-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102,126,234,0.4);
-    }
+        .role-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
 
-    .btn-secondary {
-      background: linear-gradient(135deg, #28a745, #20c997);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 25px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px rgba(40,167,69,0.3);
-      width: auto;
-      margin: 0 auto;
-      display: block;
-    }
+        .role-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
 
-    .links {
-      text-align: center;
-      margin-top: 30px;
-    }
+        .dropdown-container {
+            margin-bottom: 25px;
+        }
 
-    @media (max-width: 480px) {
-      .role-selection { flex-direction: column; }
-    }
-  </style>
-</head>
+        .dropdown-container.hidden {
+            display: none;
+        }
 
-<body>
-  <!-- Animated background (now mobile-friendly) -->
-  <div class="particles" id="particles">
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-  </div>
-  <div class="bg-shapes" id="bgShapes">
-    <div class="wave"></div><div class="wave"></div><div class="wave"></div>
-    <div class="floating-shapes">
-      <div class="shape"></div><div class="shape"></div><div class="shape"></div>
-      <div class="shape"></div><div class="shape"></div><div class="shape"></div>
-    </div>
-  </div>
+        .dropdown-container label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
 
-  <!-- Login Form (full size on laptop, slightly compact on mobile) -->
+        .dropdown-container select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown-container select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-container select option {
+            background: #764ba2;
+            color: white;
+            padding: 10px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            margin-bottom: 25px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .links {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .links p {
+            margin-bottom: 15px;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(17, 153, 142, 0.4);
+        }
+
+        .success-message {
+            background: rgba(56, 239, 125, 0.2);
+            border: 1px solid rgba(56, 239, 125, 0.4);
+            color: #38ef7d;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 500;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 25px;
+                margin: 20px;
+            }
+            
+            .form-title {
+                font-size: 28px;
+                margin-bottom: 25px;
+            }
+            
+            .role-selection {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
   <div class="container">
-    <h1 class="form-title">LOGIN</h1>
+   <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+   </div>
+   <div class="twinkling-stars">
+    <div class="twinkling-star"></div>
+    <div class="twinkling-star"></div>
+    <div class="twinkling-star"></div>
+    <div class="twinkling-star"></div>
+    <div class="twinkling-star"></div>
+    <div class="twinkling-star"></div>
+    <div class="twinkling-star"></div>
+    <div class="twinkling-star"></div>
+   </div>
+   <div class="login-card">
+    <h1 class="form-title" id="formTitle">LOGIN</h1>
     <form id="signInForm">
-      <div class="role-selection">
-        <button type="button" id="staffBtn" class="role-btn staff">👤 Staff</button>
-        <button type="button" id="adminBtn" class="role-btn admin">👨‍💼 Admin</button>
-      </div>
-
-      <div class="dropdown-container hidden" id="staffContainer">
-        <label for="staffDropdown"><strong>Staff Name:</strong></label>
-        <select id="staffDropdown">
-          <option value="">Loading staff...</option>
-        </select>
-      </div>
-
-      <div class="dropdown-container hidden" id="adminContainer">
-        <label for="adminDropdown"><strong>Admin Name:</strong></label>
-        <select id="adminDropdown">
-          <option value="">Loading admins...</option>
-        </select>
-      </div>
-
-      <div class="input-group">
-        <i class="fas fa-lock"></i>
-        <input type="password" id="password" placeholder="Password" required />
-      </div>
-
-      <button type="button" class="btn" id="submitSignIn">Sign In</button>
+     <div id="signInMessage" class="messageDiv" style="display:none;"></div><!-- Role selection buttons -->
+     <div class="role-selection"><button type="button" id="staffBtn" class="role-btn staff active"> <span>👤</span> <span id="staffButtonText">Staff</span> </button> <button type="button" id="adminBtn" class="role-btn admin"> <span>👨‍💼</span> <span id="adminButtonText">Admin</span> </button>
+     </div><!-- Staff Dropdown -->
+     <div class="dropdown-container" id="staffContainer"><label for="staffDropdown" id="staffLabel"><strong>Staff Name:</strong></label> <select id="staffDropdown"> <option value="">Choose your name...</option> </select>
+     </div><!-- Admin Dropdown -->
+     <div class="dropdown-container hidden" id="adminContainer"><label for="adminDropdown" id="adminLabel"><strong>Admin Name:</strong></label> <select id="adminDropdown"> <option value="">Choose your name...</option> </select>
+     </div><!-- Password -->
+     <div class="input-group"><i class="fas fa-lock"></i> <input type="password" id="password" placeholder="Password" required>
+     </div><button type="button" class="btn" id="submitSignIn"> <span id="signinButtonText">Sign In</span> </button>
     </form>
     <div class="links">
-      <p>Don't have an account?</p>
-      <a href="/register"><button class="btn-secondary">Register</button></a>
+     <p id="registerText">Don't have an account?</p><button class="btn-secondary" id="registerBtn"> <span id="registerButtonText">Register</span> </button>
     </div>
+    <div class="success-message" id="successMessage">
+     Welcome! Redirecting to your dashboard...
+    </div>
+   </div>
   </div>
+  <script>
+        // Default configuration
+        const defaultConfig = {
+            form_title: "LOGIN",
+            staff_button_text: "Staff",
+            admin_button_text: "Admin",
+            staff_label: "Staff Name:",
+            admin_label: "Admin Name:",
+            password_placeholder: "Password",
+            signin_button_text: "Sign In",
+            register_text: "Don't have an account?",
+            register_button_text: "Register"
+        };
 
-  <!-- Firebase Logic -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        // Sample data for staff and admin names
+        const userData = {
+            staff: [
+                "Sarah Johnson",
+                "Michael Chen",
+                "Emily Rodriguez",
+                "David Kim",
+                "Jessica Taylor",
+                "Alex Thompson"
+            ],
+            admin: [
+                "Robert Wilson",
+                "Lisa Anderson",
+                "James Martinez",
+                "Maria Garcia",
+                "Thomas Brown"
+            ]
+        };
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
-      authDomain: "login-form-84016.firebaseapp.com",
-      projectId: "login-form-84016",
-      storageBucket: "login-form-84016.firebasestorage.app",
-      messagingSenderId: "568483509830",
-      appId: "1:568483509830:web:0d6de2a1537154bd67fc47",
-      measurementId: "G-KCGTMGB6HB"
-    };
+        let currentRole = 'staff';
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+        // DOM elements
+        const staffBtn = document.getElementById('staffBtn');
+        const adminBtn = document.getElementById('adminBtn');
+        const staffContainer = document.getElementById('staffContainer');
+        const adminContainer = document.getElementById('adminContainer');
+        const staffDropdown = document.getElementById('staffDropdown');
+        const adminDropdown = document.getElementById('adminDropdown');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submitSignIn');
+        const registerBtn = document.getElementById('registerBtn');
+        const signInMessage = document.getElementById('signInMessage');
+        const successMessage = document.getElementById('successMessage');
 
-    const staffContainer = document.getElementById("staffContainer");
-    const adminContainer = document.getElementById("adminContainer");
-    const staffDropdown = document.getElementById("staffDropdown");
-    const adminDropdown = document.getElementById("adminDropdown");
-    const signInBtn = document.getElementById("submitSignIn");
-    const passwordInput = document.getElementById("password");
-    const staffBtn = document.getElementById("staffBtn");
-    const adminBtn = document.getElementById("adminBtn");
+        // Initialize the page
+        function init() {
+            populateDropdowns();
+            setupEventListeners();
+        }
 
-    let selectedRole = "";
+        // Populate dropdowns with user data
+        function populateDropdowns() {
+            // Populate staff dropdown
+            staffDropdown.innerHTML = '<option value="">Choose your name...</option>';
+            userData.staff.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                staffDropdown.appendChild(option);
+            });
 
-    async function loadUsersByRole(role, dropdown) {
-      dropdown.innerHTML = `<option value="">-- Select ${role} --</option>`;
-      const q = query(collection(db, "users"), where("role", "==", role));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach(docSnap => {
-        const user = docSnap.data();
-        let option = document.createElement("option");
-        option.value = user.email;
-        option.textContent = user.firstName + " " + user.lastName;
-        dropdown.appendChild(option);
-      });
-    }
+            // Populate admin dropdown
+            adminDropdown.innerHTML = '<option value="">Choose your name...</option>';
+            userData.admin.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                adminDropdown.appendChild(option);
+            });
+        }
 
-    loadUsersByRole("staff", staffDropdown);
-    loadUsersByRole("admin", adminDropdown);
+        // Setup event listeners
+        function setupEventListeners() {
+            staffBtn.addEventListener('click', () => selectRole('staff'));
+            adminBtn.addEventListener('click', () => selectRole('admin'));
+            submitBtn.addEventListener('click', handleSignIn);
+            registerBtn.addEventListener('click', handleRegister);
+            
+            // Form submission prevention
+            document.getElementById('signInForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleSignIn();
+            });
+        }
 
-    staffBtn.addEventListener("click", () => {
-      selectedRole = "staff";
-      staffContainer.classList.remove("hidden");
-      adminContainer.classList.add("hidden");
-      staffBtn.classList.add("active");
-      adminBtn.classList.remove("active");
-    });
+        // Handle role selection
+        function selectRole(role) {
+            currentRole = role;
+            
+            // Update button states
+            staffBtn.classList.toggle('active', role === 'staff');
+            adminBtn.classList.toggle('active', role === 'admin');
+            
+            // Show/hide appropriate dropdown
+            if (role === 'staff') {
+                staffContainer.classList.remove('hidden');
+                adminContainer.classList.add('hidden');
+                staffDropdown.value = '';
+            } else {
+                staffContainer.classList.add('hidden');
+                adminContainer.classList.remove('hidden');
+                adminDropdown.value = '';
+            }
+            
+            // Clear password and hide any messages
+            passwordInput.value = '';
+            hideMessage();
+        }
 
-    adminBtn.addEventListener("click", () => {
-      selectedRole = "admin";
-      adminContainer.classList.remove("hidden");
-      staffContainer.classList.add("hidden");
-      adminBtn.classList.add("active");
-      staffBtn.classList.remove("active");
-    });
+        // Handle sign in
+        function handleSignIn() {
+            const selectedName = currentRole === 'staff' ? staffDropdown.value : adminDropdown.value;
+            const password = passwordInput.value;
+            
+            // Validation
+            if (!selectedName) {
+                showMessage('Please select your name.', 'error');
+                const dropdown = currentRole === 'staff' ? staffDropdown : adminDropdown;
+                dropdown.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    dropdown.style.animation = '';
+                }, 500);
+                return;
+            }
+            
+            if (!password) {
+                showMessage('Please enter your password.', 'error');
+                passwordInput.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+                return;
+            }
+            
+            // Simulate authentication
+            hideMessage();
+            successMessage.style.display = 'block';
+            successMessage.innerHTML = `Welcome ${selectedName}! Redirecting to ${currentRole} dashboard...`;
+            
+            // Simulate redirect after 2 seconds
+            setTimeout(() => {
+                successMessage.innerHTML = `Authentication successful! Opening ${currentRole} dashboard...`;
+            }, 1500);
+        }
 
-    signInBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      let email = selectedRole === "staff" ? staffDropdown.value : adminDropdown.value;
-      const password = passwordInput.value;
+        // Handle register button click
+        function handleRegister() {
+            registerBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                registerBtn.style.transform = '';
+                showMessage('Registration feature would open here!', 'info');
+            }, 150);
+        }
 
-      if (!email || !password || !selectedRole) {
-        alert("⚠️ Please select role, name and enter password.");
-        return;
-      }
+        // Show message
+        function showMessage(message, type = 'error') {
+            signInMessage.textContent = message;
+            signInMessage.style.display = 'block';
+            
+            if (type === 'info') {
+                signInMessage.style.background = 'rgba(59, 130, 246, 0.2)';
+                signInMessage.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+                signInMessage.style.color = '#3b82f6';
+            } else {
+                signInMessage.style.background = 'rgba(239, 68, 68, 0.2)';
+                signInMessage.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                signInMessage.style.color = '#ef4444';
+            }
+        }
 
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        localStorage.setItem("loggedInUserId", userCredential.user.uid);
-        window.location.href = selectedRole === "staff" ? "dashboard.html" : "admin-dashboard.html";
-      } catch (err) {
-        alert("Login failed: " + err.message);
-      }
-    });
-  </script>
-</body>
+        // Hide message
+        function hideMessage() {
+            signInMessage.style.display = 'none';
+        }
+
+        // Element SDK configuration
+        async function onConfigChange(config) {
+            const formTitle = config.form_title || defaultConfig.form_title;
+            const staffButtonText = config.staff_button_text || defaultConfig.staff_button_text;
+            const adminButtonText = config.admin_button_text || defaultConfig.admin_button_text;
+            const staffLabel = config.staff_label || defaultConfig.staff_label;
+            const adminLabel = config.admin_label || defaultConfig.admin_label;
+            const passwordPlaceholder = config.password_placeholder || defaultConfig.password_placeholder;
+            const signinButtonText = config.signin_button_text || defaultConfig.signin_button_text;
+            const registerText = config.register_text || defaultConfig.register_text;
+            const registerButtonText = config.register_button_text || defaultConfig.register_button_text;
+
+            document.getElementById('formTitle').textContent = formTitle;
+            document.getElementById('staffButtonText').textContent = staffButtonText;
+            document.getElementById('adminButtonText').textContent = adminButtonText;
+            document.getElementById('staffLabel').innerHTML = `<strong>${staffLabel}</strong>`;
+            document.getElementById('adminLabel').innerHTML = `<strong>${adminLabel}</strong>`;
+            document.getElementById('password').placeholder = passwordPlaceholder;
+            document.getElementById('signinButtonText').textContent = signinButtonText;
+            document.getElementById('registerText').textContent = registerText;
+            document.getElementById('registerButtonText').textContent = registerButtonText;
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["form_title", config.form_title || defaultConfig.form_title],
+                ["staff_button_text", config.staff_button_text || defaultConfig.staff_button_text],
+                ["admin_button_text", config.admin_button_text || defaultConfig.admin_button_text],
+                ["staff_label", config.staff_label || defaultConfig.staff_label],
+                ["admin_label", config.admin_label || defaultConfig.admin_label],
+                ["password_placeholder", config.password_placeholder || defaultConfig.password_placeholder],
+                ["signin_button_text", config.signin_button_text || defaultConfig.signin_button_text],
+                ["register_text", config.register_text || defaultConfig.register_text],
+                ["register_button_text", config.register_button_text || defaultConfig.register_button_text]
+            ]);
+        }
+
+        // Initialize Element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+
+        // Initialize the application
+        init();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99583ec480db13db',t:'MTc2MTYzMTU2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
