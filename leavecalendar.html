@@ -26,15 +26,13 @@
       display: flex;
     }
     
-    /* Main container with scaled interface */
+    /* Main container scaled to 2x smaller */
     .main-wrapper {
       display: flex;
-      width: 100%;
-      min-height: 100vh;
-      transform: scale(0.5);
-      transform-origin: top left;
       width: 200vw;
       height: 200vh;
+      transform: scale(0.5);
+      transform-origin: top left;
     }
     
     /* ===== SIDEBAR ===== */
@@ -548,18 +546,13 @@
         left: 0;
       }
       
+      .sidebar.collapsed {
+        left: 0;
+        width: 280px;
+      }
+      
       .menu-toggle {
         display: block;
-      }
-      
-      .logo-text,
-      .user-details,
-      .nav-item span {
-        display: inline;
-      }
-      
-      .sidebar.collapsed {
-        width: 280px;
       }
       
       .main-content {
@@ -752,10 +745,10 @@
     // Mobile menu toggle functionality
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
+    const toggleSidebarBtn = document.getElementById('toggleSidebar');
     
     menuToggle.addEventListener('click', () => {
       sidebar.classList.toggle('active');
-      // Toggle menu icon
       if (sidebar.classList.contains('active')) {
         menuToggle.innerHTML = '<i class="fas fa-times"></i>';
       } else {
@@ -773,14 +766,24 @@
       }
     });
     
-    // Existing sidebar toggle functionality
-    document.getElementById('toggleSidebar').addEventListener('click', function() {
-      const sidebar = document.querySelector('.sidebar');
-      sidebar.classList.toggle('collapsed');
-      const icon = this.querySelector('i');
-      icon.className = sidebar.classList.contains('collapsed') 
-        ? 'fas fa-chevron-right' 
-        : 'fas fa-chevron-left';
+    // Unified toggle for both desktop collapse and mobile visibility
+    toggleSidebarBtn.addEventListener('click', function() {
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        // On mobile, just toggle active (slide in/out)
+        sidebar.classList.toggle('active');
+        // Keep text visible
+        this.querySelector('i').className = 'fas fa-chevron-left';
+      } else {
+        // On desktop, toggle collapsed
+        sidebar.classList.toggle('collapsed');
+        const icon = this.querySelector('i');
+        icon.className = sidebar.classList.contains('collapsed') 
+          ? 'fas fa-chevron-right' 
+          : 'fas fa-chevron-left';
+      }
     });
     
     // Firebase functionality
@@ -797,7 +800,6 @@
       getDoc 
     } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
       authDomain: "login-form-84016.firebaseapp.com",
@@ -808,16 +810,13 @@
       measurementId: "G-KCGTMGB6HB"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
     const db = getFirestore();
 
-    // Global state
     let currentUid = null;
     let currentUserData = null;
 
-    // DOM Elements
     const myLeaveList = document.getElementById('myLeaveList');
     const teamLeaveList = document.getElementById('teamLeaveList');
     const applyLeaveBtn = document.getElementById('applyLeaveBtn');
@@ -830,7 +829,6 @@
     const sidebarUserName = document.getElementById("sidebarUserName");
     const sidebarUserEmail = document.getElementById("sidebarUserEmail");
 
-    // Initialize the page
     document.addEventListener('DOMContentLoaded', () => {
       showLoading();
       
@@ -875,7 +873,6 @@
       });
     });
 
-    // Auth state listener
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUid = user.uid;
@@ -945,7 +942,7 @@
 
     function renderTeamLeaveRequests(leaves) {
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // Normalize to start of day
+      today.setHours(0, 0, 0, 0);
 
       const activeLeaves = leaves.filter(leave => {
         if (!leave.endDate) return false;
