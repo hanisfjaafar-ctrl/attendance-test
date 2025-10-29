@@ -24,16 +24,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            padding: 25px;
             width: 100%;
-            max-width: 600px;
+            max-width: 480px;
             position: relative;
             overflow: hidden;
         }
@@ -50,27 +50,27 @@
 
         .form-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 15px;
         }
 
         .form-title {
-            font-size: 2.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .form-subtitle {
             color: #666;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 400;
         }
 
         .progress-container {
-            margin-bottom: 40px;
+            margin-bottom: 15px;
         }
 
         .progress-bar {
@@ -78,7 +78,7 @@
             justify-content: space-between;
             align-items: center;
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .progress-bar::before {
@@ -112,8 +112,8 @@
         }
 
         .step-circle {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: #e0e0e0;
             color: #999;
@@ -121,9 +121,9 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.85rem;
             transition: all 0.3s ease;
-            border: 3px solid #e0e0e0;
+            border: 2px solid #e0e0e0;
         }
 
         .step-circle.active {
@@ -167,35 +167,46 @@
         }
 
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             text-align: center;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .input-row .input-group {
+            flex: 1;
+            margin-bottom: 0;
         }
 
         .input-group {
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 12px;
         }
 
         .input-group i {
             position: absolute;
-            left: 15px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
             color: #667eea;
-            font-size: 1.1rem;
+            font-size: 1rem;
             z-index: 2;
         }
 
         .input-group input,
         .input-group select {
             width: 100%;
-            padding: 15px 15px 15px 50px;
+            padding: 12px 12px 12px 40px;
             border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
             background: #fafafa;
         }
@@ -223,20 +234,20 @@
         .form-navigation {
             display: flex;
             justify-content: space-between;
-            margin-top: 40px;
-            gap: 15px;
+            margin-top: 15px;
+            gap: 12px;
         }
 
         .btn {
-            padding: 15px 30px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 12px;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             flex: 1;
-            max-width: 150px;
+            max-width: 140px;
         }
 
         .btn-primary {
@@ -268,8 +279,8 @@
 
         .links {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 20px;
+            padding-top: 15px;
             border-top: 1px solid #e0e0e0;
         }
 
@@ -339,12 +350,16 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 30px 20px;
-                margin: 10px;
+                padding: 20px 15px;
+                margin: 5px;
             }
 
             .form-title {
-                font-size: 2rem;
+                font-size: 1.6rem;
+            }
+
+            .form-subtitle {
+                font-size: 0.9rem;
             }
 
             .progress-step {
@@ -352,32 +367,90 @@
             }
 
             .step-circle {
-                width: 35px;
-                height: 35px;
-                font-size: 0.9rem;
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
             }
 
             .step-label {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
+                margin-top: 6px;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+                margin-bottom: 12px;
+            }
+
+            .input-group {
+                margin-bottom: 10px;
             }
 
             .form-navigation {
                 flex-direction: column;
+                gap: 10px;
             }
 
             .btn {
                 max-width: none;
+                padding: 12px 20px;
             }
         }
 
         @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+
+            .container {
+                padding: 15px 12px;
+            }
+
+            .form-title {
+                font-size: 1.4rem;
+            }
+
+            .progress-container {
+                margin-bottom: 20px;
+            }
+
             .progress-bar {
-                flex-wrap: wrap;
-                gap: 10px;
+                margin-bottom: 10px;
+            }
+
+            .step-circle {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
             }
 
             .step-label {
-                display: none;
+                font-size: 0.7rem;
+                margin-top: 4px;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .input-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .input-row .input-group {
+                margin-bottom: 10px;
+            }
+
+            .input-group input,
+            .input-group select {
+                padding: 10px 10px 10px 35px;
+                font-size: 0.9rem;
+            }
+
+            .input-group i {
+                left: 10px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -433,24 +506,28 @@
      <div class="form-step active" id="step1">
       <div class="form-sections">
        <h2 class="section-title">Personal Information</h2>
-       <div class="input-group"><i class="fas fa-user"></i> <input type="text" id="fName" placeholder="First Name" required>
-        <div class="error-message">
-         First name is required
+       <div class="input-row">
+        <div class="input-group"><i class="fas fa-user"></i> <input type="text" id="fName" placeholder="First Name" required>
+         <div class="error-message">
+          First name is required
+         </div>
+        </div>
+        <div class="input-group"><i class="fas fa-user"></i> <input type="text" id="lName" placeholder="Last Name" required>
+         <div class="error-message">
+          Last name is required
+         </div>
         </div>
        </div>
-       <div class="input-group"><i class="fas fa-user"></i> <input type="text" id="lName" placeholder="Last Name" required>
-        <div class="error-message">
-         Last name is required
+       <div class="input-row">
+        <div class="input-group"><i class="fas fa-phone"></i> <input type="text" id="phone" placeholder="Phone Number" required>
+         <div class="error-message">
+          Valid phone number is required
+         </div>
         </div>
-       </div>
-       <div class="input-group"><i class="fas fa-phone"></i> <input type="text" id="phone" placeholder="Phone Number" required>
-        <div class="error-message">
-         Valid phone number is required
-        </div>
-       </div>
-       <div class="input-group"><i class="fas fa-envelope"></i> <input type="email" id="rEmail" placeholder="Email" required>
-        <div class="error-message">
-         Valid email is required
+        <div class="input-group"><i class="fas fa-envelope"></i> <input type="email" id="rEmail" placeholder="Email" required>
+         <div class="error-message">
+          Valid email is required
+         </div>
         </div>
        </div>
        <div class="input-group"><i class="fas fa-map-marker-alt"></i> <input type="text" id="address" placeholder="Address" required>
@@ -536,7 +613,7 @@
   </div>
   <script>
         const defaultConfig = {
-            form_title: "Multi-Step Registration",
+            form_title: "Register",
             company_name: "our company"
         };
 
@@ -760,5 +837,5 @@
         `;
         document.head.appendChild(style);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'995f38e1b38913db',t:'MTc2MTcwNDcyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'995f543ce0c1cdda',t:'MTc2MTcwNTg0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
