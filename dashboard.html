@@ -26,7 +26,7 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 260px;
+      width: 280px;
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -41,11 +41,11 @@
     }
 
     .sidebar.collapsed {
-      width: 60px;
+      width: 70px;
     }
 
     .sidebar-header {
-      padding: 20px 16px;
+      padding: 25px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -55,23 +55,23 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .logo-icon {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 8px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 18px;
+      font-size: 20px;
     }
 
     .logo-text {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: #333;
     }
@@ -83,11 +83,11 @@
     .toggle-btn {
       background: none;
       border: none;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       cursor: pointer;
       color: #667eea;
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -100,33 +100,32 @@
     }
 
     .nav-links {
-      padding: 16px 0;
+      padding: 20px 0;
       flex: 1;
     }
 
     .nav-item {
-      padding: 10px 20px;
+      padding: 12px 25px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
       text-decoration: none;
       color: #555;
       font-weight: 500;
-      font-size: 0.95rem;
       transition: all 0.2s;
-      border-left: 3px solid transparent;
+      border-left: 4px solid transparent;
       cursor: pointer;
     }
 
     .nav-item:hover, .nav-item.active {
       background: rgba(102, 126, 234, 0.1);
       color: #667eea;
-      border-left: 3px solid #667eea;
+      border-left: 4px solid #667eea;
     }
 
     .nav-item i {
-      font-size: 1.1rem;
-      width: 22px;
+      font-size: 1.2rem;
+      width: 24px;
       text-align: center;
     }
 
@@ -136,21 +135,21 @@
 
     .sidebar.collapsed .nav-item {
       justify-content: center;
-      padding: 12px;
+      padding: 15px;
       gap: 0;
     }
 
     .user-info {
-      padding: 16px;
+      padding: 20px;
       border-top: 1px solid #eee;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
     }
 
     .avatar {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
@@ -158,7 +157,7 @@
       justify-content: center;
       color: white;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 18px;
       text-transform: uppercase;
     }
 
@@ -169,11 +168,10 @@
     .user-name {
       font-weight: 600;
       color: #333;
-      font-size: 0.95rem;
     }
 
     .user-email {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #777;
     }
 
@@ -184,80 +182,79 @@
     /* ===== MAIN CONTENT ===== */
     .main-content {
       flex: 1;
-      padding: 24px;
-      margin-left: 260px;
+      padding: 30px;
+      margin-left: 280px;
       transition: margin-left 0.3s ease;
     }
 
     .sidebar.collapsed ~ .main-content {
-      margin-left: 60px;
+      margin-left: 70px;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       background: #fff;
-      padding: 24px;
-      border-radius: 16px;
+      padding: 40px;
+      border-radius: 20px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.1);
       backdrop-filter: blur(10px);
     }
 
     .welcome-header {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 30px;
     }
 
     .welcome-header h1 {
-      font-size: 1.8rem;
+      font-size: 2.2rem;
       font-weight: 700;
       color: #333;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .welcome-header p {
       color: #666;
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
 
-    /* === NEW: Warning Notifications === */
+    /* === Warning Notifications === */
     #warningNotifications {
       background: #fff5f5;
-      border-left: 3px solid #dc3545;
-      padding: 16px;
-      border-radius: 10px;
-      margin-bottom: 20px;
+      border-left: 4px solid #dc3545;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
       display: none;
     }
     .warning-title {
       font-weight: 700;
       color: #dc3545;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 1.1rem;
+      gap: 8px;
     }
     .warning-item {
       background: white;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 12px;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
     .warning-item:last-child {
       margin-bottom: 0;
     }
     .warning-actions {
-      margin-top: 10px;
+      margin-top: 12px;
       display: flex;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
     }
     .warning-btn {
-      padding: 5px 12px;
+      padding: 6px 14px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
       border: none;
@@ -274,17 +271,17 @@
     /* Stats Cards */
     .stats-container {
       display: flex;
-      gap: 16px;
-      margin-bottom: 24px;
+      gap: 20px;
+      margin-bottom: 30px;
       flex-wrap: wrap;
     }
 
     .stat-card {
       flex: 1;
-      min-width: 220px;
+      min-width: 250px;
       background: white;
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 15px;
+      padding: 25px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
@@ -292,18 +289,18 @@
     }
 
     .stat-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-5px);
     }
 
     .stat-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 10px;
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 16px;
-      font-size: 20px;
+      margin-right: 20px;
+      font-size: 24px;
     }
 
     .leave-icon {
@@ -317,13 +314,13 @@
     }
 
     .stat-info h3 {
-      font-size: 1rem;
+      font-size: 1.1rem;
       color: #555;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .stat-info p {
-      font-size: 1.6rem;
+      font-size: 2rem;
       font-weight: 700;
       color: #333;
     }
@@ -331,9 +328,9 @@
     /* Sections */
     .section-card {
       background: white;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 24px;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
@@ -341,11 +338,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .section-title {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       color: #333;
       font-weight: 600;
     }
@@ -354,30 +351,30 @@
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       border: none;
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.3s ease;
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
 
     .apply-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
     }
 
     .leave-list {
-      min-height: 80px;
+      min-height: 100px;
     }
 
     .leave-item {
       display: flex;
       justify-content: space-between;
-      padding: 12px 0;
+      padding: 15px 0;
       border-bottom: 1px solid #eee;
     }
 
@@ -393,19 +390,18 @@
     .leave-type {
       font-weight: 600;
       color: #333;
-      margin-bottom: 4px;
-      font-size: 0.95rem;
+      margin-bottom: 5px;
     }
 
     .leave-dates {
       color: #666;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
 
     .leave-status {
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 600;
     }
 
@@ -426,14 +422,14 @@
 
     /* Attendance Log Section */
     .attendance-log {
-      max-height: 360px;
+      max-height: 400px;
       overflow-y: auto;
     }
 
     .attendance-item {
       display: flex;
       justify-content: space-between;
-      padding: 12px 0;
+      padding: 15px 0;
       border-bottom: 1px solid #eee;
       align-items: flex-start;
     }
@@ -444,19 +440,18 @@
 
     .attendance-info {
       flex: 1;
-      margin-right: 12px;
+      margin-right: 15px;
     }
 
     .attendance-date {
       font-weight: 600;
       color: #333;
       margin-bottom: 4px;
-      font-size: 0.95rem;
     }
 
     .attendance-time {
       color: #666;
-      font-size: 0.85rem;
+      font-size: 0.95rem;
     }
 
     .attendance-status {
@@ -493,15 +488,15 @@
 
     .modal-content {
       background: white;
-      border-radius: 12px;
+      border-radius: 15px;
       width: 90%;
-      max-width: 460px;
+      max-width: 500px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       overflow: hidden;
     }
 
     .modal-header {
-      padding: 16px 20px;
+      padding: 20px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       display: flex;
@@ -510,7 +505,7 @@
     }
 
     .modal-title {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       font-weight: 600;
     }
 
@@ -518,10 +513,10 @@
       background: none;
       border: none;
       color: white;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       cursor: pointer;
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -534,47 +529,46 @@
     }
 
     .form-group {
-      padding: 16px 20px;
+      padding: 20px;
     }
 
     .form-group label {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-weight: 600;
       color: #333;
-      font-size: 0.95rem;
     }
 
     .form-group input,
     .form-group select,
     .form-group textarea {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
 
     .form-group textarea {
       resize: vertical;
-      min-height: 90px;
+      min-height: 100px;
     }
 
     .modal-footer {
-      padding: 16px 20px;
+      padding: 20px;
       display: flex;
       justify-content: flex-end;
-      gap: 12px;
+      gap: 15px;
       border-top: 1px solid #eee;
     }
 
     .btn {
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
 
     .btn-secondary {
@@ -595,7 +589,7 @@
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
     }
 
     /* Loading Overlay */
@@ -612,7 +606,7 @@
       flex-direction: column;
       z-index: 9999;
       color: #fff;
-      font-size: 16px;
+      font-size: 18px;
       backdrop-filter: blur(10px);
       font-family: 'Poppins', sans-serif;
     }
@@ -621,10 +615,10 @@
       border: 4px solid rgba(255, 255, 255, 0.3);
       border-top: 4px solid #fff;
       border-radius: 50%;
-      width: 50px; 
-      height: 50px;
+      width: 60px; 
+      height: 60px;
       animation: spin 1s linear infinite;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
     
     @keyframes spin {
@@ -635,7 +629,7 @@
     /* Responsive */
     @media (max-width: 768px) {
       .sidebar {
-        width: 60px;
+        width: 70px;
       }
       
       .sidebar .logo-text,
@@ -646,17 +640,17 @@
       
       .sidebar .nav-item {
         justify-content: center;
-        padding: 12px;
+        padding: 15px;
         gap: 0;
       }
       
       .main-content {
-        margin-left: 60px;
-        padding: 16px;
+        margin-left: 70px;
+        padding: 20px;
       }
       
       .container {
-        padding: 20px;
+        padding: 25px;
       }
       
       .stats-container {
@@ -665,11 +659,6 @@
       
       .stat-card {
         min-width: 100%;
-        padding: 18px;
-      }
-
-      .section-card {
-        padding: 18px;
       }
     }
   </style>
@@ -710,7 +699,7 @@
 
   <div class="main-content">
     <div class="container">
-      <!-- NEW: Warning Notifications -->
+      <!-- Warning Notifications -->
       <div id="warningNotifications">
         <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> Important Notices</div>
         <div id="warningList"></div>
@@ -867,34 +856,36 @@
     const warningNotifications = document.getElementById("warningNotifications");
     const warningList = document.getElementById("warningList");
 
-    // Add navigation link function
+    // Add navigation link function (matches Attendance Management style)
     function addNavLink(text, icon, link, isActive = false) {
-      const li = document.createElement("a");
-      li.className = `nav-item ${isActive ? 'active' : ''}`;
-      li.href = link;
-      li.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
-      navLinks.appendChild(li);
+      const a = document.createElement("a");
+      a.className = `nav-item ${isActive ? 'active' : ''}`;
+      a.href = link;
+      a.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
+      navLinks.appendChild(a);
     }
 
-    // Add logout function
+    // Add logout function (matches style: at bottom, with confirm)
     function addLogout() {
-      const li = document.createElement("a");
-      li.className = "nav-item logout";
-      li.href = "#";
-      li.id = "logoutLink";
-      li.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
-      li.addEventListener("click", (e) => {
+      const wrap = document.createElement("div");
+      wrap.style.marginTop = "auto";
+      wrap.style.paddingTop = "10px";
+      wrap.style.borderTop = "1px solid #eee";
+      const a = document.createElement("a");
+      a.className = "nav-item";
+      a.innerHTML = `<i class="fas fa-sign-out-alt"></i><span>Logout</span>`;
+      a.addEventListener("click", async (e) => {
         e.preventDefault();
-        signOut(auth).then(() => {
+        if (confirm("Are you sure you want to log out?")) {
+          await signOut(auth);
           window.location.href = "/";
-        }).catch((error) => {
-          console.error("Logout error:", error);
-        });
+        }
       });
-      navLinks.appendChild(li);
+      wrap.appendChild(a);
+      navLinks.appendChild(wrap);
     }
 
-    // Build navigation based on user role
+    // Build navigation based on user role (exactly like Attendance Management)
     function buildNavigation(role) {
       navLinks.innerHTML = "";
       if (role === "admin") {
@@ -925,7 +916,7 @@
       return new Date(dateStr).toLocaleDateString('en-US', options);
     }
 
-    // Handle checkout action for attendance-test
+    // Handle checkout action
     async function handleCheckout(docId) {
       if (!docId) {
         alert("Error: No attendance record found.");
@@ -951,7 +942,7 @@
       }
     }
 
-    // === NEW: Load Warning Letters ===
+    // Load Warning Letters
     async function loadWarningLetters() {
       if (!currentUid) return;
       try {
@@ -994,18 +985,18 @@
       }
     }
 
-    // === NEW: Mark as Read ===
+    // Mark as Read
     window.markWarningAsRead = async function(letterId) {
       try {
         await updateDoc(doc(db, "warningLetters", letterId), { status: "read" });
-        loadWarningLetters(); // refresh
+        loadWarningLetters();
       } catch (err) {
         console.error("Failed to mark as read:", err);
         alert("Failed to update warning status.");
       }
     };
 
-    // === ✅ UPDATED: Download as PDF ===
+    // Download as PDF
     window.downloadWarningLetter = function(letterId, reason) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -1013,12 +1004,10 @@
       const staffName = sidebarUserName.textContent.trim() || "Staff Member";
       const dateStr = new Date().toLocaleDateString();
 
-      // Title
       doc.setFont("helvetica", "bold");
       doc.setFontSize(16);
       doc.text("ATTENDANCE WARNING LETTER", 15, 20);
 
-      // Body
       doc.setFont("helvetica", "normal");
       doc.setFontSize(12);
       const lines = [
@@ -1106,7 +1095,7 @@
         
         setupLeaveListeners();
         setupAttendanceListener();
-        loadWarningLetters(); // ✅ Load warnings on login
+        loadWarningLetters();
         hideLoading();
       } else {
         hideLoading();
@@ -1210,7 +1199,7 @@
       });
     }
 
-    // Render attendance log from 'attendance_test'
+    // Render attendance log
     function renderAttendanceLog(records) {
       attendanceLog.innerHTML = '';
       if (records.length === 0) {
@@ -1218,113 +1207,4 @@
         return;
       }
 
-      const today = new Date().toISOString().split('T')[0];
-
-      records.forEach(record => {
-        if (!record.id || !record.timestamp) return;
-
-        const recordDate = new Date(record.timestamp);
-        const dateStr = recordDate.toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'short', 
-          day: 'numeric' 
-        });
-        const timeStr = recordDate.toLocaleTimeString([], { 
-          hour: '2-digit', 
-          minute: '2-digit' 
-        });
-        const isToday = recordDate.toISOString().split('T')[0] === today;
-        
-        const statusClass = record.status === "On Time" ? "on-time" : "late";
-        
-        let checkoutButton = '';
-        if (isToday && !record.checkout) {
-          checkoutButton = `
-            <button class="apply-btn" style="margin-top:8px; padding:6px 12px; font-size:0.9rem;" data-id="${record.id}">
-              <i class="fas fa-sign-out-alt"></i> Check Out
-            </button>
-          `;
-        }
-
-        const attendanceItem = document.createElement('div');
-        attendanceItem.className = 'attendance-item';
-        attendanceItem.innerHTML = `
-          <div class="attendance-info">
-            <div class="attendance-date">
-              ${dateStr} ${isToday ? '<span style="color:#667eea; font-size:0.85em; margin-left:5px;">(Today)</span>' : ''}`
-          + `</div>
-            <div class="attendance-time">Check-in: ${timeStr}</div>
-            ${record.checkout ? `<div class="attendance-time">Check-out: ${record.checkout}</div>` : ''}
-            ${checkoutButton}
-          </div>
-          <div class="attendance-status status-${statusClass}">${record.status || "N/A"}</div>
-        `;
-        attendanceLog.appendChild(attendanceItem);
-      });
-
-      document.querySelectorAll('.apply-btn[data-id]').forEach(button => {
-        button.addEventListener('click', (e) => {
-          const docId = e.currentTarget.dataset.id;
-          handleCheckout(docId);
-        });
-      });
-    }
-
-    // Submit leave request to Firebase
-    async function submitLeaveRequest() {
-      if (!currentUid || !currentUserData) {
-        alert("User not authenticated. Please log in again.");
-        return;
-      }
-      
-      const leaveType = document.getElementById('leaveType').value;
-      const startDate = document.getElementById('startDate').value;
-      const endDate = document.getElementById('endDate').value;
-      const reason = document.getElementById('reason').value;
-      
-      if (!leaveType || !startDate || !endDate) {
-        alert("Please fill in all required fields.");
-        return;
-      }
-      
-      if (new Date(startDate) > new Date(endDate)) {
-        alert("End date must be after start date.");
-        return;
-      }
-      
-      showLoading();
-      
-      try {
-        await addDoc(collection(db, "leaveRequests"), {
-          userId: currentUid,
-          userName: `${currentUserData.firstName || ''} ${currentUserData.lastName || ''}`.trim() || "User",
-          leaveType: leaveType,
-          startDate: startDate,
-          endDate: endDate,
-          reason: reason,
-          status: "pending",
-          createdAt: new Date()
-        });
-        
-        alert("Leave request submitted successfully!");
-        applyLeaveModal.style.display = 'none';
-        leaveForm.reset();
-      } catch (error) {
-        console.error("Error submitting leave request:", error);
-        alert("Failed to submit leave request. Please try again.");
-      } finally {
-        hideLoading();
-      }
-    }
-
-    // Loading functions
-    function showLoading() {
-      loadingOverlay.style.display = 'flex';
-    }
-    
-    function hideLoading() {
-      loadingOverlay.style.display = 'none';
-    }
-  </script>
-</body>
-</html>
+      const
