@@ -45,7 +45,7 @@
             left: 0;
             right: 0;
             height: 5px;
-            background: linear-gradient(to right, #667eea, #764ba2);
+            background: linear-gradient(to right, #4f46e5, #06b6d4);
         }
 
         .form-header {
@@ -56,7 +56,7 @@
         .form-title {
             font-size: 1.6rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -97,7 +97,7 @@
             top: 20px;
             left: 0;
             height: 4px;
-            background: linear-gradient(to right, #667eea, #764ba2);
+            background: linear-gradient(to right, #4f46e5, #06b6d4);
             z-index: 2;
             transition: width 0.3s ease;
             width: 0%;
@@ -127,16 +127,16 @@
         }
 
         .step-circle.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
             color: white;
-            border-color: #667eea;
+            border-color: #4f46e5;
             transform: scale(1.1);
         }
 
         .step-circle.completed {
-            background: #27ae60;
+            background: #10b981;
             color: white;
-            border-color: #27ae60;
+            border-color: #10b981;
         }
 
         .step-label {
@@ -148,7 +148,7 @@
         }
 
         .step-label.active {
-            color: #667eea;
+            color: #4f46e5;
             font-weight: 600;
         }
 
@@ -195,7 +195,7 @@
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: #667eea;
+            color: #4f46e5;
             font-size: 1rem;
             z-index: 2;
         }
@@ -214,9 +214,9 @@
         .input-group input:focus,
         .input-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #4f46e5;
             background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
         .input-group input::placeholder {
@@ -251,13 +251,13 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
         }
 
         .btn-secondary {
@@ -290,14 +290,14 @@
         }
 
         .links a {
-            color: #667eea;
+            color: #4f46e5;
             font-weight: 600;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .links a:hover {
-            color: #764ba2;
+            color: #06b6d4;
         }
 
         #loadingOverlay {
@@ -318,7 +318,7 @@
             width: 50px;
             height: 50px;
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border-top: 4px solid #4f46e5;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
@@ -336,7 +336,7 @@
         }
 
         .error-message {
-            color: #e74c3c;
+            color: #ef4444;
             font-size: 0.9rem;
             margin-top: 5px;
             display: none;
@@ -344,8 +344,8 @@
 
         .input-group.error input,
         .input-group.error select {
-            border-color: #e74c3c;
-            background: #fdf2f2;
+            border-color: #ef4444;
+            background: #fef2f2;
         }
 
         @media (max-width: 768px) {
@@ -462,7 +462,7 @@
   <main>
    <div class="container">
     <div class="form-header">
-     <h1 class="form-title" id="formTitle">Multi-Step Registration</h1>
+     <h1 class="form-title" id="formTitle">Register</h1>
      <p class="form-subtitle">Join <span id="companyName">our company</span> today</p>
     </div>
     <form id="registrationForm">
@@ -599,7 +599,7 @@
        </div>
       </div>
      </div><!-- Navigation -->
-     <div class="form-navigation"><button type="button" class="btn btn-secondary" id="prevBtn">Previous</button> <button type="button" class="btn btn-primary" id="nextBtn">Next</button> <button type="button" class="btn" id="signUpBtn" style="display:none; background: linear-gradient(to right, #27ae60, #2ecc71);">Sign Up</button>
+     <div class="form-navigation"><button type="button" class="btn btn-secondary" id="prevBtn">Previous</button> <button type="button" class="btn btn-primary" id="nextBtn">Next</button> <button type="button" class="btn" id="signUpBtn" style="display:none; background: linear-gradient(to right, #10b981, #059669);">Sign Up</button>
      </div>
      <div class="links">
       <p>Already have an account?</p><a href="#" onclick="showLoginMessage()">Login Here</a>
@@ -772,10 +772,10 @@
             const container = document.querySelector('.container');
             container.innerHTML = `
                 <div style="text-align: center; padding: 40px;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #27ae60, #2ecc71); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px;">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px;">
                         <i class="fas fa-check" style="color: white; font-size: 2rem;"></i>
                     </div>
-                    <h2 style="color: #27ae60; margin-bottom: 20px; font-size: 2rem;">Registration Successful!</h2>
+                    <h2 style="color: #10b981; margin-bottom: 20px; font-size: 2rem;">Registration Successful!</h2>
                     <p style="color: #666; font-size: 1.1rem; margin-bottom: 30px;">Your account has been created successfully. Welcome aboard!</p>
                     <button onclick="window.open('/', '_blank')" class="btn btn-primary">Go to Login</button>
                 </div>
@@ -788,7 +788,7 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: linear-gradient(135deg, #667eea, #764ba2);
+                background: linear-gradient(135deg, #4f46e5, #06b6d4);
                 color: white;
                 padding: 15px 25px;
                 border-radius: 10px;
@@ -837,5 +837,5 @@
         `;
         document.head.appendChild(style);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'995f543ce0c1cdda',t:'MTc2MTcwNTg0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'995f66ff3280ce73',t:'MTc2MTcwNjYxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
