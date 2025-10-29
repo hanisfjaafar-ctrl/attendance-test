@@ -6,6 +6,7 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- ✅ jsPDF - NO EXTRA SPACES -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
@@ -218,7 +219,7 @@
       font-size: 0.95rem;
     }
 
-    /* === NEW: Warning Notifications === */
+    /* === Warning Notifications === */
     #warningNotifications {
       background: #fff5f5;
       border-left: 3px solid #dc3545;
@@ -242,9 +243,6 @@
       border-radius: 8px;
       margin-bottom: 12px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-    }
-    .warning-item:last-child {
-      margin-bottom: 0;
     }
     .warning-actions {
       margin-top: 10px;
@@ -422,7 +420,7 @@
       color: #DC3545;
     }
 
-    /* Attendance Log Section */
+    /* Attendance Log */
     .attendance-log {
       max-height: 300px;
       overflow-y: auto;
@@ -674,7 +672,7 @@
     <p>Loading dashboard...</p>
   </div>
 
-  <!-- Sidebar Navigation -->
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -689,7 +687,7 @@
     </div>
     
     <div class="nav-links" id="navLinks">
-      <!-- Navigation will be populated by JavaScript -->
+      <!-- Populated by JS -->
     </div>
     
     <div class="user-info" id="userInfo">
@@ -703,7 +701,7 @@
 
   <div class="main-content">
     <div class="container">
-      <!-- NEW: Warning Notifications -->
+      <!-- Warning Notifications -->
       <div id="warningNotifications">
         <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> Important Notices</div>
         <div id="warningList"></div>
@@ -736,7 +734,7 @@
         </div>
       </div>
       
-      <!-- My Leave Requests -->
+      <!-- Leave Requests -->
       <div class="section-card">
         <div class="section-header">
           <h3 class="section-title">My Leave Requests</h3>
@@ -802,7 +800,7 @@
 
   <!-- Firebase SDK -->
   <script type="module">
-    // Firebase imports
+    // ✅ NO TRAILING SPACES IN IMPORTS
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { 
@@ -819,7 +817,6 @@
       orderBy
     } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
       authDomain: "login-form-84016.firebaseapp.com",
@@ -830,12 +827,10 @@
       measurementId: "G-KCGTMGB6HB"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
     const db = getFirestore();
 
-    // Global state
     let currentUid = null;
     let currentUserData = null;
 
@@ -855,12 +850,10 @@
     const lateCount = document.getElementById("lateCount");
     const navLinks = document.getElementById("navLinks");
     const attendanceLog = document.getElementById("attendanceLog");
-
-    // === NEW: Warning Elements ===
     const warningNotifications = document.getElementById("warningNotifications");
     const warningList = document.getElementById("warningList");
 
-    // Add navigation link function
+    // Navigation functions
     function addNavLink(text, icon, link, isActive = false) {
       const li = document.createElement("a");
       li.className = `nav-item ${isActive ? 'active' : ''}`;
@@ -869,7 +862,6 @@
       navLinks.appendChild(li);
     }
 
-    // Add logout function
     function addLogout() {
       const li = document.createElement("a");
       li.className = "nav-item logout";
@@ -887,7 +879,6 @@
       navLinks.appendChild(li);
     }
 
-    // Build navigation based on user role
     function buildNavigation(role) {
       navLinks.innerHTML = "";
       if (role === "admin") {
@@ -905,20 +896,19 @@
       addLogout();
     }
 
-    // Get today's date in YYYY-MM-DD format
+    // Date helpers
     function getTodayDate() {
       const today = new Date();
       return today.toISOString().split('T')[0];
     }
 
-    // Format date for display
     function formatDate(dateStr) {
       if (!dateStr) return "N/A";
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateStr).toLocaleDateString('en-US', options);
     }
 
-    // Handle checkout action for attendance-test
+    // Checkout handler
     async function handleCheckout(docId) {
       if (!docId) {
         alert("Error: No attendance record found.");
@@ -944,7 +934,7 @@
       }
     }
 
-    // === NEW: Load Warning Letters ===
+    // Warning letters
     async function loadWarningLetters() {
       if (!currentUid) return;
       try {
@@ -987,18 +977,16 @@
       }
     }
 
-    // === NEW: Mark as Read ===
     window.markWarningAsRead = async function(letterId) {
       try {
         await updateDoc(doc(db, "warningLetters", letterId), { status: "read" });
-        loadWarningLetters(); // refresh
+        loadWarningLetters();
       } catch (err) {
         console.error("Failed to mark as read:", err);
         alert("Failed to update warning status.");
       }
     };
 
-    // === ✅ UPDATED: Download as PDF ===
     window.downloadWarningLetter = function(letterId, reason) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -1006,12 +994,10 @@
       const staffName = sidebarUserName.textContent.trim() || "Staff Member";
       const dateStr = new Date().toLocaleDateString();
 
-      // Title
       doc.setFont("helvetica", "bold");
       doc.setFontSize(14);
       doc.text("ATTENDANCE WARNING LETTER", 15, 20);
 
-      // Body
       doc.setFont("helvetica", "normal");
       doc.setFontSize(10);
       const lines = [
@@ -1041,7 +1027,7 @@
       doc.save(`warning_letter_${new Date().toISOString().slice(0, 10)}.pdf`);
     };
 
-    // Initialize the page
+    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       showLoading();
       
@@ -1072,17 +1058,21 @@
         }
       });
       
+      // ✅ FIXED TOGGLE LOGIC
       document.getElementById('toggleSidebar').addEventListener("click", () => {
-        const sidebar = document.querySelector(".sidebar");
+        const sidebar = document.getElementById('sidebar');
         sidebar.classList.toggle("collapsed");
+        
         const icon = document.getElementById('toggleSidebar').querySelector("i");
-        icon.className = sidebar.classList.contains("collapsed") 
-          ? "fas fa-chevron-right" 
-          : "fas fa-chevron-left";
+        if (sidebar.classList.contains("collapsed")) {
+          icon.className = "fas fa-chevron-right";
+        } else {
+          icon.className = "fas fa-chevron-left";
+        }
       });
     });
 
-    // Auth state listener
+    // Auth state
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUid = user.uid;
@@ -1099,7 +1089,7 @@
         
         setupLeaveListeners();
         setupAttendanceListener();
-        loadWarningLetters(); // ✅ Load warnings on login
+        loadWarningLetters();
         hideLoading();
       } else {
         hideLoading();
@@ -1107,7 +1097,6 @@
       }
     });
 
-    // Update sidebar with user data
     function updateSidebarUI(userData) {
       const firstName = userData.firstName || "";
       const lastName = userData.lastName || "";
@@ -1123,7 +1112,6 @@
       welcomeText.textContent = `Welcome, ${firstName}!`;
     }
 
-    // Setup real-time listeners for leave requests
     function setupLeaveListeners() {
       if (!currentUid) return;
       
@@ -1151,7 +1139,6 @@
       });
     }
 
-    // Fetch from 'attendance_test' collection
     function setupAttendanceListener() {
       if (!currentUid) return;
       
@@ -1176,7 +1163,6 @@
       });
     }
 
-    // Render user's leave requests
     function renderMyLeaveRequests(leaves) {
       myLeaveList.innerHTML = '';
       if (leaves.length === 0) {
@@ -1203,7 +1189,6 @@
       });
     }
 
-    // Render attendance log from 'attendance_test'
     function renderAttendanceLog(records) {
       attendanceLog.innerHTML = '';
       if (records.length === 0) {
@@ -1263,7 +1248,6 @@
       });
     }
 
-    // Submit leave request to Firebase
     async function submitLeaveRequest() {
       if (!currentUid || !currentUserData) {
         alert("User not authenticated. Please log in again.");
@@ -1310,7 +1294,6 @@
       }
     }
 
-    // Loading functions
     function showLoading() {
       loadingOverlay.style.display = 'flex';
     }
