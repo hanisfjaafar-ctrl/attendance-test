@@ -42,7 +42,7 @@ body {
   }
 }
 
-/* Container (further shortened) */
+/* Shorter form container */
 .container {
   background-color: white;
   border-radius: 20px;
@@ -50,7 +50,7 @@ body {
   overflow: hidden;
   width: 380px;
   max-width: 100%;
-  min-height: 420px; /* reduced further */
+  min-height: 420px;
   position: relative;
   z-index: 2;
   display: flex;
@@ -58,20 +58,31 @@ body {
   justify-content: center;
 }
 
-/* Form Containers */
+/* Form Container */
 .form-container {
   position: relative;
   width: 100%;
+  padding: 20px;
   transition: all 0.6s ease-in-out;
-  padding: 15px;
 }
 
-/* Sign-Up Container (Create Account) */
-.sign-up-container {
-  left: 0;
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Step Logic */
+.form-step {
+  display: none;
   width: 100%;
-  opacity: 1;
-  z-index: 5;
+}
+
+.form-step.active {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Input Fields */
@@ -97,6 +108,7 @@ button {
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
+  cursor: pointer;
 }
 
 button:active {
@@ -107,31 +119,29 @@ button:focus {
   outline: none;
 }
 
+.step-nav-btns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Hide all visual progress bars / step indicators */
+.progressbar,
+.step-indicator,
+.step-display,
+.step-buttons,
+.step-header {
+  display: none !important;
+}
+
 /* Headings */
 h1 {
   font-weight: bold;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
 
-/* Paragraph Text */
-p {
-  font-size: 13px;
-  font-weight: 100;
-  line-height: 18px;
-  margin: 15px 0 20px;
-}
-
-/* Form Styling */
-.form-container form {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 0 20px;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Media Query for Mobile */
+/* Responsive */
 @media (max-width: 600px) {
   .container {
     width: 90%;
