@@ -279,7 +279,7 @@
 
   /* ===== BUTTONS (MERGED STYLES) ===== */
   .btn {
-    padding: 15px 25px;
+    padding: 10px 20px;
     border: none;
     border-radius: 12px;
     font-size: 16px;
@@ -316,25 +316,7 @@
     margin: 0 8px;
   }
 
-  /* Profile page buttons */
-  #editBtn {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  }
   
-  #editBtn:hover {
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-  }
-  
-  #saveBtn {
-    background: linear-gradient(135deg, #28a745, #20c997);
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-  }
-  
-  #saveBtn:hover {
-    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-  }
-
   /* ===== OTHER COMPONENTS ===== */
   .form-navigation {
     display: flex;
@@ -753,4 +735,5 @@
       font-size: 0.75rem;
     }
   }
+
 
