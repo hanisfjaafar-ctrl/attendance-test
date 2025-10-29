@@ -25,138 +25,18 @@
             align-items: center;
             justify-content: center;
             padding: 10px;
-            overflow: hidden;
-        }
-
-        /* Animated Background */
-        .particles, .bg-shapes { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: -1; 
-            overflow: hidden; 
-        }
-        
-        .floating-shapes { 
-            position: absolute; 
-            width: 100%; 
-            height: 100%; 
-        }
-        
-        .shape { 
-            position: absolute; 
-            background: rgba(255, 255, 255, 0.1); 
-            border-radius: 50%; 
-            animation: float 6s ease-in-out infinite; 
-        }
-        
-        .shape:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; animation-duration: 8s; }
-        .shape:nth-child(2) { width: 120px; height: 120px; top: 60%; left: 80%; animation-delay: 2s; animation-duration: 10s; }
-        .shape:nth-child(3) { width: 60px; height: 60px; top: 80%; left: 20%; animation-delay: 4s; animation-duration: 7s; }
-        .shape:nth-child(4) { width: 100px; height: 100px; top: 10%; left: 70%; animation-delay: 1s; animation-duration: 9s; }
-        .shape:nth-child(5) { width: 40px; height: 40px; top: 40%; left: 5%; animation-delay: 3s; animation-duration: 6s; }
-        .shape:nth-child(6) { width: 90px; height: 90px; top: 70%; left: 60%; animation-delay: 5s; animation-duration: 11s; }
-        
-        @keyframes float { 
-            0%, 100% { transform: translateY(0) rotate(0); opacity: .7; }
-            50% { transform: translateY(-30px) rotate(180deg); opacity: 1; }
-        }
-
-        .wave { 
-            position: absolute; 
-            width: 200%; 
-            height: 200%; 
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.05) 100%); 
-            animation: wave 15s linear infinite; 
-        }
-        
-        .wave:nth-child(2) { animation-delay: -5s; animation-duration: 20s; opacity: .5; }
-        .wave:nth-child(3) { animation-delay: -10s; animation-duration: 25s; opacity: .3; }
-        
-        @keyframes wave { 
-            0% { transform: rotate(0); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .particle { 
-            position: absolute; 
-            width: 4px; 
-            height: 4px; 
-            background: rgba(255, 255, 255, 0.8); 
-            border-radius: 50%; 
-            animation: particle 8s linear infinite; 
-        }
-        
-        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-        .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
-        .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
-        .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
-        .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
-        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
-        .particle:nth-child(7) { left: 70%; animation-delay: 6s; }
-        .particle:nth-child(8) { left: 80%; animation-delay: 7s; }
-        .particle:nth-child(9) { left: 90%; animation-delay: 8s; }
-        
-        @keyframes particle { 
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 1; transform: scale(1); }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) scale(0); opacity: 0; }
-        }
-
-        .twinkling-stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .twinkling-star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 2s ease-in-out infinite alternate;
-        }
-
-        .twinkling-star:nth-child(1) { top: 15%; left: 20%; animation-delay: 0s; }
-        .twinkling-star:nth-child(2) { top: 25%; left: 80%; animation-delay: 0.5s; }
-        .twinkling-star:nth-child(3) { top: 45%; left: 15%; animation-delay: 1s; }
-        .twinkling-star:nth-child(4) { top: 65%; left: 85%; animation-delay: 1.5s; }
-        .twinkling-star:nth-child(5) { top: 85%; left: 25%; animation-delay: 2s; }
-        .twinkling-star:nth-child(6) { top: 35%; left: 90%; animation-delay: 0.3s; }
-        .twinkling-star:nth-child(7) { top: 75%; left: 10%; animation-delay: 0.8s; }
-        .twinkling-star:nth-child(8) { top: 55%; left: 60%; animation-delay: 1.3s; }
-
-        @keyframes twinkle {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.5); }
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            padding: 40px;
-            width: 420px;
-            max-width: 90%;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(145deg, #ffffff 0%, #f8f6ff 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(118, 75, 162, 0.2), 0 0 0 1px rgba(155, 89, 182, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 480px;
             position: relative;
-            z-index: 2;
-            animation: slideIn 0.8s ease-out;
             overflow: hidden;
-        }
-        
-        @keyframes slideIn { 
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            backdrop-filter: blur(10px);
         }
 
         .container::before {
@@ -598,13 +478,12 @@
             }
 
             .input-row {
-                flex-direction: row;
+                flex-direction: column;
                 gap: 10px;
             }
 
             .input-row .input-group {
                 margin-bottom: 10px;
-                flex: 1;
             }
 
             .input-group input,
@@ -623,41 +502,7 @@
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body><!-- Animated Background -->
-  <div class="bg-shapes">
-   <div class="floating-shapes">
-    <div class="shape"></div>
-    <div class="shape"></div>
-    <div class="shape"></div>
-    <div class="shape"></div>
-    <div class="shape"></div>
-    <div class="shape"></div>
-   </div>
-   <div class="wave"></div>
-   <div class="wave"></div>
-   <div class="wave"></div>
-  </div>
-  <div class="particles">
-   <div class="particle"></div>
-   <div class="particle"></div>
-   <div class="particle"></div>
-   <div class="particle"></div>
-   <div class="particle"></div>
-   <div class="particle"></div>
-   <div class="particle"></div>
-   <div class="particle"></div>
-   <div class="particle"></div>
-  </div>
-  <div class="twinkling-stars">
-   <div class="twinkling-star"></div>
-   <div class="twinkling-star"></div>
-   <div class="twinkling-star"></div>
-   <div class="twinkling-star"></div>
-   <div class="twinkling-star"></div>
-   <div class="twinkling-star"></div>
-   <div class="twinkling-star"></div>
-   <div class="twinkling-star"></div>
-  </div>
+ <body>
   <main>
    <div class="container">
     <div class="form-header">
@@ -1038,5 +883,5 @@
         `;
         document.head.appendChild(style);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'995f8143513313db',t:'MTc2MTcwNzY4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'995f897555b013db',t:'MTc2MTcwODAyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
