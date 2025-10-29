@@ -460,7 +460,7 @@
         </button>
       </div>
       <div class="success-message" id="successMessage">
-        Welcome! Redirecting to your dashboard...
+        Welcome!
       </div>
     </div>
   </div>
@@ -658,9 +658,9 @@
 
         setTimeout(() => {
           if (currentRole === "staff") {
-            window.location.href = "/dashboard";
+            window.location.href = "dashboard.html";
           } else {
-            window.location.href = "/admin-dashboard";
+            window.location.href = "admin-dashboard.html";
           }
         }, 1500);
       } catch (err) {
@@ -679,4 +679,5 @@
   </script>
 </body>
 </html>
+
 
