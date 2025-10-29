@@ -6,7 +6,6 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- ✅ jsPDF - NO EXTRA SPACES -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
@@ -219,7 +218,7 @@
       font-size: 0.95rem;
     }
 
-    /* === Warning Notifications === */
+    /* Warning Notifications */
     #warningNotifications {
       background: #fff5f5;
       border-left: 3px solid #dc3545;
@@ -628,26 +627,10 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Responsive */
+    /* ✅ MOBILE: NO FORCED COLLAPSE - USER CONTROLS IT */
     @media (max-width: 768px) {
-      .sidebar {
-        width: 50px;
-      }
-      
-      .sidebar .logo-text,
-      .sidebar .user-details,
-      .sidebar .nav-item span {
-        display: none;
-      }
-      
-      .sidebar .nav-item {
-        justify-content: center;
-        padding: 12px;
-        gap: 0;
-      }
-      
+      /* Removed forced collapse */
       .main-content {
-        margin-left: 50px;
         padding: 15px;
       }
       
@@ -666,13 +649,11 @@
   </style>
 </head>
 <body>
-  <!-- Loading Overlay -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
     <p>Loading dashboard...</p>
   </div>
 
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -686,9 +667,7 @@
       </button>
     </div>
     
-    <div class="nav-links" id="navLinks">
-      <!-- Populated by JS -->
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     
     <div class="user-info" id="userInfo">
       <div class="avatar" id="sidebarAvatar">U</div>
@@ -701,7 +680,6 @@
 
   <div class="main-content">
     <div class="container">
-      <!-- Warning Notifications -->
       <div id="warningNotifications">
         <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> Important Notices</div>
         <div id="warningList"></div>
@@ -712,7 +690,6 @@
         <p>Here's an overview of your attendance and leave requests</p>
       </div>
       
-      <!-- Stats Cards -->
       <div class="stats-container">
         <div class="stat-card">
           <div class="stat-icon leave-icon">
@@ -734,7 +711,6 @@
         </div>
       </div>
       
-      <!-- Leave Requests -->
       <div class="section-card">
         <div class="section-header">
           <h3 class="section-title">My Leave Requests</h3>
@@ -747,7 +723,6 @@
         </div>
       </div>
       
-      <!-- Attendance Log -->
       <div class="section-card">
         <div class="section-header">
           <h3 class="section-title">Attendance Log</h3>
@@ -759,7 +734,6 @@
     </div>
   </div>
   
-  <!-- Apply Leave Modal -->
   <div class="modal" id="applyLeaveModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -798,9 +772,8 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script type="module">
-    // ✅ NO TRAILING SPACES IN IMPORTS
+    // Firebase imports - NO SPACES
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { 
@@ -835,6 +808,8 @@
     let currentUserData = null;
 
     // DOM Elements
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
     const myLeaveList = document.getElementById('myLeaveList');
     const applyLeaveBtn = document.getElementById('applyLeaveBtn');
     const applyLeaveModal = document.getElementById('applyLeaveModal');
@@ -853,7 +828,7 @@
     const warningNotifications = document.getElementById("warningNotifications");
     const warningList = document.getElementById("warningList");
 
-    // Navigation functions
+    // Navigation
     function addNavLink(text, icon, link, isActive = false) {
       const li = document.createElement("a");
       li.className = `nav-item ${isActive ? 'active' : ''}`;
@@ -908,7 +883,7 @@
       return new Date(dateStr).toLocaleDateString('en-US', options);
     }
 
-    // Checkout handler
+    // Checkout
     async function handleCheckout(docId) {
       if (!docId) {
         alert("Error: No attendance record found.");
@@ -934,7 +909,7 @@
       }
     }
 
-    // Warning letters
+    // Warnings
     async function loadWarningLetters() {
       if (!currentUid) return;
       try {
@@ -1027,9 +1002,27 @@
       doc.save(`warning_letter_${new Date().toISOString().slice(0, 10)}.pdf`);
     };
 
+    // ✅ MOBILE: Start collapsed on small screens
+    function initSidebarState() {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.add('collapsed');
+        toggleBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+      }
+    }
+
+    // ✅ TOGGLE LOGIC - WORKS ON ALL DEVICES
+    function toggleSidebar() {
+      sidebar.classList.toggle('collapsed');
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      toggleBtn.innerHTML = isCollapsed 
+        ? '<i class="fas fa-chevron-right"></i>' 
+        : '<i class="fas fa-chevron-left"></i>';
+    }
+
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       showLoading();
+      initSidebarState(); // Set initial state based on screen size
       
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('startDate').min = today;
@@ -1058,21 +1051,20 @@
         }
       });
       
-      // ✅ FIXED TOGGLE LOGIC
-      document.getElementById('toggleSidebar').addEventListener("click", () => {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle("collapsed");
-        
-        const icon = document.getElementById('toggleSidebar').querySelector("i");
-        if (sidebar.classList.contains("collapsed")) {
-          icon.className = "fas fa-chevron-right";
-        } else {
-          icon.className = "fas fa-chevron-left";
+      // ✅ Attach toggle event
+      toggleBtn.addEventListener('click', toggleSidebar);
+      
+      // ✅ Handle window resize (optional but nice)
+      window.addEventListener('resize', () => {
+        // Only auto-collapse on first load or if already collapsed
+        if (window.innerWidth <= 768 && !sidebar.classList.contains('collapsed')) {
+          sidebar.classList.add('collapsed');
+          toggleBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
         }
       });
     });
 
-    // Auth state
+    // Auth
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUid = user.uid;
