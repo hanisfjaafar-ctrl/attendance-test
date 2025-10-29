@@ -389,12 +389,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-
     @media (max-width: 480px) {
       .login-card {
         padding: 30px 25px;
@@ -412,7 +406,6 @@
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
   <div class="container">
@@ -525,7 +518,6 @@
       hideMessage();
     }
 
-    // ✅ Register button now redirects to register.html
     function handleRegister() {
       registerBtn.style.transform = 'scale(0.98)';
       setTimeout(() => {
@@ -539,52 +531,46 @@
     registerBtn.addEventListener('click', handleRegister);
 
     // Element SDK
-    async function onConfigChange(config) {
-      const formTitle = config.form_title || defaultConfig.form_title;
-      const staffButtonText = config.staff_button_text || defaultConfig.staff_button_text;
-      const adminButtonText = config.admin_button_text || defaultConfig.admin_button_text;
-      const staffLabel = config.staff_label || defaultConfig.staff_label;
-      const adminLabel = config.admin_label || defaultConfig.admin_label;
-      const passwordPlaceholder = config.password_placeholder || defaultConfig.password_placeholder;
-      const signinButtonText = config.signin_button_text || defaultConfig.signin_button_text;
-      const registerText = config.register_text || defaultConfig.register_text;
-      const registerButtonText = config.register_button_text || defaultConfig.register_button_text;
-
-      document.getElementById('formTitle').textContent = formTitle;
-      document.getElementById('staffButtonText').textContent = staffButtonText;
-      document.getElementById('adminButtonText').textContent = adminButtonText;
-      document.getElementById('staffLabel').innerHTML = `<strong>${staffLabel}</strong>`;
-      document.getElementById('adminLabel').innerHTML = `<strong>${adminLabel}</strong>`;
-      document.getElementById('password').placeholder = passwordPlaceholder;
-      document.getElementById('signinButtonText').textContent = signinButtonText;
-      document.getElementById('registerText').textContent = registerText;
-      document.getElementById('registerButtonText').textContent = registerButtonText;
-    }
-
-    function mapToCapabilities() {
-      return { recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined };
-    }
-
-    function mapToEditPanelValues(config) {
-      return new Map([
-        ["form_title", config.form_title || defaultConfig.form_title],
-        ["staff_button_text", config.staff_button_text || defaultConfig.staff_button_text],
-        ["admin_button_text", config.admin_button_text || defaultConfig.admin_button_text],
-        ["staff_label", config.staff_label || defaultConfig.staff_label],
-        ["admin_label", config.admin_label || defaultConfig.admin_label],
-        ["password_placeholder", config.password_placeholder || defaultConfig.password_placeholder],
-        ["signin_button_text", config.signin_button_text || defaultConfig.signin_button_text],
-        ["register_text", config.register_text || defaultConfig.register_text],
-        ["register_button_text", config.register_button_text || defaultConfig.register_button_text]
-      ]);
-    }
-
     if (window.elementSdk) {
       window.elementSdk.init({
         defaultConfig,
-        onConfigChange,
-        mapToCapabilities,
-        mapToEditPanelValues
+        onConfigChange(config) {
+          const formTitle = config.form_title || defaultConfig.form_title;
+          const staffButtonText = config.staff_button_text || defaultConfig.staff_button_text;
+          const adminButtonText = config.admin_button_text || defaultConfig.admin_button_text;
+          const staffLabel = config.staff_label || defaultConfig.staff_label;
+          const adminLabel = config.admin_label || defaultConfig.admin_label;
+          const passwordPlaceholder = config.password_placeholder || defaultConfig.password_placeholder;
+          const signinButtonText = config.signin_button_text || defaultConfig.signin_button_text;
+          const registerText = config.register_text || defaultConfig.register_text;
+          const registerButtonText = config.register_button_text || defaultConfig.register_button_text;
+
+          document.getElementById('formTitle').textContent = formTitle;
+          document.getElementById('staffButtonText').textContent = staffButtonText;
+          document.getElementById('adminButtonText').textContent = adminButtonText;
+          document.getElementById('staffLabel').innerHTML = `<strong>${staffLabel}</strong>`;
+          document.getElementById('adminLabel').innerHTML = `<strong>${adminLabel}</strong>`;
+          document.getElementById('password').placeholder = passwordPlaceholder;
+          document.getElementById('signinButtonText').textContent = signinButtonText;
+          document.getElementById('registerText').textContent = registerText;
+          document.getElementById('registerButtonText').textContent = registerButtonText;
+        },
+        mapToCapabilities() {
+          return { recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined };
+        },
+        mapToEditPanelValues(config) {
+          return new Map([
+            ["form_title", config.form_title || defaultConfig.form_title],
+            ["staff_button_text", config.staff_button_text || defaultConfig.staff_button_text],
+            ["admin_button_text", config.admin_button_text || defaultConfig.admin_button_text],
+            ["staff_label", config.staff_label || defaultConfig.staff_label],
+            ["admin_label", config.admin_label || defaultConfig.admin_label],
+            ["password_placeholder", config.password_placeholder || defaultConfig.password_placeholder],
+            ["signin_button_text", config.signin_button_text || defaultConfig.signin_button_text],
+            ["register_text", config.register_text || defaultConfig.register_text],
+            ["register_button_text", config.register_button_text || defaultConfig.register_button_text]
+          ]);
+        }
       });
     }
   </script>
@@ -609,39 +595,11 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const staffBtn = document.getElementById('staffBtn');
-    const adminBtn = document.getElementById('adminBtn');
-    const staffContainer = document.getElementById('staffContainer');
-    const adminContainer = document.getElementById('adminContainer');
     const staffDropdown = document.getElementById('staffDropdown');
     const adminDropdown = document.getElementById('adminDropdown');
-    const passwordInput = document.getElementById('password');
     const submitBtn = document.getElementById('submitSignIn');
-    const signInMessage = document.getElementById('signInMessage');
-    const successMessage = document.getElementById('successMessage');
 
-    let selectedRole = 'staff';
-
-    function showMessage(text, type = 'error') {
-      signInMessage.textContent = text;
-      signInMessage.style.display = 'block';
-      if (type === 'info') {
-        signInMessage.className = 'messageDiv';
-        signInMessage.style.background = 'rgba(59, 130, 246, 0.2)';
-        signInMessage.style.borderColor = 'rgba(59, 130, 246, 0.4)';
-        signInMessage.style.color = '#3b82f6';
-      } else {
-        signInMessage.className = 'messageDiv';
-        signInMessage.style.background = 'rgba(239, 68, 68, 0.2)';
-        signInMessage.style.borderColor = 'rgba(239, 68, 68, 0.4)';
-        signInMessage.style.color = '#ef4444';
-      }
-    }
-
-    function hideMessage() {
-      signInMessage.style.display = 'none';
-    }
-
+    // ✅ Load users from Firestore
     async function loadUsersByRole(role, dropdown) {
       dropdown.innerHTML = `<option value="">Loading ${role}s...</option>`;
       try {
@@ -652,9 +610,72 @@
           return;
         }
         dropdown.innerHTML = `<option value="">Choose your name...</option>`;
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach((doc) => {
           const user = doc.data();
           const option = document.createElement("option");
           option.value = user.email;
           option.textContent = `${user.firstName} ${user.lastName}`;
-          dropdown.appendChild(opt
+          dropdown.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error loading users:", error);
+        dropdown.innerHTML = `<option value="">Error loading ${role}s</option>`;
+        showMessage("Failed to load user list. Please try again.", "error");
+      }
+    }
+
+    // Load both roles on init
+    loadUsersByRole("staff", staffDropdown);
+    loadUsersByRole("admin", adminDropdown);
+
+    // ✅ Sign-in handler
+    submitBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      hideMessage();
+
+      const password = passwordInput.value.trim();
+      let email = "";
+
+      if (currentRole === "staff") {
+        email = staffDropdown.value;
+      } else if (currentRole === "admin") {
+        email = adminDropdown.value;
+      }
+
+      if (!email || !password) {
+        showMessage("⚠️ Please select your name and enter a password.");
+        return;
+      }
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        localStorage.setItem("loggedInUserId", user.uid);
+
+        successMessage.style.display = "block";
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Signing in...";
+
+        setTimeout(() => {
+          if (currentRole === "staff") {
+            window.location.href = "/dashboard";
+          } else {
+            window.location.href = "/admin-dashboard";
+          }
+        }, 1500);
+      } catch (err) {
+        console.error("Login error:", err);
+        let msg = "Invalid email or password.";
+        if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
+          msg = "Invalid credentials. Please check your selection and password.";
+        } else if (err.code === "auth/too-many-requests") {
+          msg = "Too many failed attempts. Try again later.";
+        }
+        showMessage(msg, "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = document.getElementById('signinButtonText').textContent;
+      }
+    });
+  </script>
+</body>
+</html>
