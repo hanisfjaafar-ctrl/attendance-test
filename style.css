@@ -15,18 +15,17 @@ body {
   color: #333;
 }
 
-/* ===== SCALED CONTAINER FOR 2X SMALLER UI (Desktop Only) ===== */
+/* ===== SLIGHTLY SMALLER UI (85% size on desktop) ===== */
 @media (min-width: 769px) {
   .scaled-container {
-    transform: scale(0.5);
+    transform: scale(0.85);
     transform-origin: top center;
-    width: 200%;
-    height: 200%;
+    width: 117.65%; /* 100 / 0.85 */
+    height: auto;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
     position: absolute;
-    top: 20px;
+    top: 30px;
     left: 0;
     z-index: 2;
   }
