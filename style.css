@@ -42,26 +42,28 @@ body {
   }
 }
 
-/* Container (shortened) */
+/* Container (further shortened) */
 .container {
   background-color: white;
   border-radius: 20px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  width: 400px;
+  width: 380px;
   max-width: 100%;
-  min-height: 480px; /* reduced from 600px */
+  min-height: 420px; /* reduced further */
   position: relative;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Form Containers */
 .form-container {
-  position: absolute;
-  top: 0;
-  height: 100%;
+  position: relative;
+  width: 100%;
   transition: all 0.6s ease-in-out;
-  padding: 20px;
+  padding: 15px;
 }
 
 /* Sign-Up Container (Create Account) */
@@ -76,10 +78,11 @@ body {
 input {
   background-color: #eee;
   border: none;
-  padding: 12px 15px;
-  margin: 8px 0;
+  padding: 10px 12px;
+  margin: 6px 0;
   width: 100%;
   border-radius: 10px;
+  font-size: 13px;
 }
 
 /* Buttons */
@@ -90,7 +93,7 @@ button {
   color: #fff;
   font-size: 12px;
   font-weight: bold;
-  padding: 12px 45px;
+  padding: 10px 35px;
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
@@ -107,15 +110,15 @@ button:focus {
 /* Headings */
 h1 {
   font-weight: bold;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 /* Paragraph Text */
 p {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 100;
-  line-height: 20px;
-  margin: 20px 0 30px;
+  line-height: 18px;
+  margin: 15px 0 20px;
 }
 
 /* Form Styling */
@@ -123,8 +126,7 @@ p {
   background-color: white;
   display: flex;
   flex-direction: column;
-  padding: 0 25px; /* slightly reduced from 30px */
-  height: 100%;
+  padding: 0 20px;
   justify-content: center;
   align-items: center;
 }
@@ -133,6 +135,6 @@ p {
 @media (max-width: 600px) {
   .container {
     width: 90%;
-    min-height: 460px;
+    min-height: 400px;
   }
 }
