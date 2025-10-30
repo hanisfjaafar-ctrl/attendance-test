@@ -25,7 +25,7 @@
       display: flex;
     }
 
-    /* ===== SIDEBAR (MATCHES YOUR DASHBOARD EXACTLY) ===== */
+    /* ===== SIDEBAR (MATCHES STAFF MANAGEMENT EXACTLY) ===== */
     .sidebar {
       width: 140px;
       background: rgba(255, 255, 255, 0.95);
@@ -34,7 +34,7 @@
       top: 0;
       left: 0;
       z-index: 1000;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+      box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
@@ -43,6 +43,15 @@
 
     .sidebar.expanded {
       width: 220px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+      }
+      .sidebar.expanded {
+        width: 220px;
+      }
     }
 
     .sidebar-header {
@@ -195,8 +204,18 @@
       margin-left: 220px;
     }
 
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 15px;
+        margin-left: 60px;
+      }
+      .sidebar.expanded ~ .main-content {
+        margin-left: 220px;
+      }
+    }
+
     .container {
-      max-width: 572px; /* 12% smaller than 650px */
+      max-width: 572px;
       margin: 0 auto;
       background: #fff;
       padding: 20px;
@@ -395,25 +414,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Mobile Responsive */
     @media (max-width: 768px) {
-      .sidebar {
-        width: 60px;
-      }
-
-      .sidebar.expanded {
-        width: 220px;
-      }
-
-      .main-content {
-        padding: 15px;
-        margin-left: 60px;
-      }
-
-      .sidebar.expanded ~ .main-content {
-        margin-left: 220px;
-      }
-      
       .container {
         padding: 16px;
         max-width: 100%;
@@ -424,7 +425,6 @@
         margin: 8px 0;
       }
       
-      /* Stack fields on mobile with compact spacing */
       .field-row, .form-row {
         flex-direction: column;
         gap: 0;
@@ -433,10 +433,6 @@
       
       .field-group, .form-group {
         width: 100%;
-      }
-      
-      .field-row.full-width {
-        margin: 12px 0 !important;
       }
     }
   </style>
@@ -448,7 +444,7 @@
     <p>Loading your profile... Please wait</p>
   </div>
 
-  <!-- Sidebar (EXACT MATCH TO YOUR DASHBOARD) -->
+  <!-- Sidebar (EXACT MATCH TO STAFF MANAGEMENT) -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -475,7 +471,6 @@
 
       <!-- Personal Information Section -->
       <div id="viewFields">
-        <!-- First Name + Last Name -->
         <div class="field-row">
           <div class="field-group">
             <span class="field-label">First Name</span>
@@ -487,7 +482,6 @@
           </div>
         </div>
         
-        <!-- Email + Phone -->
         <div class="field-row">
           <div class="field-group">
             <span class="field-label">Email</span>
@@ -499,7 +493,6 @@
           </div>
         </div>
         
-        <!-- Address alone -->
         <div class="field-row full-width">
           <div class="field-group">
             <span class="field-label">Address</span>
@@ -507,7 +500,6 @@
           </div>
         </div>
         
-        <!-- Job + Department -->
         <div class="field-row">
           <div class="field-group">
             <span class="field-label">Job</span>
@@ -519,7 +511,6 @@
           </div>
         </div>
         
-        <!-- Start Date + Role -->
         <div class="field-row">
           <div class="field-group">
             <span class="field-label">Start Date</span>
@@ -531,10 +522,8 @@
           </div>
         </div>
         
-        <!-- Emergency Contact Section -->
         <h3 class="section-header">Emergency Contact</h3>
         
-        <!-- Name + Relation -->
         <div class="field-row">
           <div class="field-group">
             <span class="field-label">Name</span>
@@ -546,7 +535,6 @@
           </div>
         </div>
         
-        <!-- Phone alone -->
         <div class="field-row full-width">
           <div class="field-group">
             <span class="field-label">Phone</span>
@@ -557,7 +545,6 @@
 
       <!-- Edit Form -->
       <div id="editFields">
-        <!-- Personal Info -->
         <div class="form-row">
           <div class="form-group">
             <label for="editFName">First Name</label>
@@ -574,9 +561,7 @@
             <label for="editPhone">Phone</label>
             <input type="text" id="editPhone" placeholder="Phone">
           </div>
-          <div class="form-group">
-            <!-- Empty for alignment -->
-          </div>
+          <div class="form-group"></div>
         </div>
         
         <div class="form-row full-width">
@@ -609,7 +594,6 @@
           </div>
         </div>
         
-        <!-- Emergency Contact -->
         <h3 class="section-header" style="margin-top:16px;">Emergency Contact</h3>
         
         <div class="form-row">
@@ -672,7 +656,6 @@
     const sidebar = document.getElementById("sidebar");
     const loadingOverlay = document.getElementById("loadingOverlay");
 
-    // Profile fields
     const profileFName = document.getElementById("profileFName");
     const profileLName = document.getElementById("profileLName");
     const profileEmail = document.getElementById("profileEmail");
@@ -686,7 +669,6 @@
     const emergencyPhone = document.getElementById("emergencyPhone");
     const emergencyRelation = document.getElementById("emergencyRelation");
 
-    // Toggle sidebar (MATCHES DASHBOARD BEHAVIOR)
     toggleSidebar.addEventListener("click", () => {
       sidebar.classList.toggle("expanded");
       const isExpanded = sidebar.classList.contains("expanded");
@@ -703,7 +685,13 @@
       navLinks.appendChild(a);
     }
 
+    // ✅ CORRECTED: Add divider above Logout
     function addLogout() {
+      const wrap = document.createElement("div");
+      wrap.style.marginTop = "auto";
+      wrap.style.paddingTop = "12px";
+      wrap.style.borderTop = "1px solid #eee";
+      
       const a = document.createElement("a");
       a.className = "nav-item";
       a.href = "#";
@@ -715,7 +703,9 @@
           window.location.href = "/";
         }
       });
-      navLinks.appendChild(a);
+      
+      wrap.appendChild(a);
+      navLinks.appendChild(wrap);
     }
 
     async function loadProfileData(user) {
@@ -728,7 +718,6 @@
           sidebarUserName.textContent = displayName;
           sidebarUserEmail.textContent = user.email;
           
-          // Avatar: First letter of first name + first letter of last name
           const firstInitial = (data.firstName || '')[0] || 'U';
           const lastInitial = (data.lastName || '')[0] || '';
           sidebarAvatar.textContent = (firstInitial + lastInitial).toUpperCase();
@@ -748,7 +737,6 @@
           emergencyPhone.textContent = emergency.phone || "N/A";
           emergencyRelation.textContent = emergency.relation || "N/A";
 
-          // Build navigation EXACTLY like dashboard
           navLinks.innerHTML = "";
           const role = data.role || "staff";
           if (role === "admin") {
@@ -783,14 +771,12 @@
       }
     });
 
-    // Edit/Save
     const editBtn = document.getElementById("editBtn");
     const saveBtn = document.getElementById("saveBtn");
     const viewFields = document.getElementById("viewFields");
     const editFields = document.getElementById("editFields");
 
     editBtn.addEventListener("click", () => {
-      // Populate form
       editFields.querySelector("#editFName").value = profileFName.textContent;
       editFields.querySelector("#editLName").value = profileLName.textContent;
       editFields.querySelector("#editPhone").value = profilePhone.textContent;
@@ -803,14 +789,12 @@
       editFields.querySelector("#editEmergencyPhone").value = emergencyPhone.textContent;
       editFields.querySelector("#editEmergencyRelation").value = emergencyRelation.textContent;
 
-      // Switch to edit mode
       viewFields.style.display = "none";
       editFields.style.display = "block";
       editBtn.style.display = "none";
       saveBtn.style.display = "inline-block";
     });
 
-    // Save Handler - Maintains identical UI
     saveBtn.addEventListener("click", async () => {
       const user = auth.currentUser;
       if (!user) return;
@@ -834,16 +818,10 @@
           }
         };
 
-        // Save to Firestore
         await setDoc(doc(db, "users", user.uid), updatedData, { merge: true });
-
-        // Wait for write to propagate
         await new Promise(resolve => setTimeout(resolve, 300));
-
-        // Reload fresh data
         await loadProfileData(user);
 
-        // Restore view mode
         viewFields.style.display = "block";
         editFields.style.display = "none";
         editBtn.style.display = "inline-block";
