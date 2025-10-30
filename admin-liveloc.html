@@ -18,7 +18,7 @@
       overflow-x: hidden;
     }
 
-    /* SIDEBAR — EXACTLY MATCHING ADMIN CALENDAR */
+    /* SIDEBAR — SLIGHTLY ENLARGED (BALANCED) */
     .sidebar {
       width: 140px;
       background: rgba(255, 255, 255, 0.95);
@@ -33,15 +33,15 @@
     }
 
     .sidebar.expanded {
-      width: 220px;
+      width: 230px; /* Slightly wider */
     }
 
     @media (max-width: 768px) {
       .sidebar {
-        width: 60px;
+        width: 64px; /* Slightly wider for touch */
       }
       .sidebar.expanded {
-        width: 220px;
+        width: 230px;
       }
     }
 
@@ -52,38 +52,64 @@
     }
     .logo { display: flex; align-items: center; gap: 10px; }
     .logo-icon {
-      width: 28px; height: 28px; border-radius: 8px;
+      width: 30px; height: 30px; border-radius: 8px;
       background: linear-gradient(135deg,#667eea,#764ba2);
-      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px;
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 17px;
     }
-    .logo-text { font-weight: 700; font-size: 1.1rem; color: #333; white-space: nowrap; }
+    .logo-text { font-weight: 700; font-size: 1.15rem; color: #333; white-space: nowrap; }
     .sidebar:not(.expanded) .logo-text { display: none; }
     .toggle-btn { 
-      background: none; border: none; font-size: 1rem; cursor: pointer; color: #667eea;
-      width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      background: none; border: none; font-size: 1.05rem; cursor: pointer; color: #667eea;
+      width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
     }
     .toggle-btn:hover { background: rgba(102,126,234,0.1); }
     .nav-links { flex:1; padding: 12px 0; display: flex; flex-direction: column; }
     .nav-item {
       display: flex; align-items: center; gap: 12px;
-      padding: 10px 15px; color: #555; text-decoration: none;
-      border-left: 3px solid transparent; font-weight: 500; font-size: 0.9rem;
-      transition: 0.2s; white-space: nowrap;
+      padding: 11px 16px; /* Slightly more padding */
+      color: #555; text-decoration: none;
+      border-left: 3px solid transparent; 
+      font-weight: 500; 
+      font-size: 0.95rem; /* Slightly larger */
+      transition: 0.2s; 
+      white-space: nowrap;
     }
     .nav-item:hover, .nav-item.active { 
-      background: rgba(102,126,234,0.1); color: #667eea; border-left: 3px solid #667eea; 
+      background: rgba(102,126,234,0.1); 
+      color: #667eea; 
+      border-left: 3px solid #667eea; 
+    }
+    .nav-item i { 
+      font-size: 1.05rem; /* Slightly larger icons */
+      width: 22px; 
+      text-align: center; 
     }
     .sidebar:not(.expanded) .nav-item span { display: none; }
-    .sidebar:not(.expanded) .nav-item { justify-content: center; padding: 12px; gap: 0; }
-    .user-info { padding: 12px; border-top: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
+    .sidebar:not(.expanded) .nav-item { 
+      justify-content: center; 
+      padding: 13px; 
+      gap: 0; 
+    }
+    .user-info { 
+      padding: 12px; 
+      border-top: 1px solid #eee; 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+    }
     .avatar {
-      width: 32px; height: 32px; border-radius: 50%;
+      width: 34px; height: 34px; border-radius: 50%;
       background: linear-gradient(135deg,#667eea,#764ba2);
-      color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;
+      color: #fff; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-weight: bold; 
+      font-size: 15px;
     }
     .user-details { flex: 1; }
-    .user-name { font-weight: 600; color: #333; font-size: 0.9rem; }
-    .user-email { font-size: 0.75rem; color: #777; }
+    .user-name { font-weight: 600; color: #333; font-size: 0.95rem; }
+    .user-email { font-size: 0.8rem; color: #777; }
     .sidebar:not(.expanded) .user-details { display: none; }
 
     /* Main */
@@ -95,15 +121,15 @@
     }
 
     .sidebar.expanded ~ .main-content {
-      margin-left: 220px;
+      margin-left: 230px;
     }
 
     @media (max-width: 768px) {
       .main-content {
-        margin-left: 60px;
+        margin-left: 64px;
       }
       .sidebar.expanded ~ .main-content {
-        margin-left: 220px;
+        margin-left: 230px;
       }
     }
 
