@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attendance Management</title>
+  <!-- Fixed CDN URLs (no extra spaces) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -522,8 +523,10 @@
     </div>
   </div>
 
+  <!-- Fixed CDN URLs (no extra spaces) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module">
+    // Fixed CDN URLs (no extra spaces in imports)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { getFirestore, collection, query, orderBy, where, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
@@ -713,7 +716,36 @@
       searchTimer = setTimeout(renderNameSearch, 150);
     });
 
-    // ✅ AUTH HANDLER WITH CORRECTED INITIALS
+    // ✅ EXACTLY MATCHES LEAVE CALENDAR NAVIGATION
+    function renderNavigation(currentPage = '/admin-attendancelog') {
+      const nav = document.getElementById("navLinks");
+      if (!nav) return;
+
+      const pages = [
+        { name: "Dashboard", path: "/admin-dashboard", icon: "fa-home" },
+        { name: "Staff Management", path: "/manage-staff", icon: "fa-users" },
+        { name: "Staff Attendance Log", path: "/admin-attendancelog", icon: "fa-list" },
+        { name: "Staff Leave Requests", path: "/admin-leavecalendar", icon: "fa-calendar-alt" },
+        { name: "Staff Live Location", path: "/admin-liveloc", icon: "fa-location-dot" },
+        { name: "Admin Profile", path: "/profile", icon: "fa-user" }
+      ];
+
+      nav.innerHTML = pages.map(page => `
+        <a href="${page.path}" class="nav-item ${page.path === currentPage ? 'active' : ''}">
+          <i class="fas ${page.icon}"></i><span>${page.name}</span>
+        </a>
+      `).join('');
+
+      const logout = document.createElement('a');
+      logout.className = 'nav-item';
+      logout.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
+      logout.onclick = (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => window.location.href = '/').catch(console.error);
+      };
+      nav.appendChild(logout);
+    }
+
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const docRef = doc(db, "users", user.uid);
@@ -724,56 +756,19 @@
           const lastName = data.lastName || "";
           const email = data.email || user.email;
 
-          // ✅ FIXED: Safe initials (e.g., "Ali Rahman" → "AR")
-          const initials = [firstName, lastName]
-            .filter(name => name && typeof name === 'string' && name.trim() !== '')
-            .map(name => name.trim().charAt(0).toUpperCase())
-            .join('') || 'U';
-
-          sidebarUserName.textContent = firstName || email.split('@')[0] || 'User';
+          // ✅ EXACTLY MATCHES LEAVE CALENDAR INITIALS LOGIC
+          const initials = (firstName?.charAt(0) || '') + (lastName?.charAt(0) || '');
+          sidebarUserName.textContent = firstName || email.split('@')[0] || 'Admin';
           sidebarUserEmail.textContent = email;
-          sidebarAvatar.textContent = initials;
+          sidebarAvatar.textContent = initials || 'U';
 
-          // ✅ CORRECT NAVIGATION ORDER (matches Leave Calendar)
-          navLinks.innerHTML = "";
-          if (data.role === "admin") {
-            addNavLink("Dashboard", "fa-home", "/admin-dashboard");
-            addNavLink("Staff Management", "fa-users", "/manage-staff");
-            addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog", true);
-            addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
-            addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
-            addNavLink("Admin Profile", "fa-user", "/profile");
-          }
-          addLogout();
-
+          renderNavigation('/admin-attendancelog');
           await renderAttendanceFull();
         }
       } else {
         window.location.href = "index.html";
       }
     });
-
-    function addNavLink(text, icon, link = "#", isActive = false) {
-      const a = document.createElement("a");
-      a.className = `nav-item ${isActive ? "active" : ""}`;
-      a.href = link;
-      a.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
-      navLinks.appendChild(a);
-    }
-
-    function addLogout() {
-      const a = document.createElement("a");
-      a.className = "nav-item";
-      a.innerHTML = `<i class="fas fa-sign-out-alt"></i><span>Logout</span>`;
-      a.addEventListener("click", async (e) => {
-        e.preventDefault();
-        if (confirm("Log out?")) {
-          await signOut(auth);
-          window.location.href = "/";
-        }
-      });
-      navLinks.appendChild(a);
-    }
   </script>
 </body>
 </html>
