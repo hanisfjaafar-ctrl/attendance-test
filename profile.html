@@ -196,30 +196,30 @@
     }
 
     .container {
-      max-width: 650px; /* Significantly wider for desktop */
+      max-width: 650px;
       margin: 0 auto;
       background: #fff;
-      padding: 25px;
+      padding: 20px; /* Reduced padding */
       border-radius: 15px;
       box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
 
     h2 {
       text-align: center;
-      font-size: 1.8rem;
+      font-size: 1.7rem; /* Slightly smaller */
       font-weight: 700;
       color: #333;
-      margin-bottom: 20px;
+      margin-bottom: 16px; /* Reduced margin */
       position: relative;
     }
 
     h2::after {
       content: '';
       position: absolute;
-      bottom: -8px;
+      bottom: -6px; /* Adjusted */
       left: 50%;
       transform: translateX(-50%);
-      width: 50px;
+      width: 45px;
       height: 2px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       border-radius: 2px;
@@ -227,34 +227,34 @@
 
     /* Section Headers */
     .section-header {
-      margin: 25px 0 15px 0;
-      padding-bottom: 8px;
+      margin: 20px 0 12px 0; /* Reduced margins */
+      padding-bottom: 6px; /* Reduced padding */
       border-bottom: 1px solid #f0f0f0;
       color: #667eea;
-      font-size: 1.3rem;
+      font-size: 1.25rem; /* Slightly smaller */
     }
     
-    /* Profile View - Paired Fields */
+    /* Profile View - Compact Fields */
     .field-row {
       display: flex;
-      margin: 12px 0;
-      gap: 15px;
+      margin: 8px 0; /* SIGNIFICANTLY REDUCED VERTICAL SPACING */
+      gap: 12px; /* Slightly reduced gap */
     }
     
     .field-group {
       flex: 1;
       background: #f8f9ff;
-      padding: 14px;
+      padding: 10px; /* Reduced padding */
       border-radius: 8px;
       border-left: 3px solid #667eea;
-      font-size: 0.87rem;
+      font-size: 0.85rem; /* Slightly smaller */
     }
     
     .field-label {
       font-weight: 600;
       color: #333;
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 4px; /* Reduced margin */
     }
     
     .field-value {
@@ -272,15 +272,15 @@
       width: 100%;
     }
     
-    /* Edit Form */
+    /* Edit Form - Compact */
     #editFields {
       display: none;
     }
     
     .form-row {
       display: flex;
-      gap: 15px;
-      margin: 12px 0;
+      gap: 12px;
+      margin: 8px 0; /* SIGNIFICANTLY REDUCED VERTICAL SPACING */
     }
     
     .form-group {
@@ -294,18 +294,18 @@
     
     label {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 5px; /* Reduced margin */
       font-weight: 600;
       color: #444;
-      font-size: 0.87rem;
+      font-size: 0.85rem;
     }
     
     input, select {
       width: 100%;
-      padding: 11px 12px;
+      padding: 9px 10px; /* Reduced padding */
       border-radius: 8px;
       border: 2px solid #e1e5e9;
-      font-size: 0.87rem;
+      font-size: 0.85rem;
       transition: all 0.3s ease;
       background: #f8f9fa;
     }
@@ -328,12 +328,12 @@
     }
     
     .btn {
-      margin: 12px 8px 0 0;
-      padding: 11px 22px;
+      margin: 10px 6px 0 0; /* Reduced margin */
+      padding: 9px 18px; /* Reduced padding */
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      font-size: 0.87rem;
+      font-size: 0.85rem;
       font-weight: 600;
       transition: all 0.3s ease;
       color: white;
@@ -371,7 +371,7 @@
       flex-direction: column;
       z-index: 9999;
       color: #fff;
-      font-size: 16px;
+      font-size: 15px; /* Slightly smaller */
       backdrop-filter: blur(10px);
     }
     
@@ -379,9 +379,10 @@
       border: 3px solid rgba(255, 255, 255, 0.3);
       border-top: 3px solid #fff;
       border-radius: 50%;
-      width: 40px; height: 40px;
+      width: 36px; /* Slightly smaller */
+      height: 36px;
       animation: spin 1s linear infinite;
-      margin-bottom: 15px;
+      margin-bottom: 12px; /* Reduced margin */
     }
     
     @keyframes spin {
@@ -390,7 +391,7 @@
     }
     
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(8px); } /* Reduced transform */
       to { opacity: 1; transform: translateY(0); }
     }
     
@@ -414,20 +415,20 @@
       }
       
       .container {
-        padding: 20px;
+        padding: 16px; /* Reduced padding */
         max-width: 100%;
       }
       
       .btn {
         width: 100%;
-        margin: 10px 0;
+        margin: 8px 0; /* Reduced margin */
       }
       
-      /* Stack fields on mobile */
+      /* Stack fields on mobile with compact spacing */
       .field-row, .form-row {
         flex-direction: column;
         gap: 0;
-        margin: 14px 0 !important;
+        margin: 10px 0 !important; /* Reduced vertical spacing */
       }
       
       .field-group, .form-group {
@@ -435,7 +436,7 @@
       }
       
       .field-row.full-width {
-        margin: 16px 0 !important;
+        margin: 12px 0 !important; /* Reduced spacing */
       }
     }
   </style>
@@ -604,12 +605,12 @@
           <div class="form-group">
             <label for="editRole">Role</label>
             <input type="text" id="editRole" readonly>
-            <small style="display:block; margin-top:4px; color:#666; font-size:0.75rem;">Role cannot be changed</small>
+            <small style="display:block; margin-top:3px; color:#666; font-size:0.7rem;">Role cannot be changed</small>
           </div>
         </div>
         
         <!-- Emergency Contact -->
-        <h3 class="section-header" style="margin-top:20px;">Emergency Contact</h3>
+        <h3 class="section-header" style="margin-top:16px;">Emergency Contact</h3>
         
         <div class="form-row">
           <div class="form-group">
@@ -638,7 +639,7 @@
         </div>
       </div>
 
-      <div style="text-align: center; margin-top: 20px;">
+      <div style="text-align: center; margin-top: 16px;">
         <button id="editBtn" class="btn">Edit Profile</button>
         <button id="saveBtn" class="btn" style="display:none;">Save Changes</button>
       </div>
