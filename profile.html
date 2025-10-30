@@ -685,13 +685,8 @@
       navLinks.appendChild(a);
     }
 
-    // ✅ CORRECTED: Add divider above Logout
+    // ✅ CORRECTED: NO LINE ABOVE LOGOUT — MATCHES SCREENSHOT
     function addLogout() {
-      const wrap = document.createElement("div");
-      wrap.style.marginTop = "auto";
-      wrap.style.paddingTop = "12px";
-      wrap.style.borderTop = "1px solid #eee";
-      
       const a = document.createElement("a");
       a.className = "nav-item";
       a.href = "#";
@@ -703,9 +698,9 @@
           window.location.href = "/";
         }
       });
-      
-      wrap.appendChild(a);
-      navLinks.appendChild(wrap);
+      // Push to bottom
+      a.style.marginTop = "auto";
+      navLinks.appendChild(a);
     }
 
     async function loadProfileData(user) {
@@ -752,7 +747,7 @@
             addNavLink("Leave Requests", "fa-calendar-alt", "/leavecalendar");
             addNavLink("Profile", "fa-user", "/profile", true);
           }
-          addLogout();
+          addLogout(); // No line above logout — matches screenshot
 
           loadingOverlay.style.display = "none";
         }
