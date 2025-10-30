@@ -24,7 +24,7 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 200px;
+      width: 140px;
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -38,12 +38,12 @@
       backdrop-filter: blur(10px);
     }
 
-    .sidebar.collapsed {
-      width: 50px;
+    .sidebar.expanded {
+      width: 220px;
     }
 
     .sidebar-header {
-      padding: 15px 15px;
+      padding: 15px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -53,12 +53,12 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .logo-icon {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       border-radius: 8px;
       display: flex;
@@ -72,9 +72,10 @@
       font-size: 1.1rem;
       font-weight: 700;
       color: #333;
+      white-space: nowrap;
     }
 
-    .sidebar.collapsed .logo-text {
+    .sidebar:not(.expanded) .logo-text {
       display: none;
     }
 
@@ -84,8 +85,8 @@
       font-size: 1rem;
       cursor: pointer;
       color: #667eea;
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -98,12 +99,12 @@
     }
 
     .nav-links {
-      padding: 15px 0;
+      padding: 12px 0;
       flex: 1;
     }
 
     .nav-item {
-      padding: 8px 18px;
+      padding: 10px 15px;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -128,18 +129,18 @@
       text-align: center;
     }
 
-    .sidebar.collapsed .nav-item span {
+    .sidebar:not(.expanded) .nav-item span {
       display: none;
     }
 
-    .sidebar.collapsed .nav-item {
+    .sidebar:not(.expanded) .nav-item {
       justify-content: center;
       padding: 12px;
       gap: 0;
     }
 
     .user-info {
-      padding: 15px;
+      padding: 12px;
       border-top: 1px solid #eee;
       display: flex;
       align-items: center;
@@ -147,8 +148,8 @@
     }
 
     .avatar {
-      width: 35px;
-      height: 35px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
@@ -175,7 +176,7 @@
       color: #777;
     }
 
-    .sidebar.collapsed .user-details {
+    .sidebar:not(.expanded) .user-details {
       display: none;
     }
 
@@ -183,12 +184,12 @@
     .main-content {
       flex: 1;
       padding: 20px;
-      margin-left: 200px;
+      margin-left: 140px;
       transition: margin-left 0.3s ease;
     }
 
-    .sidebar.collapsed ~ .main-content {
-      margin-left: 50px;
+    .sidebar.expanded ~ .main-content {
+      margin-left: 220px;
     }
 
     .container {
@@ -627,11 +628,23 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* ✅ MOBILE: NO FORCED COLLAPSE - USER CONTROLS IT */
+    /* ✅ MOBILE: Responsive sidebar */
     @media (max-width: 768px) {
-      /* Removed forced collapse */
+      .sidebar {
+        width: 60px;
+      }
+
+      .sidebar.expanded {
+        width: 220px;
+      }
+
       .main-content {
         padding: 15px;
+        margin-left: 60px;
+      }
+
+      .sidebar.expanded ~ .main-content {
+        margin-left: 220px;
       }
       
       .container {
@@ -663,7 +676,7 @@
         <div class="logo-text">Attendance</div>
       </div>
       <button class="toggle-btn" id="toggleSidebar">
-        <i class="fas fa-chevron-left"></i>
+        <i class="fas fa-chevron-right"></i>
       </button>
     </div>
     
@@ -1002,27 +1015,20 @@
       doc.save(`warning_letter_${new Date().toISOString().slice(0, 10)}.pdf`);
     };
 
-    // ✅ MOBILE: Start collapsed on small screens
-    function initSidebarState() {
-      if (window.innerWidth <= 768) {
-        sidebar.classList.add('collapsed');
-        toggleBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
-      }
-    }
-
-    // ✅ TOGGLE LOGIC - WORKS ON ALL DEVICES
+    // ✅ TOGGLE LOGIC - Unified behavior (like Leave Calendar)
     function toggleSidebar() {
-      sidebar.classList.toggle('collapsed');
-      const isCollapsed = sidebar.classList.contains('collapsed');
-      toggleBtn.innerHTML = isCollapsed 
-        ? '<i class="fas fa-chevron-right"></i>' 
-        : '<i class="fas fa-chevron-left"></i>';
+      const isMobile = window.innerWidth <= 768;
+      sidebar.classList.toggle('expanded');
+      const isExpanded = sidebar.classList.contains('expanded');
+      
+      toggleBtn.innerHTML = isExpanded 
+        ? '<i class="fas fa-chevron-left"></i>' 
+        : '<i class="fas fa-chevron-right"></i>';
     }
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       showLoading();
-      initSidebarState(); // Set initial state based on screen size
       
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('startDate').min = today;
@@ -1054,14 +1060,7 @@
       // ✅ Attach toggle event
       toggleBtn.addEventListener('click', toggleSidebar);
       
-      // ✅ Handle window resize (optional but nice)
-      window.addEventListener('resize', () => {
-        // Only auto-collapse on first load or if already collapsed
-        if (window.innerWidth <= 768 && !sidebar.classList.contains('collapsed')) {
-          sidebar.classList.add('collapsed');
-          toggleBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        }
-      });
+      // No auto-collapse on load — user controls it!
     });
 
     // Auth
@@ -1229,70 +1228,4 @@
           </div>
           <div class="attendance-status status-${statusClass}">${record.status || "N/A"}</div>
         `;
-        attendanceLog.appendChild(attendanceItem);
-      });
-
-      document.querySelectorAll('.apply-btn[data-id]').forEach(button => {
-        button.addEventListener('click', (e) => {
-          const docId = e.currentTarget.dataset.id;
-          handleCheckout(docId);
-        });
-      });
-    }
-
-    async function submitLeaveRequest() {
-      if (!currentUid || !currentUserData) {
-        alert("User not authenticated. Please log in again.");
-        return;
-      }
-      
-      const leaveType = document.getElementById('leaveType').value;
-      const startDate = document.getElementById('startDate').value;
-      const endDate = document.getElementById('endDate').value;
-      const reason = document.getElementById('reason').value;
-      
-      if (!leaveType || !startDate || !endDate) {
-        alert("Please fill in all required fields.");
-        return;
-      }
-      
-      if (new Date(startDate) > new Date(endDate)) {
-        alert("End date must be after start date.");
-        return;
-      }
-      
-      showLoading();
-      
-      try {
-        await addDoc(collection(db, "leaveRequests"), {
-          userId: currentUid,
-          userName: `${currentUserData.firstName || ''} ${currentUserData.lastName || ''}`.trim() || "User",
-          leaveType: leaveType,
-          startDate: startDate,
-          endDate: endDate,
-          reason: reason,
-          status: "pending",
-          createdAt: new Date()
-        });
-        
-        alert("Leave request submitted successfully!");
-        applyLeaveModal.style.display = 'none';
-        leaveForm.reset();
-      } catch (error) {
-        console.error("Error submitting leave request:", error);
-        alert("Failed to submit leave request. Please try again.");
-      } finally {
-        hideLoading();
-      }
-    }
-
-    function showLoading() {
-      loadingOverlay.style.display = 'flex';
-    }
-    
-    function hideLoading() {
-      loadingOverlay.style.display = 'none';
-    }
-  </script>
-</body>
-</html>
+        attendanceLog.appendChi
