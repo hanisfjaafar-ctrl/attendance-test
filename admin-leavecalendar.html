@@ -236,7 +236,7 @@
       height: 400px;
     }
 
-    /* ===== FILTERS (MELINTANG / HORIZONTAL) ===== */
+    /* ===== FILTERS ===== */
     .filters {
       display: flex;
       justify-content: center;
@@ -525,7 +525,7 @@
         </iframe>
       </div>
 
-      <!-- Horizontal Filters (MELINTANG) -->
+      <!-- Horizontal Filters -->
       <div class="filters">
         <button class="filter-btn all active" data-filter="all">
           <i class="fas fa-filter"></i> All
@@ -584,6 +584,7 @@
       getDoc, 
       deleteDoc 
     } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    import { renderAdminNav, updateSidebarUserInfo } from './js/admin-nav.js';
 
     const firebaseConfig = {
       apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
@@ -598,10 +599,15 @@
     const auth = getAuth();
     const db = getFirestore();
 
-    const navLinks = document.getElementById("navLinks");
-    const sidebarAvatar = document.getElementById("sidebarAvatar");
-    const sidebarUserName = document.getElementById("sidebarUserName");
-    const sidebarUserEmail = document.getElementById("sidebarUserEmail");
+    // Expose signOut for shared nav
+    window.adminSignOut = () => {
+      signOut(auth).then(() => {
+        window.location.href = "/";
+      }).catch((error) => {
+        console.error("Logout error:", error);
+      });
+    };
+
     const loading = document.getElementById("loading");
     const notification = document.getElementById("notification");
     const toggleSidebar = document.getElementById("toggleSidebar");
@@ -617,22 +623,12 @@
 
     toggleSidebar.addEventListener("click", () => {
       const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        sidebar.classList.toggle("expanded");
-        const icon = toggleSidebar.querySelector("i");
-        if (sidebar.classList.contains("expanded")) {
-          icon.className = "fas fa-chevron-left";
-        } else {
-          icon.className = "fas fa-chevron-right";
-        }
+      sidebar.classList.toggle("expanded");
+      const icon = toggleSidebar.querySelector("i");
+      if (sidebar.classList.contains("expanded")) {
+        icon.className = "fas fa-chevron-left";
       } else {
-        sidebar.classList.toggle("expanded");
-        const icon = toggleSidebar.querySelector("i");
-        if (sidebar.classList.contains("expanded")) {
-          icon.className = "fas fa-chevron-left";
-        } else {
-          icon.className = "fas fa-chevron-right";
-        }
+        icon.className = "fas fa-chevron-right";
       }
     });
 
@@ -642,71 +638,6 @@
       if (isError) notification.classList.add("error");
       notification.classList.add("show");
       setTimeout(() => notification.classList.remove("show"), 3000);
-    }
-
-    function addNavLink(text, icon, link, isActive = false) {
-      const a = document.createElement("a");
-      a.className = `nav-item ${isActive ? 'active' : ''}`;
-      a.href = link;
-      a.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
-      navLinks.appendChild(a);
-    }
-
-    function addLogout() {
-      const li = document.createElement("a");
-      li.className = "nav-item logout";
-      li.href = "/";
-      li.id = "logoutLink";
-      li.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
-      li.addEventListener("click", (e) => {
-        e.preventDefault();
-        signOut(auth).then(() => {
-          window.location.href = "/";
-        }).catch((error) => {
-          console.error("Logout error:", error);
-        });
-      });
-      navLinks.appendChild(li);
-    }
-
-    async function loadUserProfileAndNav(user) {
-      try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        let role = "staff";
-        let firstName = "";
-        let lastName = "";
-
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          role = data.role || "staff";
-          firstName = data.firstName || "";
-          lastName = data.lastName || "";
-        }
-
-        const displayName = firstName || user.email.split("@")[0];
-        sidebarUserName.textContent = displayName;
-        sidebarUserEmail.textContent = user.email;
-        sidebarAvatar.textContent = displayName.charAt(0).toUpperCase();
-
-        navLinks.innerHTML = "";
-        if (role === "admin") {
-          addNavLink("Dashboard", "fa-home", "/admin-dashboard");
-          addNavLink("Staff Management", "fa-users", "/manage-staff");
-          addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog");
-          addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar", true);
-          addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
-          addNavLink("Admin Profile", "fa-user", "/profile");
-        }
-        addLogout();
-      } catch (error) {
-        console.error("Error loading profile:", error);
-        navLinks.innerHTML = `
-          <a href="/admin-dashboard" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
-          <a href="/admin-leavecalendar" class="nav-item active"><i class="fas fa-calendar-alt"></i><span>Staff Leave Requests</span></a>
-          <a href="/profile" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
-        `;
-        addLogout();
-      }
     }
 
     function formatDate(dateString) {
@@ -865,28 +796,4 @@
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.getAttribute('data-filter');
-        renderLeaveRequests();
-      });
-    });
-
-    monthlyFilterSelect.addEventListener('change', () => {
-      currentMonthFilter = monthlyFilterSelect.value;
-      renderLeaveRequests();
-    });
-
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = "/";
-      } else {
-        currentUser = user;
-        await loadUserProfileAndNav(user);
-        await deleteExpiredLeaveRequests();
-        await loadLeaveRequests();
-        loading.style.display = "none";
-      }
-    });
-  </script>
-</body>
-</html>
+        btn
