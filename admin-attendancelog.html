@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attendance Management</title>
-  <!-- Fixed CDN URLs (no extra spaces) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -523,10 +522,8 @@
     </div>
   </div>
 
-  <!-- Fixed CDN URLs (no extra spaces) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module">
-    // Fixed CDN URLs (no extra spaces in imports)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { getFirestore, collection, query, orderBy, where, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
@@ -716,7 +713,7 @@
       searchTimer = setTimeout(renderNameSearch, 150);
     });
 
-    // ✅ EXACTLY MATCHES LEAVE CALENDAR NAVIGATION
+    // ✅ NAVIGATION RENDERING (IDENTICAL TO LEAVE CALENDAR)
     function renderNavigation(currentPage = '/admin-attendancelog') {
       const nav = document.getElementById("navLinks");
       if (!nav) return;
@@ -746,6 +743,7 @@
       nav.appendChild(logout);
     }
 
+    // ✅ AUTH HANDLER WITH CORRECT INITIALS (MATCHES LEAVE CALENDAR EXACTLY)
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const docRef = doc(db, "users", user.uid);
@@ -756,11 +754,13 @@
           const lastName = data.lastName || "";
           const email = data.email || user.email;
 
-          // ✅ EXACTLY MATCHES LEAVE CALENDAR INITIALS LOGIC
+          // ✅ EXACT SAME LOGIC AS LEAVE CALENDAR:
+          // firstName initial + lastName initial
           const initials = (firstName?.charAt(0) || '') + (lastName?.charAt(0) || '');
-          sidebarUserName.textContent = firstName || email.split('@')[0] || 'Admin';
+
+          sidebarUserName.textContent = firstName || email.split('@')[0] || 'User';
           sidebarUserEmail.textContent = email;
-          sidebarAvatar.textContent = initials || 'U';
+          sidebarAvatar.textContent = initials || 'U'; // Fallback if both are empty
 
           renderNavigation('/admin-attendancelog');
           await renderAttendanceFull();
