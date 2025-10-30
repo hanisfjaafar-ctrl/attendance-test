@@ -25,7 +25,7 @@
       display: flex;
     }
 
-    /* ===== SIDEBAR ===== */
+    /* ===== SIDEBAR (MATCHES YOUR DASHBOARD EXACTLY) ===== */
     .sidebar {
       width: 140px;
       background: rgba(255, 255, 255, 0.95);
@@ -34,20 +34,15 @@
       top: 0;
       left: 0;
       z-index: 1000;
-      box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
       backdrop-filter: blur(10px);
     }
 
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 60px;
-      }
-      .sidebar.expanded {
-        width: 200px;
-      }
+    .sidebar.expanded {
+      width: 220px;
     }
 
     .sidebar-header {
@@ -122,7 +117,7 @@
       font-size: 0.9rem;
       transition: all 0.2s;
       border-left: 3px solid transparent;
-      white-space: nowrap;
+      cursor: pointer;
     }
 
     .nav-item:hover, .nav-item.active {
@@ -191,32 +186,27 @@
     /* ===== MAIN CONTENT ===== */
     .main-content {
       flex: 1;
-      padding: 15px;
+      padding: 20px;
       margin-left: 140px;
       transition: margin-left 0.3s ease;
     }
 
-    @media (max-width: 768px) {
-      .main-content {
-        margin-left: 60px;
-      }
-      .sidebar.expanded ~ .main-content {
-        margin-left: 200px;
-      }
+    .sidebar.expanded ~ .main-content {
+      margin-left: 220px;
     }
 
     .container {
       max-width: 405px; /* 10% smaller than original 450px */
       margin: 0 auto;
       background: #fff;
-      padding: 20px;
+      padding: 25px;
       border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
 
     h2 {
       text-align: center;
-      font-size: 1.7rem; /* Slightly reduced from 1.8rem */
+      font-size: 1.7rem;
       font-weight: 700;
       color: #333;
       margin-bottom: 20px;
@@ -229,7 +219,7 @@
       bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 45px; /* Slightly reduced from 50px */
+      width: 45px;
       height: 2px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       border-radius: 2px;
@@ -374,6 +364,7 @@
       z-index: 9999;
       color: #fff;
       font-size: 15px;
+      backdrop-filter: blur(10px);
     }
     
     .spinner {
@@ -395,9 +386,28 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
+    /* Responsive */
     @media (max-width: 768px) {
-      .main-content { padding: 12px; }
-      .container { padding: 16px; }
+      .sidebar {
+        width: 60px;
+      }
+
+      .sidebar.expanded {
+        width: 220px;
+      }
+
+      .main-content {
+        padding: 15px;
+        margin-left: 60px;
+      }
+
+      .sidebar.expanded ~ .main-content {
+        margin-left: 220px;
+      }
+      
+      .container {
+        padding: 20px;
+      }
       
       .tabs {
         flex-wrap: wrap;
@@ -422,7 +432,7 @@
     <p>Loading your profile... Please wait</p>
   </div>
 
-  <!-- Sidebar -->
+  <!-- Sidebar (EXACT MATCH TO YOUR DASHBOARD) -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -430,7 +440,7 @@
         <div class="logo-text">Attendance</div>
       </div>
       <button class="toggle-btn" id="toggleSidebar">
-        <i class="fas fa-chevron-left"></i>
+        <i class="fas fa-chevron-right"></i>
       </button>
     </div>
     <div class="nav-links" id="navLinks"></div>
@@ -473,7 +483,7 @@
         <div class="field-row"><span class="field-label">Relation:</span> <span class="field-value" id="emergencyRelation">N/A</span></div>
       </div>
 
-      <!-- Edit Form (hidden by default) -->
+      <!-- Edit Form -->
       <div id="editFields" style="display:none; margin-top: 20px;">
         <div class="form-group">
           <label for="editFName">First Name</label>
@@ -579,14 +589,13 @@
     const emergencyPhone = document.getElementById("emergencyPhone");
     const emergencyRelation = document.getElementById("emergencyRelation");
 
-    // Toggle sidebar
+    // Toggle sidebar (MATCHES DASHBOARD BEHAVIOR)
     toggleSidebar.addEventListener("click", () => {
-      const isMobile = window.innerWidth <= 768;
       sidebar.classList.toggle("expanded");
-      const icon = toggleSidebar.querySelector("i");
-      icon.className = sidebar.classList.contains("expanded") 
-        ? "fas fa-chevron-left" 
-        : "fas fa-chevron-right";
+      const isExpanded = sidebar.classList.contains("expanded");
+      toggleSidebar.innerHTML = isExpanded 
+        ? '<i class="fas fa-chevron-left"></i>' 
+        : '<i class="fas fa-chevron-right"></i>';
     });
 
     function addNavLink(text, icon, link, isActive = false) {
@@ -598,12 +607,9 @@
     }
 
     function addLogout() {
-      const wrap = document.createElement("div");
-      wrap.style.marginTop = "auto";
-      wrap.style.paddingTop = "10px";
-      wrap.style.borderTop = "1px solid #eee";
       const a = document.createElement("a");
       a.className = "nav-item";
+      a.href = "#";
       a.innerHTML = `<i class="fas fa-sign-out-alt"></i><span>Logout</span>`;
       a.addEventListener("click", async (e) => {
         e.preventDefault();
@@ -612,8 +618,7 @@
           window.location.href = "/";
         }
       });
-      wrap.appendChild(a);
-      navLinks.appendChild(wrap);
+      navLinks.appendChild(a);
     }
 
     // Tab switching
@@ -657,6 +662,7 @@
           emergencyPhone.textContent = emergency.phone || "N/A";
           emergencyRelation.textContent = emergency.relation || "N/A";
 
+          // Build navigation EXACTLY like dashboard
           navLinks.innerHTML = "";
           const role = data.role || "staff";
           if (role === "admin") {
@@ -748,7 +754,7 @@
         emergencyPhone.textContent = updatedData.emergencyContact.phone;
         emergencyRelation.textContent = updatedData.emergencyContact.relation;
 
-        // Update avatar initials after save
+        // Update avatar initials
         const firstInitial = (updatedData.firstName || '')[0] || 'U';
         const lastInitial = (updatedData.lastName || '')[0] || '';
         sidebarAvatar.textContent = (firstInitial + lastInitial).toUpperCase();
