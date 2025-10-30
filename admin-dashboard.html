@@ -23,7 +23,7 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 140px; /* Halved from 280px */
+      width: 140px;
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -38,7 +38,7 @@
     }
 
     .sidebar.expanded {
-      width: 220px; /* Expanded width on mobile */
+      width: 220px;
     }
 
     .sidebar-header {
@@ -193,7 +193,7 @@
     }
 
     .container {
-      max-width: 600px; /* Halved from 1200px */
+      max-width: 600px;
       margin: 0 auto;
       background: #fff;
       padding: 20px;
@@ -596,7 +596,6 @@
 
     /* Mobile Responsive Behavior */
     @media (max-width: 768px) {
-      /* Start collapsed on mobile */
       .sidebar {
         width: 60px;
       }
@@ -605,7 +604,6 @@
         width: 220px;
       }
 
-      /* Hide text by default */
       .sidebar:not(.expanded) .logo-text,
       .sidebar:not(.expanded) .user-details,
       .sidebar:not(.expanded) .nav-item span {
@@ -768,7 +766,7 @@
 
   <!-- Firebase SDK -->
   <script type="module">
-    // Firebase imports
+    // ✅ FIXED: Clean Firebase imports (NO extra spaces)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { 
@@ -809,4 +807,467 @@
     const loadingOverlay = document.getElementById('loadingOverlay');
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     const sidebarUserName = document.getElementById("sidebarUserName");
-    const sideba
+    const sidebarUserEmail = document.getElementById("sidebarUserEmail");
+    const welcomeText = document.getElementById("welcomeText");
+    const newLeaveRequests = document.getElementById("newLeaveRequests");
+    const pendingRequests = document.getElementById("pendingRequests");
+    const staffOnLeave = document.getElementById("staffOnLeave");
+    const lateStaffCount = document.getElementById("lateStaffCount");
+    const navLinks = document.getElementById("navLinks");
+    const notificationsContainer = document.getElementById("notificationsContainer");
+    const sidebar = document.getElementById("sidebar");
+    const toggleSidebarBtn = document.getElementById("toggleSidebar");
+
+    const lateStaffModal = document.getElementById("lateStaffModal");
+    const lateStaffModalBody = document.getElementById("lateStaffModalBody");
+    const closeLateStaffModal = document.getElementById("closeLateStaffModal");
+
+    function addNavLink(text, icon, link, isActive = false) {
+      const li = document.createElement("a");
+      li.className = `nav-item ${isActive ? 'active' : ''}`;
+      li.href = link;
+      li.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
+      navLinks.appendChild(li);
+    }
+
+    // ✅ ADDED: Divider line above Logout (matches Staff Management)
+    function addLogout() {
+      const logoutDiv = document.createElement("div");
+      logoutDiv.style.marginTop = "auto";
+      logoutDiv.style.paddingTop = "10px";
+      logoutDiv.style.borderTop = "1px solid #eee";
+      const li = document.createElement("a");
+      li.className = "nav-item";
+      li.href = "/";
+      li.id = "logoutLink";
+      li.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
+      li.addEventListener("click", (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => {
+          window.location.href = "/";
+        }).catch((error) => {
+          console.error("Logout error:", error);
+        });
+      });
+      logoutDiv.appendChild(li);
+      navLinks.appendChild(logoutDiv);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      toggleSidebarBtn.addEventListener("click", () => {
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+          sidebar.classList.toggle("expanded");
+          const icon = toggleSidebarBtn.querySelector("i");
+          if (sidebar.classList.contains("expanded")) {
+            icon.className = "fas fa-chevron-left";
+          } else {
+            icon.className = "fas fa-chevron-right";
+          }
+        } else {
+          sidebar.classList.toggle("expanded");
+          const icon = toggleSidebarBtn.querySelector("i");
+          if (sidebar.classList.contains("expanded")) {
+            icon.className = "fas fa-chevron-left";
+          } else {
+            icon.className = "fas fa-chevron-right";
+          }
+        }
+      });
+
+      closeLateStaffModal.addEventListener("click", () => {
+        lateStaffModal.style.display = "none";
+      });
+      window.addEventListener("click", (e) => {
+        if (e.target === lateStaffModal) {
+          lateStaffModal.style.display = "none";
+        }
+      });
+
+      showLoading();
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUid = user.uid;
+        try {
+          const userDoc = await getDoc(doc(db, "users", currentUid));
+          if (userDoc.exists()) {
+            currentUserData = userDoc.data();
+            if (currentUserData.role !== "admin") {
+              window.location.href = "/dashboard";
+              return;
+            }
+            updateSidebarUI(currentUserData);
+            buildNavigation(currentUserData.role || "admin");
+          }
+        } catch (err) {
+          console.error("Error fetching user data:", err);
+          hideLoading(); // ✅ Always hide on error
+        }
+        setupLeaveListeners();
+        setupAttendanceListener();
+        hideLoading(); // ✅ Always hide on success
+      } else {
+        hideLoading(); // ✅ Always hide
+        window.location.href = "/";
+      }
+    });
+
+    function updateSidebarUI(userData) {
+      const firstName = userData.firstName || "";
+      const lastName = userData.lastName || "";
+      const email = userData.email || "";
+      const fullName = [firstName, lastName].filter(Boolean).join(" ") || "User";
+      const initial1 = firstName.charAt(0).toUpperCase() || "";
+      const initial2 = lastName.charAt(0).toUpperCase() || "";
+      const initials = (initial1 + initial2) || "A";
+      sidebarUserName.textContent = firstName;
+      sidebarUserEmail.textContent = email || "No email";
+      sidebarAvatar.textContent = initials;
+      welcomeText.textContent = `Welcome, ${firstName}!`;
+    }
+
+    function buildNavigation(role) {
+      navLinks.innerHTML = "";
+      if (role === "admin") {
+        addNavLink("Dashboard", "fa-home", "/admin-dashboard", true);
+        addNavLink("Staff Management", "fa-users", "/manage-staff");
+        addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog");
+        addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
+        addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
+        addNavLink("Admin Profile", "fa-user", "/profile");
+      }
+      addLogout();
+    }
+
+    function setupLeaveListeners() {
+      const leaveQuery = query(collection(db, "leaveRequests"), orderBy("createdAt", "desc"));
+      onSnapshot(leaveQuery, (snapshot) => {
+        const leaveRequests = [];
+        snapshot.forEach(doc => {
+          leaveRequests.push({ id: doc.id, ...doc.data() });
+        });
+        
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        const newRequests = leaveRequests.filter(req => 
+          req.status === "pending" && 
+          (req.createdAt?.seconds ? new Date(req.createdAt.seconds * 1000) : new Date()) >= todayStart
+        );
+        const pendingCount = leaveRequests.filter(req => req.status === "pending").length;
+        const staffOnLeaveToday = leaveRequests.filter(req => 
+          req.status === "approved" && 
+          new Date(req.startDate) <= new Date() && 
+          new Date(req.endDate) >= new Date()
+        );
+        
+        renderNewLeaveRequests(newRequests);
+        renderStaffOnLeave(staffOnLeaveToday);
+        newLeaveRequests.textContent = newRequests.length;
+        pendingRequests.textContent = pendingCount;
+        staffOnLeave.textContent = staffOnLeaveToday.length;
+        checkNotifications();
+      }, (error) => {
+        console.error("Error listening to leave requests:", error);
+        hideLoading();
+      });
+    }
+
+    function setupAttendanceListener() {
+      const todayStr = new Date().toISOString().split('T')[0];
+
+      const staffUsersQuery = query(collection(db, "users"), where("role", "==", "staff"));
+      const allAttendanceQuery = query(collection(db, "attendance_test"));
+
+      onSnapshot(staffUsersQuery, (usersSnapshot) => {
+        staffUsers = [];
+        usersSnapshot.forEach(doc => {
+          staffUsers.push({ id: doc.id, ...doc.data() });
+        });
+        if (allAttendanceData) {
+          processAttendanceData(allAttendanceData, staffUsers, todayStr);
+        }
+      }, (error) => {
+        console.error("Error listening to staff users:", error);
+        hideLoading();
+      });
+
+      onSnapshot(allAttendanceQuery, (snapshot) => {
+        allAttendanceData = [];
+        snapshot.forEach(doc => {
+          allAttendanceData.push({ id: doc.id, ...doc.data() });
+        });
+        if (staffUsers) {
+          processAttendanceData(allAttendanceData, staffUsers, todayStr);
+        }
+      }, (error) => {
+        console.error("Error listening to attendance_test:", error);
+        hideLoading();
+      });
+    }
+
+    function processAttendanceData(allAttendance, staffUsers, todayStr) {
+      const todayAttendance = allAttendance.filter(record => 
+        record.timestamp && typeof record.timestamp === 'string' && record.timestamp.startsWith(todayStr)
+      );
+
+      const todayAttendanceMap = {};
+      todayAttendance.forEach(record => {
+        if (record.userId) {
+          todayAttendanceMap[record.userId] = record;
+        }
+      });
+
+      const lateCounts = {};
+      allAttendance.forEach(record => {
+        if (record.status === "Late" && record.userId) {
+          lateCounts[record.userId] = (lateCounts[record.userId] || 0) + 1;
+        }
+      });
+
+      const lateStaff = Object.keys(lateCounts).filter(userId => lateCounts[userId] > 5);
+      lateStaffCount.textContent = lateStaff.length;
+
+      renderAbsentStaff(todayAttendanceMap, lateCounts, staffUsers);
+      window.lateCounts = lateCounts;
+      checkNotifications();
+    }
+
+    function renderAbsentStaff(todayAttendanceMap, lateCounts, staffUsers) {
+      absentStaffList.innerHTML = '';
+      if (!staffUsers || staffUsers.length === 0) {
+        absentStaffList.innerHTML = '<p style="text-align:center; color:#666; padding:15px;">No staff users found</p>';
+        return;
+      }
+
+      const absentStaff = staffUsers.filter(user => !todayAttendanceMap[user.id]);
+      
+      if (absentStaff.length === 0) {
+        absentStaffList.innerHTML = '<p style="text-align:center; color:#666; padding:15px;">All staff are present today</p>';
+        return;
+      }
+
+      absentStaff.forEach(user => {
+        const staffItem = document.createElement('div');
+        staffItem.className = 'staff-item';
+        const fullName = [user.firstName, user.lastName].filter(Boolean).join(" ") || "Unknown User";
+        staffItem.innerHTML = `
+          <div class="staff-info">
+            <div class="staff-name">${fullName}</div>
+            <div class="staff-details">Status: Absent</div>
+          </div>
+          <div class="staff-status status-absent">Absent</div>
+        `;
+        absentStaffList.appendChild(staffItem);
+      });
+    }
+
+    function renderStaffOnLeave(staffOnLeave) {
+      staffOnLeaveList.innerHTML = '';
+      if (staffOnLeave.length === 0) {
+        staffOnLeaveList.innerHTML = '<p style="text-align:center; color:#666; padding:15px;">No staff on leave today</p>';
+        return;
+      }
+      staffOnLeave.forEach(leave => {
+        const staffItem = document.createElement('div');
+        staffItem.className = 'staff-item';
+        const startDate = formatDate(leave.startDate);
+        const endDate = formatDate(leave.endDate);
+        staffItem.innerHTML = `
+          <div class="staff-info">
+            <div class="staff-name">${leave.userName || 'Unknown User'}</div>
+            <div class="staff-details">${leave.leaveType}</div>
+          </div>
+          <div class="staff-status status-on-leave">On Leave</div>
+        `;
+        staffOnLeaveList.appendChild(staffItem);
+      });
+    }
+
+    function renderNewLeaveRequests(requests) {
+      newLeaveList.innerHTML = '';
+      if (requests.length === 0) {
+        newLeaveList.innerHTML = '<p style="text-align:center; color:#666; padding:15px;">No new leave requests</p>';
+        return;
+      }
+      requests.forEach(req => {
+        const leaveItem = document.createElement('div');
+        leaveItem.className = 'leave-item';
+        const startDate = formatDate(req.startDate);
+        const endDate = formatDate(req.endDate);
+        leaveItem.innerHTML = `
+          <div class="leave-info">
+            <div class="leave-type">${req.userName || 'Unknown User'} - ${req.leaveType}</div>
+            <div class="leave-dates">${startDate} - ${endDate}</div>
+          </div>
+          <div class="leave-status status-${req.status}">${req.status.charAt(0).toUpperCase() + req.status.slice(1)}</div>
+        `;
+        newLeaveList.appendChild(leaveItem);
+      });
+    }
+
+    function checkNotifications() {
+      notificationsContainer.innerHTML = '';
+      
+      const lateStaffCountValue = parseInt(lateStaffCount.textContent);
+      if (lateStaffCountValue > 0) {
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        notification.innerHTML = `
+          <div class="notification-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">Warning: Staff with Excessive Late Arrivals</div>
+            <div class="notification-message">${lateStaffCountValue} staff member(s) have more than 5 late arrivals. Consider sending a warning letter.</div>
+            <div class="notification-actions">
+              <button class="notification-btn btn-primary" onclick="sendWarningLetter()">Send Warning</button>
+              <button class="notification-btn btn-secondary" onclick="viewLateStaff()">View Details</button>
+            </div>
+          </div>
+        `;
+        notificationsContainer.appendChild(notification);
+      }
+      
+      const absentStaffSection = document.getElementById('absentStaffList');
+      const absentMessage = absentStaffSection.querySelector('p');
+      let absentStaffCount = 0;
+      if (!absentMessage || absentMessage.textContent !== 'All staff are present today') {
+        absentStaffCount = absentStaffSection.querySelectorAll('.staff-item').length;
+      }
+      
+      if (absentStaffCount > 0) {
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        notification.innerHTML = `
+          <div class="notification-icon">
+            <i class="fas fa-user-times"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">Staff Absent Today</div>
+            <div class="notification-message">${absentStaffCount} staff member(s) are absent today without prior notice.</div>
+            <div class="notification-actions">
+              <button class="notification-btn btn-secondary" onclick="viewAttendanceLog()">View Attendance</button>
+            </div>
+          </div>
+        `;
+        notificationsContainer.appendChild(notification);
+      }
+      
+      const newRequests = parseInt(newLeaveRequests.textContent);
+      if (newRequests > 0) {
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        notification.innerHTML = `
+          <div class="notification-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">New Leave Requests</div>
+            <div class="notification-message">You have ${newRequests} new leave request(s) pending approval.</div>
+            <div class="notification-actions">
+              <button class="notification-btn btn-primary" onclick="reviewLeaveRequests()">Review Requests</button>
+            </div>
+          </div>
+        `;
+        notificationsContainer.appendChild(notification);
+      }
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return "N/A";
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateStr).toLocaleDateString('en-US', options);
+    }
+
+    function showLoading(msg = "Loading admin dashboard...") {
+      document.querySelector("#loadingOverlay p").textContent = msg;
+      loadingOverlay.style.display = 'flex';
+    }
+    
+    function hideLoading() {
+      loadingOverlay.style.display = 'none';
+    }
+
+    window.sendWarningLetter = async function() {
+      if (!staffUsers || !window.lateCounts) {
+        alert("Data not ready.");
+        return;
+      }
+
+      const lateStaffIds = Object.keys(window.lateCounts).filter(uid => window.lateCounts[uid] > 5);
+      if (lateStaffIds.length === 0) {
+        alert("No staff with excessive late arrivals.");
+        return;
+      }
+
+      showLoading("Sending warning letters...");
+      try {
+        const batch = writeBatch(db);
+        const now = new Date();
+
+        lateStaffIds.forEach(staffId => {
+          const letterRef = doc(collection(db, "warningLetters"));
+          batch.set(letterRef, {
+            staffId: staffId,
+            adminId: currentUid,
+            sentAt: now.toISOString(),
+            reason: "Excessive late arrivals (>5 times)",
+            status: "unread",
+            type: "attendance_warning"
+          });
+        });
+
+        await batch.commit();
+        alert(`✅ Warning letters sent to ${lateStaffIds.length} staff member(s).`);
+      } catch (err) {
+        console.error("Failed to send warnings:", err);
+        alert("❌ Failed to send warning letters.");
+      } finally {
+        hideLoading();
+      }
+    };
+
+    window.viewLateStaff = function() {
+      if (!staffUsers || !window.lateCounts) {
+        lateStaffModalBody.innerHTML = "<p>Data not loaded yet.</p>";
+        lateStaffModal.style.display = "block";
+        return;
+      }
+
+      const lateStaffIds = Object.keys(window.lateCounts).filter(uid => window.lateCounts[uid] > 5);
+      if (lateStaffIds.length === 0) {
+        lateStaffModalBody.innerHTML = "<p>No staff with excessive late arrivals.</p>";
+        lateStaffModal.style.display = "block";
+        return;
+      }
+
+      const lateStaffList = staffUsers.filter(user => lateStaffIds.includes(user.id));
+      lateStaffModalBody.innerHTML = "";
+
+      lateStaffList.forEach(user => {
+        const fullName = [user.firstName, user.lastName].filter(Boolean).join(" ") || "Unknown";
+        const count = window.lateCounts[user.id] || 0;
+        const div = document.createElement("div");
+        div.className = "staff-list-item";
+        div.innerHTML = `
+          <div class="staff-name">${fullName}</div>
+          <div class="late-count">${count} times</div>
+        `;
+        lateStaffModalBody.appendChild(div);
+      });
+
+      lateStaffModal.style.display = "block";
+    };
+
+    window.viewAttendanceLog = function() {
+      window.location.href = "/admin-attendancelog";
+    };
+    
+    window.reviewLeaveRequests = function() {
+      window.location.href = "/admin-leavecalendar";
+    };
+  </script>
+</body>
+</html>
