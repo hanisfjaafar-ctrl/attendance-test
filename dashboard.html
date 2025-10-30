@@ -199,7 +199,6 @@
       padding: 25px;
       border-radius: 15px;
       box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-      backdrop-filter: blur(10px);
     }
 
     .welcome-header {
@@ -628,7 +627,7 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* ✅ MOBILE: Responsive sidebar */
+    /* Responsive */
     @media (max-width: 768px) {
       .sidebar {
         width: 60px;
@@ -682,7 +681,7 @@
     
     <div class="nav-links" id="navLinks"></div>
     
-    <div class="user-info" id="userInfo">
+    <div class="user-info">
       <div class="avatar" id="sidebarAvatar">U</div>
       <div class="user-details">
         <div class="user-name" id="sidebarUserName">Loading...</div>
@@ -786,7 +785,7 @@
   </div>
 
   <script type="module">
-    // Firebase imports - NO SPACES
+    // ✅ Clean Firebase imports — NO SPACES
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { 
@@ -841,34 +840,20 @@
     const warningNotifications = document.getElementById("warningNotifications");
     const warningList = document.getElementById("warningList");
 
+    // Show loading immediately
+    showLoading();
+
     // Navigation
     function addNavLink(text, icon, link, isActive = false) {
-      const li = document.createElement("a");
-      li.className = `nav-item ${isActive ? 'active' : ''}`;
-      li.href = link;
-      li.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
-      navLinks.appendChild(li);
-    }
-
-    function addLogout() {
-      const li = document.createElement("a");
-      li.className = "nav-item logout";
-      li.href = "#";
-      li.id = "logoutLink";
-      li.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
-      li.addEventListener("click", (e) => {
-        e.preventDefault();
-        signOut(auth).then(() => {
-          window.location.href = "/";
-        }).catch((error) => {
-          console.error("Logout error:", error);
-        });
-      });
-      navLinks.appendChild(li);
+      const a = document.createElement("a");
+      a.className = `nav-item ${isActive ? 'active' : ''}`;
+      a.href = link;
+      a.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
+      navLinks.appendChild(a);
     }
 
     function buildNavigation(role) {
-      navLinks.innerHTML = "";
+      navLinks.innerHTML = '';
       if (role === "admin") {
         addNavLink("Dashboard", "fa-home", "/dashboard", true);
         addNavLink("Staff Management", "fa-users", "/manage-staff");
@@ -881,19 +866,26 @@
         addNavLink("Leave Requests", "fa-calendar-alt", "/leavecalendar");
         addNavLink("Profile", "fa-user", "/profile");
       }
-      addLogout();
+      
+      const logout = document.createElement("a");
+      logout.className = "nav-item";
+      logout.href = "#";
+      logout.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
+      logout.addEventListener("click", (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => window.location.href = "/");
+      });
+      navLinks.appendChild(logout);
     }
 
     // Date helpers
-    function getTodayDate() {
-      const today = new Date();
-      return today.toISOString().split('T')[0];
-    }
-
     function formatDate(dateStr) {
       if (!dateStr) return "N/A";
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      return new Date(dateStr).toLocaleDateString('en-US', options);
+      return new Date(dateStr).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
     }
 
     // Checkout
@@ -903,7 +895,7 @@
         return;
       }
 
-      showLoading();
+      showLoading("Processing checkout...");
       try {
         const now = new Date();
         const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
@@ -1015,169 +1007,79 @@
       doc.save(`warning_letter_${new Date().toISOString().slice(0, 10)}.pdf`);
     };
 
-    // ✅ TOGGLE LOGIC - Unified behavior (like Leave Calendar)
+    // Toggle sidebar
     function toggleSidebar() {
-      const isMobile = window.innerWidth <= 768;
       sidebar.classList.toggle('expanded');
       const isExpanded = sidebar.classList.contains('expanded');
-      
       toggleBtn.innerHTML = isExpanded 
         ? '<i class="fas fa-chevron-left"></i>' 
         : '<i class="fas fa-chevron-right"></i>';
     }
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      showLoading();
-      
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('startDate').min = today;
-      document.getElementById('endDate').min = today;
-      
-      applyLeaveBtn.addEventListener('click', () => {
-        applyLeaveModal.style.display = 'flex';
-      });
-      
-      closeModal.addEventListener('click', () => {
-        applyLeaveModal.style.display = 'none';
-      });
-      
-      cancelLeave.addEventListener('click', () => {
-        applyLeaveModal.style.display = 'none';
-      });
-      
-      leaveForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        submitLeaveRequest();
-      });
-      
-      window.addEventListener('click', (e) => {
-        if (e.target === applyLeaveModal) {
-          applyLeaveModal.style.display = 'none';
-        }
-      });
-      
-      // ✅ Attach toggle event
-      toggleBtn.addEventListener('click', toggleSidebar);
-      
-      // No auto-collapse on load — user controls it!
-    });
-
-    // Auth
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUid = user.uid;
-        try {
-          const userDoc = await getDoc(doc(db, "users", currentUid));
-          if (userDoc.exists()) {
-            currentUserData = userDoc.data();
-            updateSidebarUI(currentUserData);
-            buildNavigation(currentUserData.role || "staff");
-          }
-        } catch (err) {
-          console.error("Error fetching user:", err);
-        }
-        
-        setupLeaveListeners();
-        setupAttendanceListener();
-        loadWarningLetters();
-        hideLoading();
-      } else {
-        hideLoading();
-        window.location.href = "/";
-      }
-    });
-
-    function updateSidebarUI(userData) {
-      const firstName = userData.firstName || "";
-      const lastName = userData.lastName || "";
-      const email = userData.email || "";
-
-      const initial1 = firstName.charAt(0).toUpperCase() || "";
-      const initial2 = lastName.charAt(0).toUpperCase() || "";
-      const initials = (initial1 + initial2) || "U";
-
-      sidebarUserName.textContent = firstName;
-      sidebarUserEmail.textContent = email || "No email";
-      sidebarAvatar.textContent = initials;
-      welcomeText.textContent = `Welcome, ${firstName}!`;
-    }
-
-    function setupLeaveListeners() {
-      if (!currentUid) return;
-      
-      const myLeaveQuery = query(
-        collection(db, "leaveRequests"), 
-        where("userId", "==", currentUid),
-        where("status", "==", "pending")
-      );
-      
-      onSnapshot(myLeaveQuery, (snapshot) => {
-        totalLeaveRequests.textContent = snapshot.size;
-      });
-      
-      const allLeavesQuery = query(
-        collection(db, "leaveRequests"), 
-        where("userId", "==", currentUid)
-      );
-      
-      onSnapshot(allLeavesQuery, (snapshot) => {
-        const allLeaves = [];
-        snapshot.forEach(doc => {
-          allLeaves.push({ id: doc.id, ...doc.data() });
-        });
-        renderMyLeaveRequests(allLeaves);
-      });
-    }
-
-    function setupAttendanceListener() {
-      if (!currentUid) return;
-      
-      const attendanceQuery = query(
-        collection(db, "attendance_test"),
-        where("userId", "==", currentUid),
-        orderBy("timestamp", "desc")
-      );
-      
-      onSnapshot(attendanceQuery, (snapshot) => {
-        let lateCountValue = 0;
-        const records = [];
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          records.push({ id: doc.id, ...data });
-          if (data.status === "Late") {
-            lateCountValue++;
-          }
-        });
-        lateCount.textContent = lateCountValue;
-        renderAttendanceLog(records.slice(0, 5));
-      });
-    }
-
-    function renderMyLeaveRequests(leaves) {
-      myLeaveList.innerHTML = '';
-      if (leaves.length === 0) {
-        myLeaveList.innerHTML = '<p style="text-align:center; color:#666; padding:15px;">No leave requests found</p>';
+    // Form submission
+    async function submitLeaveRequest() {
+      if (!currentUid || !currentUserData) {
+        alert("User not authenticated.");
         return;
       }
       
-      leaves.forEach(leave => {
-        const leaveItem = document.createElement('div');
-        leaveItem.className = 'leave-item';
-        const startDate = formatDate(leave.startDate);
-        const endDate = formatDate(leave.endDate);
-        const status = (leave.status || 'pending').toLowerCase();
-        const statusDisplay = (leave.status || 'Pending').charAt(0).toUpperCase() + (leave.status || 'pending').slice(1);
-        
-        leaveItem.innerHTML = `
-          <div class="leave-info">
-            <div class="leave-type">${leave.leaveType}</div>
-            <div class="leave-dates">${startDate} - ${endDate}</div>
-          </div>
-          <div class="leave-status status-${status}">${statusDisplay}</div>
-        `;
-        myLeaveList.appendChild(leaveItem);
-      });
+      const leaveType = document.getElementById('leaveType').value;
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const reason = document.getElementById('reason').value;
+      
+      if (!leaveType || !startDate || !endDate) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+      if (new Date(startDate) > new Date(endDate)) {
+        alert("End date must be after start date.");
+        return;
+      }
+      
+      showLoading("Submitting leave request...");
+      try {
+        await addDoc(collection(db, "leaveRequests"), {
+          userId: currentUid,
+          userName: `${currentUserData.firstName || ''} ${currentUserData.lastName || ''}`.trim() || "User",
+          leaveType,
+          startDate,
+          endDate,
+          reason,
+          status: "pending",
+          createdAt: new Date()
+        });
+        alert("Leave request submitted successfully!");
+        applyLeaveModal.style.display = 'none';
+        leaveForm.reset();
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to submit request.");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // Render functions
+    function renderMyLeaveRequests(leaves) {
+      myLeaveList.innerHTML = leaves.length === 0 
+        ? '<p style="text-align:center; color:#666; padding:15px;">No leave requests found</p>'
+        : leaves.map(leave => {
+            const startDate = formatDate(leave.startDate);
+            const endDate = formatDate(leave.endDate);
+            const status = (leave.status || 'pending').toLowerCase();
+            const statusDisplay = (leave.status || 'Pending').charAt(0).toUpperCase() + (leave.status || 'pending').slice(1);
+            const div = document.createElement('div');
+            div.className = 'leave-item';
+            div.innerHTML = `
+              <div class="leave-info">
+                <div class="leave-type">${leave.leaveType}</div>
+                <div class="leave-dates">${startDate} - ${endDate}</div>
+              </div>
+              <div class="leave-status status-${status}">${statusDisplay}</div>
+            `;
+            return div;
+          }).reduce((frag, el) => { frag.appendChild(el); return frag; }, document.createDocumentFragment());
     }
 
     function renderAttendanceLog(records) {
@@ -1188,22 +1090,15 @@
       }
 
       const today = new Date().toISOString().split('T')[0];
+      const frag = document.createDocumentFragment();
 
       records.forEach(record => {
         if (!record.id || !record.timestamp) return;
 
         const recordDate = new Date(record.timestamp);
-        const dateStr = recordDate.toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'short', 
-          day: 'numeric' 
-        });
-        const timeStr = recordDate.toLocaleTimeString([], { 
-          hour: '2-digit', 
-          minute: '2-digit' 
-        });
+        const dateStr = recordDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        const timeStr = recordDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const isToday = recordDate.toISOString().split('T')[0] === today;
-        
         const statusClass = record.status === "On Time" ? "on-time" : "late";
         
         let checkoutButton = '';
@@ -1215,9 +1110,9 @@
           `;
         }
 
-        const attendanceItem = document.createElement('div');
-        attendanceItem.className = 'attendance-item';
-        attendanceItem.innerHTML = `
+        const div = document.createElement('div');
+        div.className = 'attendance-item';
+        div.innerHTML = `
           <div class="attendance-info">
             <div class="attendance-date">
               ${dateStr} ${isToday ? '<span style="color:#667eea; font-size:0.8em; margin-left:5px;">(Today)</span>' : ''}`
@@ -1228,4 +1123,116 @@
           </div>
           <div class="attendance-status status-${statusClass}">${record.status || "N/A"}</div>
         `;
-        attendanceLog.appendChi
+        frag.appendChild(div);
+      });
+
+      attendanceLog.appendChild(frag);
+
+      document.querySelectorAll('.apply-btn[data-id]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const docId = e.currentTarget.dataset.id;
+          handleCheckout(docId);
+        });
+      });
+    }
+
+    // Listeners
+    function setupLeaveListeners() {
+      if (!currentUid) return;
+      
+      const pendingQuery = query(
+        collection(db, "leaveRequests"), 
+        where("userId", "==", currentUid),
+        where("status", "==", "pending")
+      );
+      onSnapshot(pendingQuery, (snapshot) => {
+        totalLeaveRequests.textContent = snapshot.size;
+      });
+      
+      const allQuery = query(collection(db, "leaveRequests"), where("userId", "==", currentUid));
+      onSnapshot(allQuery, (snapshot) => {
+        const leaves = [];
+        snapshot.forEach(doc => leaves.push({ id: doc.id, ...doc.data() }));
+        renderMyLeaveRequests(leaves);
+      });
+    }
+
+    function setupAttendanceListener() {
+      if (!currentUid) return;
+      const q = query(collection(db, "attendance_test"), where("userId", "==", currentUid), orderBy("timestamp", "desc"));
+      onSnapshot(q, (snapshot) => {
+        let lateCountValue = 0;
+        const records = [];
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          records.push({ id: doc.id, ...data });
+          if (data.status === "Late") lateCountValue++;
+        });
+        lateCount.textContent = lateCountValue;
+        renderAttendanceLog(records.slice(0, 5));
+      });
+    }
+
+    // UI Update
+    function updateSidebarUI(userData) {
+      const firstName = userData.firstName || "";
+      const lastName = userData.lastName || "";
+      const email = userData.email || "";
+      const initials = ((firstName.charAt(0) + lastName.charAt(0)) || "U").toUpperCase();
+      sidebarUserName.textContent = firstName || "User";
+      sidebarUserEmail.textContent = email || "No email";
+      sidebarAvatar.textContent = initials;
+      welcomeText.textContent = `Welcome, ${firstName}!`;
+    }
+
+    // Loading
+    function showLoading(msg = "Loading dashboard...") {
+      document.querySelector("#loadingOverlay p").textContent = msg;
+      loadingOverlay.style.display = 'flex';
+    }
+    
+    function hideLoading() {
+      loadingOverlay.style.display = 'none';
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('startDate').min = today;
+      document.getElementById('endDate').min = today;
+      
+      applyLeaveBtn.addEventListener('click', () => applyLeaveModal.style.display = 'flex');
+      closeModal.addEventListener('click', () => applyLeaveModal.style.display = 'none');
+      cancelLeave.addEventListener('click', () => applyLeaveModal.style.display = 'none');
+      leaveForm.addEventListener('submit', (e) => { e.preventDefault(); submitLeaveRequest(); });
+      window.addEventListener('click', (e) => { if (e.target === applyLeaveModal) applyLeaveModal.style.display = 'none'; });
+      toggleBtn.addEventListener('click', toggleSidebar);
+    });
+
+    // 🔥 Critical: Auth with guaranteed hideLoading
+    onAuthStateChanged(auth, async (user) => {
+      try {
+        if (user) {
+          currentUid = user.uid;
+          const userDoc = await getDoc(doc(db, "users", currentUid));
+          if (userDoc.exists()) {
+            currentUserData = userDoc.data();
+            updateSidebarUI(currentUserData);
+            buildNavigation(currentUserData.role || "staff");
+          }
+          setupLeaveListeners();
+          setupAttendanceListener();
+          loadWarningLetters();
+        } else {
+          window.location.href = "/";
+        }
+      } catch (err) {
+        console.error("Auth/data error:", err);
+        alert("Failed to load dashboard. Please refresh.");
+      } finally {
+        hideLoading(); // ✅ Always hide
+      }
+    });
+  </script>
+</body>
+</html>
