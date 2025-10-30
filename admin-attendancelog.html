@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attendance Management</title>
-  <!-- Fixed CDN URLs (removed extra spaces) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -25,7 +24,7 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 140px; /* Default desktop size */
+      width: 140px;
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -39,12 +38,10 @@
       backdrop-filter: blur(10px);
     }
 
-    /* Expanded state (used on both mobile & desktop) */
     .sidebar.expanded {
       width: 220px;
     }
 
-    /* Mobile override: start collapsed */
     @media (max-width: 768px) {
       .sidebar {
         width: 60px;
@@ -87,7 +84,6 @@
       white-space: nowrap;
     }
 
-    /* Hide text when NOT expanded */
     .sidebar:not(.expanded) .logo-text,
     .sidebar:not(.expanded) .user-details,
     .sidebar:not(.expanded) .nav-item span {
@@ -235,7 +231,6 @@
       border-radius: 2px;
     }
 
-    /* Controls */
     .attendance-controls {
       display: flex;
       justify-content: space-between;
@@ -302,7 +297,6 @@
     .btn-outline { background: transparent; border: 2px solid #667eea; color: #667eea; }
     .btn-outline:hover { background: #667eea; color: white; }
 
-    /* Table */
     .attendance-table-container {
       overflow-x: auto;
       border-radius: 10px;
@@ -356,7 +350,6 @@
     .empty-state i { font-size: 2.5rem; margin-bottom: 12px; color: #bdc3c7; }
     .empty-state h3 { margin-bottom: 8px; color: #2c3e50; font-size: 1.2rem; }
 
-    /* Absent Section */
     #absentSection {
       margin-top: 25px;
     }
@@ -366,7 +359,6 @@
       color: #333;
     }
 
-    /* Loading */
     #loadingOverlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -389,7 +381,6 @@
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* Modal */
     .modal {
       position: fixed;
       z-index: 2000;
@@ -427,7 +418,6 @@
     }
     .clickable-name:hover { color: #5a6fd8; }
 
-    /* Mobile Responsive */
     @media (max-width: 768px) {
       .attendance-controls {
         flex-direction: column;
@@ -532,7 +522,6 @@
     </div>
   </div>
 
-  <!-- Scripts (fixed URLs) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
@@ -572,7 +561,6 @@
     const today = new Date();
     datePicker.valueAsDate = today;
 
-    // ✅ Unified toggle logic for ALL screen sizes
     toggleBtn.addEventListener("click", () => {
       sidebar.classList.toggle("expanded");
       const icon = toggleBtn.querySelector("i");
@@ -583,7 +571,6 @@
       }
     });
 
-    // Close modal
     document.querySelector(".close").addEventListener("click", () => {
       detailsModal.style.display = "none";
     });
@@ -726,6 +713,7 @@
       searchTimer = setTimeout(renderNameSearch, 150);
     });
 
+    // ✅ AUTH HANDLER WITH CORRECTED INITIALS
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const docRef = doc(db, "users", user.uid);
@@ -735,18 +723,23 @@
           const firstName = data.firstName || "";
           const lastName = data.lastName || "";
           const email = data.email || user.email;
-          const initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase() || "U";
 
-          sidebarUserName.textContent = firstName;
+          // ✅ FIXED: Safe initials (e.g., "Ali Rahman" → "AR")
+          const initials = [firstName, lastName]
+            .filter(name => name && typeof name === 'string' && name.trim() !== '')
+            .map(name => name.trim().charAt(0).toUpperCase())
+            .join('') || 'U';
+
+          sidebarUserName.textContent = firstName || email.split('@')[0] || 'User';
           sidebarUserEmail.textContent = email;
           sidebarAvatar.textContent = initials;
 
-          // ✅ CORRECTED NAVIGATION — MATCHES LEAVE CALENDAR
+          // ✅ CORRECT NAVIGATION ORDER (matches Leave Calendar)
           navLinks.innerHTML = "";
           if (data.role === "admin") {
             addNavLink("Dashboard", "fa-home", "/admin-dashboard");
             addNavLink("Staff Management", "fa-users", "/manage-staff");
-            addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog", true); // ACTIVE
+            addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog", true);
             addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
             addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
             addNavLink("Admin Profile", "fa-user", "/profile");
