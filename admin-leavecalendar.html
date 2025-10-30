@@ -483,7 +483,7 @@
   <!-- Loading Overlay -->
   <div id="loading">
     <div class="spinner"></div>
-    <p>Loading...Please wait</p>
+    <p>Loading... Please wait</p>
   </div>
   
   <!-- Notification -->
@@ -599,12 +599,13 @@
     const auth = getAuth();
     const db = getFirestore();
 
-    // Expose signOut for shared nav
+    // Expose signOut globally for nav module
     window.adminSignOut = () => {
       signOut(auth).then(() => {
         window.location.href = "/";
       }).catch((error) => {
         console.error("Logout error:", error);
+        hideLoading(); // Ensure loading is hidden even on logout error
       });
     };
 
@@ -616,10 +617,24 @@
     const filterButtons = document.querySelectorAll(".filter-btn");
     const monthlyFilterSelect = document.getElementById("monthlyFilter");
 
-    let currentUser = null;
-    let leaveRequests = [];
     let currentFilter = "all";
     let currentMonthFilter = "all";
+    let leaveRequests = [];
+
+    function hideLoading() {
+      if (loading) loading.style.display = "none";
+    }
+
+    function showNotification(message, isError = false) {
+      if (!notification) return;
+      notification.textContent = message;
+      notification.className = "notification";
+      if (isError) notification.classList.add("error");
+      notification.classList.add("show");
+      setTimeout(() => {
+        if (notification) notification.classList.remove("show");
+      }, 3000);
+    }
 
     toggleSidebar.addEventListener("click", () => {
       const isMobile = window.innerWidth <= 768;
@@ -632,14 +647,7 @@
       }
     });
 
-    function showNotification(message, isError = false) {
-      notification.textContent = message;
-      notification.className = "notification";
-      if (isError) notification.classList.add("error");
-      notification.classList.add("show");
-      setTimeout(() => notification.classList.remove("show"), 3000);
-    }
-
+    // ===== Utility Functions =====
     function formatDate(dateString) {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
@@ -677,123 +685,4 @@
           while (current <= end) {
             const ym = getYearMonth(current.toISOString().split('T')[0]);
             monthSet.add(ym);
-            current.setMonth(current.getMonth() + 1);
-          }
-        }
-      });
-
-      const sortedMonths = Array.from(monthSet).sort((a, b) => new Date(b) - new Date(a));
-      monthlyFilterSelect.innerHTML = '<option value="all">All Months</option>';
-      sortedMonths.forEach(ym => {
-        const opt = document.createElement('option');
-        opt.value = ym;
-        opt.textContent = getMonthLabel(ym);
-        monthlyFilterSelect.appendChild(opt);
-      });
-    }
-
-    async function deleteExpiredLeaveRequests() {
-      try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const q = collection(db, "leaveRequests");
-        const querySnapshot = await getDocs(q);
-        const deletePromises = [];
-        querySnapshot.forEach((doc) => {
-          const request = doc.data();
-          if (request.endDate) {
-            const endDate = new Date(request.endDate);
-            if (!isNaN(endDate.getTime()) && endDate < today) {
-              deletePromises.push(deleteDoc(doc.ref));
-            }
-          }
-        });
-        if (deletePromises.length > 0) await Promise.all(deletePromises);
-      } catch (error) {
-        console.error("Cleanup error:", error);
-      }
-    }
-
-    async function loadLeaveRequests() {
-      try {
-        const q = query(collection(db, "leaveRequests"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(q);
-        leaveRequests = [];
-        querySnapshot.forEach((doc) => {
-          leaveRequests.push({ id: doc.id, ...doc.data() });
-        });
-        populateMonthlyFilter();
-        renderLeaveRequests();
-      } catch (error) {
-        console.error("Load error:", error);
-        showNotification("Failed to load requests", true);
-      }
-    }
-
-    function renderLeaveRequests() {
-      leaveRequestsTable.innerHTML = "";
-      let filtered = leaveRequests.filter(req => {
-        const matchesStatus = currentFilter === "all" || req.status === currentFilter;
-        const matchesMonth = requestOverlapsMonth(req, currentMonthFilter);
-        return matchesStatus && matchesMonth;
-      });
-      
-      if (filtered.length === 0) {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td colspan="7" style="text-align: center; padding: 15px;">No requests found</td>`;
-        leaveRequestsTable.appendChild(row);
-        return;
-      }
-      
-      filtered.forEach(request => {
-        const row = document.createElement("tr");
-        const statusClass = `status-${request.status}`;
-        row.innerHTML = `
-          <td>${request.userName}</td>
-          <td>${request.leaveType.charAt(0).toUpperCase() + request.leaveType.slice(1)}</td>
-          <td>${formatDate(request.startDate)}</td>
-          <td>${formatDate(request.endDate)}</td>
-          <td>${request.reason}</td>
-          <td><span class="${statusClass}">${request.status.charAt(0).toUpperCase() + request.status.slice(1)}</span></td>
-          <td>
-            ${request.status === 'pending' ? 
-              `<button class="action-btn approve-btn" data-id="${request.id}">Approve</button>
-               <button class="action-btn reject-btn" data-id="${request.id}">Reject</button>` : 
-              `<span style="color: #667eea;">${request.status === 'approved' ? 'Approved' : 'Rejected'}</span>`}
-          </td>
-        `;
-        leaveRequestsTable.appendChild(row);
-      });
-      
-      document.querySelectorAll('.approve-btn').forEach(btn => {
-        btn.addEventListener('click', handleApprove);
-      });
-      document.querySelectorAll('.reject-btn').forEach(btn => {
-        btn.addEventListener('click', handleReject);
-      });
-    }
-
-    async function handleApprove(e) {
-      const requestId = e.target.getAttribute('data-id');
-      await updateLeaveRequest(requestId, 'approved');
-    }
-    async function handleReject(e) {
-      const requestId = e.target.getAttribute('data-id');
-      await updateLeaveRequest(requestId, 'rejected');
-    }
-    async function updateLeaveRequest(requestId, newStatus) {
-      try {
-        const requestRef = doc(db, "leaveRequests", requestId);
-        await updateDoc(requestRef, { status: newStatus, updatedAt: new Date() });
-        showNotification(`Request ${newStatus}!`);
-        await loadLeaveRequests();
-      } catch (error) {
-        console.error("Update error:", error);
-        showNotification("Failed to update", true);
-      }
-    }
-
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn
+            cu
