@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Leave Calendar</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile Page</title>
+  
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     * {
       margin: 0;
@@ -23,7 +25,7 @@
       display: flex;
     }
 
-    /* ===== SIDEBAR ===== */
+    /* ===== SIDEBAR (MATCHES YOUR DASHBOARD EXACTLY) ===== */
     .sidebar {
       width: 140px;
       background: rgba(255, 255, 255, 0.95);
@@ -32,7 +34,7 @@
       top: 0;
       left: 0;
       z-index: 1000;
-      box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
@@ -116,7 +118,6 @@
       transition: all 0.2s;
       border-left: 3px solid transparent;
       cursor: pointer;
-      white-space: nowrap;
     }
 
     .nav-item:hover, .nav-item.active {
@@ -163,6 +164,10 @@
       text-transform: uppercase;
     }
 
+    .user-details {
+      flex: 1;
+    }
+
     .user-name {
       font-weight: 600;
       color: #333;
@@ -181,7 +186,7 @@
     /* ===== MAIN CONTENT ===== */
     .main-content {
       flex: 1;
-      padding: 15px;
+      padding: 20px;
       margin-left: 140px;
       transition: margin-left 0.3s ease;
     }
@@ -191,17 +196,17 @@
     }
 
     .container {
-      max-width: 600px;
+      max-width: 405px; /* 10% smaller than original 450px */
       margin: 0 auto;
       background: #fff;
-      padding: 20px;
+      padding: 25px;
       border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
 
     h2 {
       text-align: center;
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       font-weight: 700;
       color: #333;
       margin-bottom: 20px;
@@ -214,208 +219,200 @@
       bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 50px;
+      width: 45px;
       height: 2px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       border-radius: 2px;
     }
 
-    /* Google Calendar */
-    .google-calendar-container {
+    /* Tab Navigation */
+    .tabs {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 300px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    
+    .tab {
+      padding: 11px 18px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #777;
+      font-size: 0.85rem;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .tab.active {
+      color: #667eea;
+      border-bottom: 3px solid #667eea;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease-in-out;
     }
 
-    .google-calendar-iframe {
-      border: solid 1px #ddd;
-      border-radius: 10px;
-      width: 100%;
-      height: 400px;
-    }
-
-    /* ===== FILTERS ===== */
-    .filters {
+    /* Profile View - Paired Fields */
+    .field-row {
       display: flex;
-      justify-content: center;
+      margin: 9px 0;
       gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
     }
-
-    .filter-btn {
-      padding: 8px 16px;
+    
+    .field-group {
+      flex: 1;
+      background: #f8f9ff;
+      padding: 10px;
+      border-radius: 8px;
+      border-left: 3px solid #667eea;
+      font-size: 0.82rem;
+    }
+    
+    .field-label {
+      font-weight: 600;
+      color: #333;
+      display: block;
+      margin-bottom: 4px;
+    }
+    
+    .field-value {
+      color: #666;
+      display: block;
+    }
+    
+    /* Full-width address field */
+    .field-row.full-width {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .field-row.full-width .field-group {
+      width: 100%;
+    }
+    
+    /* Edit Form */
+    .form-row {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    
+    .form-group {
+      flex: 1;
+    }
+    
+    .form-row.full-width {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #444;
+      font-size: 0.83rem;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 8px;
+      border: 2px solid #e1e5e9;
+      font-size: 0.83rem;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+      background: #fff;
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+    }
+    
+    input::placeholder, select:disabled {
+      color: #adb5bd;
+    }
+    
+    input[readonly], input:disabled {
+      background-color: #f8f9fa;
+      color: #6c757d;
+      cursor: not-allowed;
+    }
+    
+    .btn {
+      margin: 11px 7px 0 0;
+      padding: 9px 18px;
       border: none;
       border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 600;
       cursor: pointer;
+      font-size: 0.83rem;
+      font-weight: 600;
       transition: all 0.3s ease;
       color: white;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      min-width: 100px;
-      justify-content: center;
     }
-
-    .filter-btn.pending { background: linear-gradient(135deg, #ff9800, #ff5722); }
-    .filter-btn.approved { background: linear-gradient(135deg, #4CAF50, #2E7D32); }
-    .filter-btn.rejected { background: linear-gradient(135deg, #f44336, #c62828); }
-    .filter-btn.all { background: linear-gradient(135deg, #667eea, #764ba2); }
-
-    .filter-btn:hover {
+    
+    #editBtn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+    }
+    
+    #editBtn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    
+    #saveBtn {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+    }
+    
+    #saveBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
     }
 
-    .filter-btn.active {
-      transform: scale(1.03);
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.6);
-    }
-
-    /* Monthly Filter */
-    .monthly-filter-container {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 15px;
-    }
-
-    .monthly-filter {
-      padding: 6px 12px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      background: white;
-      color: #333;
-      outline: none;
-    }
-
-    .monthly-filter:focus {
-      border-color: #667eea;
-    }
-
-    /* Requests Header */
-    .requests-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .requests-title {
-      font-size: 1.2rem;
-      color: #667eea;
-      font-weight: 600;
-    }
-
-    /* Table */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-      margin-top: 15px;
-    }
-    th, td { 
-      padding: 10px 8px; 
-      text-align: left; 
-      border-bottom: 1px solid #eee; 
-      font-size: 0.8rem;
-    }
-    th { 
-      background: linear-gradient(135deg, #667eea, #764ba2); 
-      color: white; 
-      font-weight: 600; 
-    }
-    tr:last-child td { border-bottom: none; }
-
-    .status-pending { background: #fff3e0; color: #e65100; padding: 4px 8px; border-radius: 16px; font-weight: 600; font-size: 0.75rem; }
-    .status-approved { background: #e8f5e9; color: #2e7d32; padding: 4px 8px; border-radius: 16px; font-weight: 600; font-size: 0.75rem; }
-    .status-rejected { background: #ffebee; color: #c62828; padding: 4px 8px; border-radius: 16px; font-weight: 600; font-size: 0.75rem; }
-
-    .action-btn {
-      padding: 6px 12px;
-      border: none;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-right: 6px;
-      font-size: 0.75rem;
-    }
-
-    .approve-btn { background: #4CAF50; color: white; }
-    .reject-btn { background: #f44336; color: white; }
-
-    .action-btn:hover {
-      opacity: 0.9;
-    }
-
-    /* Loading Overlay */
-    #loading {
+    /* Loading */
+    #loadingOverlay {
       position: fixed;
-      top: 0; 
-      left: 0;
-      width: 100%; 
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(102, 126, 234, 0.95);
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       z-index: 9999;
       color: #fff;
-      font-size: 16px;
+      font-size: 15px;
       backdrop-filter: blur(10px);
     }
-
+    
     .spinner {
       border: 3px solid rgba(255, 255, 255, 0.3);
       border-top: 3px solid #fff;
       border-radius: 50%;
-      width: 40px; 
-      height: 40px;
+      width: 36px; height: 36px;
       animation: spin 1s linear infinite;
-      margin-bottom: 15px;
+      margin-bottom: 14px;
     }
-
+    
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
-    /* Notification */
-    .notification {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      padding: 12px 20px;
-      border-radius: 8px;
-      background: #4CAF50;
-      color: white;
-      font-weight: 500;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-      z-index: 2000;
-      transform: translateX(120%);
-      transition: transform 0.3s ease;
-      font-size: 0.85rem;
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
-    .notification.show {
-      transform: translateX(0);
-    }
-    
-    .notification.error {
-      background: #f44336;
-    }
-
-    /* Mobile Responsive */
+    /* Responsive */
     @media (max-width: 768px) {
       .sidebar {
         width: 60px;
@@ -425,71 +422,53 @@
         width: 220px;
       }
 
-      .sidebar:not(.expanded) .logo-text,
-      .sidebar:not(.expanded) .user-details,
-      .sidebar:not(.expanded) .nav-item span {
-        display: none;
-      }
-
-      .sidebar:not(.expanded) .nav-item {
-        justify-content: center;
-        padding: 12px;
-        gap: 0;
-      }
-
       .main-content {
+        padding: 15px;
         margin-left: 60px;
-        padding: 12px;
       }
 
       .sidebar.expanded ~ .main-content {
         margin-left: 220px;
       }
-
+      
       .container {
-        padding: 16px;
-      }
-
-      .filters {
-        flex-direction: row;
-        gap: 8px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .filter-btn {
-        width: auto;
-        min-width: 100px;
-        padding: 8px 12px;
-        font-size: 0.8rem;
-      }
-
-      .google-calendar-iframe {
-        height: 300px;
-      }
-
-      .requests-header {
-        flex-direction: column;
-        align-items: stretch;
+        padding: 20px;
       }
       
-      .monthly-filter-container {
-        justify-content: center;
+      .tabs {
+        flex-wrap: wrap;
+      }
+      
+      .tab {
+        padding: 10px 15px;
+        font-size: 0.8rem;
+      }
+      
+      .btn {
+        width: 100%;
+        margin: 8px 0;
+      }
+      
+      /* Stack fields on mobile */
+      .field-row, .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .field-group {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
   <!-- Loading Overlay -->
-  <div id="loading">
+  <div id="loadingOverlay">
     <div class="spinner"></div>
-    <p>Loading... Please wait</p>
+    <p>Loading your profile... Please wait</p>
   </div>
-  
-  <!-- Notification -->
-  <div id="notification" class="notification">Leave request updated successfully!</div>
 
-  <!-- Sidebar -->
+  <!-- Sidebar (EXACT MATCH TO YOUR DASHBOARD) -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -497,94 +476,211 @@
         <div class="logo-text">Attendance</div>
       </div>
       <button class="toggle-btn" id="toggleSidebar">
-        <i class="fas fa-chevron-left"></i>
+        <i class="fas fa-chevron-right"></i>
       </button>
     </div>
     <div class="nav-links" id="navLinks"></div>
     <div class="user-info">
-      <div class="avatar" id="sidebarAvatar">A</div>
+      <div class="avatar" id="sidebarAvatar">U</div>
       <div class="user-details">
-        <div class="user-name" id="sidebarUserName">Admin User</div>
-        <div class="user-email" id="sidebarUserEmail">admin@example.com</div>
+        <div class="user-name" id="sidebarUserName">Loading...</div>
+        <div class="user-email" id="sidebarUserEmail">Loading...</div>
       </div>
     </div>
   </div>
 
-  <!-- Main Content -->
   <div class="main-content">
     <div class="container">
-      <h2>Admin Calendar</h2>
+      <h2>My Profile</h2>
 
-      <!-- Google Calendar -->
-      <div class="google-calendar-container">
-        <iframe 
-          src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FKuala_Lumpur&showPrint=0&src=ZW4ubWFsYXlzaWEjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%230b8043" 
-          class="google-calendar-iframe"
-          frameborder="0" 
-          scrolling="no">
-        </iframe>
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab active" data-target="personal">Personal Info</div>
+        <div class="tab" data-target="emergency">Emergency Contact</div>
       </div>
 
-      <!-- Horizontal Filters -->
-      <div class="filters">
-        <button class="filter-btn all active" data-filter="all">
-          <i class="fas fa-filter"></i> All
-        </button>
-        <button class="filter-btn pending" data-filter="pending">
-          <i class="fas fa-clock"></i> Pending
-        </button>
-        <button class="filter-btn approved" data-filter="approved">
-          <i class="fas fa-check-circle"></i> Approved
-        </button>
-        <button class="filter-btn rejected" data-filter="rejected">
-          <i class="fas fa-times-circle"></i> Rejected
-        </button>
-      </div>
-
-      <!-- Leave Requests -->
-      <div class="requests-header">
-        <h3 class="requests-title">Staff Leave Requests</h3>
-        <div class="monthly-filter-container">
-          <select id="monthlyFilter" class="monthly-filter">
-            <option value="all">All Months</option>
-          </select>
+      <!-- Personal Info Tab -->
+      <div id="personal" class="tab-content active">
+        <!-- First Name + Last Name on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">First Name</span>
+            <span class="field-value" id="profileFName">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Last Name</span>
+            <span class="field-value" id="profileLName">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Email + Phone on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">Email</span>
+            <span class="field-value" id="profileEmail">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Phone</span>
+            <span class="field-value" id="profilePhone">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Address alone on full line -->
+        <div class="field-row full-width">
+          <div class="field-group">
+            <span class="field-label">Address</span>
+            <span class="field-value" id="profileAddress">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Job + Department on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">Job</span>
+            <span class="field-value" id="profileJob">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Department</span>
+            <span class="field-value" id="profileDept">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Start Date + Role on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">Start Date</span>
+            <span class="field-value" id="profileStart">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Role</span>
+            <span class="field-value" id="profileRole">N/A</span>
+          </div>
         </div>
       </div>
-      
-      <table>
-        <thead>
-          <tr>
-            <th>Staff</th>
-            <th>Type</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Reason</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="leaveRequestsTable">
-          <!-- Populated by JS -->
-        </tbody>
-      </table>
+
+      <!-- Emergency Contact Tab -->
+      <div id="emergency" class="tab-content">
+        <!-- Name + Relation on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">Name</span>
+            <span class="field-value" id="emergencyName">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Relation</span>
+            <span class="field-value" id="emergencyRelation">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Phone alone (since it's the only field left) -->
+        <div class="field-row full-width">
+          <div class="field-group">
+            <span class="field-label">Phone</span>
+            <span class="field-value" id="emergencyPhone">N/A</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Form -->
+      <div id="editFields" style="display:none; margin-top: 20px;">
+        <!-- First Name + Last Name -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editFName">First Name</label>
+            <input type="text" id="editFName" placeholder="First name">
+          </div>
+          <div class="form-group">
+            <label for="editLName">Last Name</label>
+            <input type="text" id="editLName" placeholder="Last name">
+          </div>
+        </div>
+        
+        <!-- Phone + (empty for alignment) -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editPhone">Phone</label>
+            <input type="text" id="editPhone" placeholder="Phone">
+          </div>
+          <div class="form-group">
+            <!-- Empty for alignment -->
+          </div>
+        </div>
+        
+        <!-- Address full width -->
+        <div class="form-row full-width">
+          <div class="form-group">
+            <label for="editAddress">Address</label>
+            <input type="text" id="editAddress" placeholder="Address">
+          </div>
+        </div>
+        
+        <!-- Job + Department -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editJob">Job Position</label>
+            <input type="text" id="editJob" placeholder="Job">
+          </div>
+          <div class="form-group">
+            <label for="editDept">Department</label>
+            <input type="text" id="editDept" placeholder="Department">
+          </div>
+        </div>
+        
+        <!-- Start Date + Role -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editStart">Start Date</label>
+            <input type="date" id="editStart">
+          </div>
+          <div class="form-group">
+            <label for="editRole">Role</label>
+            <input type="text" id="editRole" readonly>
+            <small style="display:block; margin-top:4px; color:#666; font-size:0.75rem;">Role cannot be changed</small>
+          </div>
+        </div>
+        
+        <h3 style="margin:20px 0 10px; color:#667eea;">Emergency Contact</h3>
+        
+        <!-- Emergency Name + Relation -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editEmergencyName">Name</label>
+            <input type="text" id="editEmergencyName" placeholder="Name">
+          </div>
+          <div class="form-group">
+            <label for="editEmergencyRelation">Relation</label>
+            <select id="editEmergencyRelation">
+              <option value="">Select</option>
+              <option value="Spouse">Spouse</option>
+              <option value="Parent">Parent</option>
+              <option value="Sibling">Sibling</option>
+              <option value="Child">Child</option>
+              <option value="Friend">Friend</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Emergency Phone -->
+        <div class="form-row full-width">
+          <div class="form-group">
+            <label for="editEmergencyPhone">Phone</label>
+            <input type="text" id="editEmergencyPhone" placeholder="Phone">
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <button id="editBtn" class="btn">Edit Profile</button>
+        <button id="saveBtn" class="btn" style="display:none;">Save Changes</button>
+      </div>
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-    import { 
-      getFirestore, 
-      collection, 
-      getDocs, 
-      updateDoc, 
-      doc, 
-      query, 
-      orderBy, 
-      getDoc, 
-      deleteDoc 
-    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
-    import { renderAdminNav, updateSidebarUserInfo } from './js/admin-nav.js';
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
@@ -599,266 +695,212 @@
     const auth = getAuth();
     const db = getFirestore();
 
-    // Expose signOut globally for nav module
-    window.adminSignOut = () => {
-      signOut(auth).then(() => {
-        window.location.href = "/";
-      }).catch((error) => {
-        console.error("Logout error:", error);
-        hideLoading(); // Ensure loading is hidden even on logout error
-      });
-    };
-
-    const loading = document.getElementById("loading");
-    const notification = document.getElementById("notification");
+    const navLinks = document.getElementById("navLinks");
+    const sidebarAvatar = document.getElementById("sidebarAvatar");
+    const sidebarUserName = document.getElementById("sidebarUserName");
+    const sidebarUserEmail = document.getElementById("sidebarUserEmail");
     const toggleSidebar = document.getElementById("toggleSidebar");
     const sidebar = document.getElementById("sidebar");
-    const leaveRequestsTable = document.getElementById("leaveRequestsTable");
-    const filterButtons = document.querySelectorAll(".filter-btn");
-    const monthlyFilterSelect = document.getElementById("monthlyFilter");
+    const loadingOverlay = document.getElementById("loadingOverlay");
 
-    let currentFilter = "all";
-    let currentMonthFilter = "all";
-    let leaveRequests = [];
+    // Profile fields
+    const profileFName = document.getElementById("profileFName");
+    const profileLName = document.getElementById("profileLName");
+    const profileEmail = document.getElementById("profileEmail");
+    const profilePhone = document.getElementById("profilePhone");
+    const profileAddress = document.getElementById("profileAddress");
+    const profileJob = document.getElementById("profileJob");
+    const profileDept = document.getElementById("profileDept");
+    const profileStart = document.getElementById("profileStart");
+    const profileRole = document.getElementById("profileRole");
+    const emergencyName = document.getElementById("emergencyName");
+    const emergencyPhone = document.getElementById("emergencyPhone");
+    const emergencyRelation = document.getElementById("emergencyRelation");
 
-    function hideLoading() {
-      if (loading) loading.style.display = "none";
-    }
-
-    function showNotification(message, isError = false) {
-      if (!notification) return;
-      notification.textContent = message;
-      notification.className = "notification";
-      if (isError) notification.classList.add("error");
-      notification.classList.add("show");
-      setTimeout(() => {
-        if (notification) notification.classList.remove("show");
-      }, 3000);
-    }
-
+    // Toggle sidebar (MATCHES DASHBOARD BEHAVIOR)
     toggleSidebar.addEventListener("click", () => {
-      const isMobile = window.innerWidth <= 768;
       sidebar.classList.toggle("expanded");
-      const icon = toggleSidebar.querySelector("i");
-      if (sidebar.classList.contains("expanded")) {
-        icon.className = "fas fa-chevron-left";
+      const isExpanded = sidebar.classList.contains("expanded");
+      toggleSidebar.innerHTML = isExpanded 
+        ? '<i class="fas fa-chevron-left"></i>' 
+        : '<i class="fas fa-chevron-right"></i>';
+    });
+
+    function addNavLink(text, icon, link, isActive = false) {
+      const a = document.createElement("a");
+      a.className = `nav-item ${isActive ? 'active' : ''}`;
+      a.href = link;
+      a.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
+      navLinks.appendChild(a);
+    }
+
+    function addLogout() {
+      const a = document.createElement("a");
+      a.className = "nav-item";
+      a.href = "#";
+      a.innerHTML = `<i class="fas fa-sign-out-alt"></i><span>Logout</span>`;
+      a.addEventListener("click", async (e) => {
+        e.preventDefault();
+        if (confirm("Log out?")) {
+          await signOut(auth);
+          window.location.href = "/";
+        }
+      });
+      navLinks.appendChild(a);
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.getAttribute('data-target');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    async function loadProfileData(user) {
+      loadingOverlay.style.display = "flex";
+      try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          const displayName = data.firstName || user.email.split("@")[0];
+          sidebarUserName.textContent = displayName;
+          sidebarUserEmail.textContent = user.email;
+          
+          // Avatar: First letter of first name + first letter of last name
+          const firstInitial = (data.firstName || '')[0] || 'U';
+          const lastInitial = (data.lastName || '')[0] || '';
+          sidebarAvatar.textContent = (firstInitial + lastInitial).toUpperCase();
+
+          profileFName.textContent = data.firstName || "N/A";
+          profileLName.textContent = data.lastName || "N/A";
+          profileEmail.textContent = user.email;
+          profilePhone.textContent = data.phone || "N/A";
+          profileAddress.textContent = data.address || "N/A";
+          profileJob.textContent = data.jobPosition || "N/A";
+          profileDept.textContent = data.department || "N/A";
+          profileStart.textContent = data.startDate || "N/A";
+          profileRole.textContent = data.role || "staff";
+
+          const emergency = data.emergencyContact || {};
+          emergencyName.textContent = emergency.name || "N/A";
+          emergencyPhone.textContent = emergency.phone || "N/A";
+          emergencyRelation.textContent = emergency.relation || "N/A";
+
+          // Build navigation EXACTLY like dashboard
+          navLinks.innerHTML = "";
+          const role = data.role || "staff";
+          if (role === "admin") {
+            addNavLink("Dashboard", "fa-home", "/admin-dashboard");
+            addNavLink("Staff Management", "fa-users", "/manage-staff");
+            addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog");
+            addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
+            addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
+            addNavLink("Admin Profile", "fa-user", "/profile", true);
+          } else {
+            addNavLink("Dashboard", "fa-home", "/dashboard");
+            addNavLink("Attendance Log", "fa-list", "/attendance");
+            addNavLink("Leave Requests", "fa-calendar-alt", "/leavecalendar");
+            addNavLink("Profile", "fa-user", "/profile", true);
+          }
+          addLogout();
+
+          loadingOverlay.style.display = "none";
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        loadingOverlay.innerHTML = '<p>Error loading profile.</p>';
+      }
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "/";
       } else {
-        icon.className = "fas fa-chevron-right";
+        await loadProfileData(user);
       }
     });
 
-    // ===== Utility Functions =====
-    function formatDate(dateString) {
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString('en-US', options);
-    }
+    // Edit/Save
+    const editBtn = document.getElementById("editBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const editFields = document.getElementById("editFields");
 
-    function getYearMonth(dateString) {
-      const d = new Date(dateString);
-      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-    }
+    editBtn.addEventListener("click", () => {
+      editFields.querySelector("#editFName").value = profileFName.textContent;
+      editFields.querySelector("#editLName").value = profileLName.textContent;
+      editFields.querySelector("#editPhone").value = profilePhone.textContent;
+      editFields.querySelector("#editAddress").value = profileAddress.textContent;
+      editFields.querySelector("#editJob").value = profileJob.textContent;
+      editFields.querySelector("#editDept").value = profileDept.textContent;
+      editFields.querySelector("#editStart").value = profileStart.textContent;
+      editFields.querySelector("#editRole").value = profileRole.textContent;
+      editFields.querySelector("#editEmergencyName").value = emergencyName.textContent;
+      editFields.querySelector("#editEmergencyPhone").value = emergencyPhone.textContent;
+      editFields.querySelector("#editEmergencyRelation").value = emergencyRelation.textContent;
 
-    function getMonthLabel(yearMonth) {
-      const [year, month] = yearMonth.split('-');
-      const date = new Date(year, month - 1);
-      return date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
-    }
+      document.querySelector('.tabs').style.display = 'none';
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      editFields.style.display = "block";
+      editBtn.style.display = "none";
+      saveBtn.style.display = "inline-block";
+    });
 
-    function requestOverlapsMonth(request, targetMonth) {
-      if (targetMonth === 'all') return true;
-      const start = new Date(request.startDate);
-      const end = new Date(request.endDate || request.startDate);
-      const [targetYear, targetMonthNum] = targetMonth.split('-').map(Number);
-      const monthStart = new Date(targetYear, targetMonthNum - 1, 1);
-      const monthEnd = new Date(targetYear, targetMonthNum, 0);
-      return start <= monthEnd && end >= monthStart;
-    }
+    saveBtn.addEventListener("click", async () => {
+      const user = auth.currentUser;
+      if (!user) return;
 
-    function populateMonthlyFilter() {
-      const monthSet = new Set();
-      leaveRequests.forEach(req => {
-        if (req.startDate) {
-          const start = new Date(req.startDate);
-          const end = new Date(req.endDate || req.startDate);
-          let current = new Date(start);
-          current.setDate(1);
-          while (current <= end) {
-            const ym = getYearMonth(current.toISOString().split('T')[0]);
-            monthSet.add(ym);
-            current.setMonth(current.getMonth() + 1);
+      try {
+        const updatedData = {
+          firstName: editFields.querySelector("#editFName").value,
+          lastName: editFields.querySelector("#editLName").value,
+          phone: editFields.querySelector("#editPhone").value,
+          address: editFields.querySelector("#editAddress").value,
+          jobPosition: editFields.querySelector("#editJob").value,
+          department: editFields.querySelector("#editDept").value,
+          startDate: editFields.querySelector("#editStart").value,
+          emergencyContact: {
+            name: editFields.querySelector("#editEmergencyName").value,
+            phone: editFields.querySelector("#editEmergencyPhone").value,
+            relation: editFields.querySelector("#editEmergencyRelation").value
           }
-        }
-      });
+        };
 
-      const sortedMonths = Array.from(monthSet).sort((a, b) => new Date(b) - new Date(a));
-      monthlyFilterSelect.innerHTML = '<option value="all">All Months</option>';
-      sortedMonths.forEach(ym => {
-        const opt = document.createElement('option');
-        opt.value = ym;
-        opt.textContent = getMonthLabel(ym);
-        monthlyFilterSelect.appendChild(opt);
-      });
-    }
+        await setDoc(doc(db, "users", user.uid), updatedData, { merge: true });
 
-    async function deleteExpiredLeaveRequests() {
-      try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const q = collection(db, "leaveRequests");
-        const querySnapshot = await getDocs(q);
-        const deletePromises = [];
-        querySnapshot.forEach((doc) => {
-          const request = doc.data();
-          if (request.endDate) {
-            const endDate = new Date(request.endDate);
-            if (!isNaN(endDate.getTime()) && endDate < today) {
-              deletePromises.push(deleteDoc(doc.ref));
-            }
-          }
-        });
-        if (deletePromises.length > 0) await Promise.all(deletePromises);
-      } catch (error) {
-        console.error("Cleanup error:", error);
-      }
-    }
+        profileFName.textContent = updatedData.firstName;
+        profileLName.textContent = updatedData.lastName;
+        profilePhone.textContent = updatedData.phone;
+        profileAddress.textContent = updatedData.address;
+        profileJob.textContent = updatedData.jobPosition;
+        profileDept.textContent = updatedData.department;
+        profileStart.textContent = updatedData.startDate;
+        emergencyName.textContent = updatedData.emergencyContact.name;
+        emergencyPhone.textContent = updatedData.emergencyContact.phone;
+        emergencyRelation.textContent = updatedData.emergencyContact.relation;
 
-    async function loadLeaveRequests() {
-      try {
-        const q = query(collection(db, "leaveRequests"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(q);
-        leaveRequests = [];
-        querySnapshot.forEach((doc) => {
-          leaveRequests.push({ id: doc.id, ...doc.data() });
-        });
-        populateMonthlyFilter();
-        renderLeaveRequests();
-      } catch (error) {
-        console.error("Load error:", error);
-        showNotification("Failed to load requests", true);
-      }
-    }
+        // Update avatar initials
+        const firstInitial = (updatedData.firstName || '')[0] || 'U';
+        const lastInitial = (updatedData.lastName || '')[0] || '';
+        sidebarAvatar.textContent = (firstInitial + lastInitial).toUpperCase();
 
-    function renderLeaveRequests() {
-      if (!leaveRequestsTable) return;
-      leaveRequestsTable.innerHTML = "";
-      let filtered = leaveRequests.filter(req => {
-        const matchesStatus = currentFilter === "all" || req.status === currentFilter;
-        const matchesMonth = requestOverlapsMonth(req, currentMonthFilter);
-        return matchesStatus && matchesMonth;
-      });
-      
-      if (filtered.length === 0) {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td colspan="7" style="text-align: center; padding: 15px;">No requests found</td>`;
-        leaveRequestsTable.appendChild(row);
-        return;
-      }
-      
-      filtered.forEach(request => {
-        const row = document.createElement("tr");
-        const statusClass = `status-${request.status}`;
-        row.innerHTML = `
-          <td>${request.userName || '—'}</td>
-          <td>${request.leaveType ? request.leaveType.charAt(0).toUpperCase() + request.leaveType.slice(1) : '—'}</td>
-          <td>${request.startDate ? formatDate(request.startDate) : '—'}</td>
-          <td>${request.endDate ? formatDate(request.endDate) : '—'}</td>
-          <td>${request.reason || '—'}</td>
-          <td><span class="${statusClass}">${request.status ? request.status.charAt(0).toUpperCase() + request.status.slice(1) : '—'}</span></td>
-          <td>
-            ${request.status === 'pending' ? 
-              `<button class="action-btn approve-btn" data-id="${request.id}">Approve</button>
-               <button class="action-btn reject-btn" data-id="${request.id}">Reject</button>` : 
-              `<span style="color: #667eea;">${request.status === 'approved' ? 'Approved' : 'Rejected'}</span>`}
-          </td>
-        `;
-        leaveRequestsTable.appendChild(row);
-      });
-      
-      document.querySelectorAll('.approve-btn').forEach(btn => {
-        btn.addEventListener('click', handleApprove);
-      });
-      document.querySelectorAll('.reject-btn').forEach(btn => {
-        btn.addEventListener('click', handleReject);
-      });
-    }
+        document.querySelector('.tabs').style.display = 'flex';
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.getElementById('personal').classList.add('active');
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelector('.tab[data-target="personal"]').classList.add('active');
+        
+        editFields.style.display = "none";
+        editBtn.style.display = "inline-block";
+        saveBtn.style.display = "none";
 
-    async function handleApprove(e) {
-      const requestId = e.target.getAttribute('data-id');
-      await updateLeaveRequest(requestId, 'approved');
-    }
-    async function handleReject(e) {
-      const requestId = e.target.getAttribute('data-id');
-      await updateLeaveRequest(requestId, 'rejected');
-    }
-    async function updateLeaveRequest(requestId, newStatus) {
-      try {
-        const requestRef = doc(db, "leaveRequests", requestId);
-        await updateDoc(requestRef, { status: newStatus, updatedAt: new Date() });
-        showNotification(`Request ${newStatus}!`);
-        await loadLeaveRequests();
+        alert("Profile updated!");
       } catch (error) {
         console.error("Update error:", error);
-        showNotification("Failed to update", true);
-      }
-    }
-
-    // ===== Event Listeners =====
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.getAttribute('data-filter');
-        renderLeaveRequests();
-      });
-    });
-
-    if (monthlyFilterSelect) {
-      monthlyFilterSelect.addEventListener('change', () => {
-        currentMonthFilter = monthlyFilterSelect.value;
-        renderLeaveRequests();
-      });
-    }
-
-    // ===== Auth State Handler =====
-    onAuthStateChanged(auth, async (user) => {
-      try {
-        if (!user) {
-          window.location.href = "/";
-          return;
-        }
-
-        const navLinks = document.getElementById("navLinks");
-        if (!navLinks) {
-          hideLoading();
-          return;
-        }
-
-        // Load user profile and render nav
-        let userData = {};
-        try {
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          if (userDoc.exists()) {
-            userData = userDoc.data();
-          }
-        } catch (err) {
-          console.warn("Could not load user profile:", err);
-        }
-
-        // Update sidebar user info
-        updateSidebarUserInfo(userData, user.email);
-        // Render navigation (current page: leave calendar)
-        renderAdminNav(navLinks, "/admin-leavecalendar");
-
-        // Load leave data
-        await deleteExpiredLeaveRequests();
-        await loadLeaveRequests();
-
-      } catch (error) {
-        console.error("Unexpected error in auth state handler:", error);
-        showNotification("An unexpected error occurred", true);
-      } finally {
-        // ALWAYS hide loading overlay
-        hideLoading();
+        alert("Failed to update profile.");
       }
     });
   </script>
