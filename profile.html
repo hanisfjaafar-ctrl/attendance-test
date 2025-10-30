@@ -206,7 +206,7 @@
     }
 
     .container {
-      max-width: 600px; /* Reduced from 800px or 900px */
+      max-width: 340px; /* 25% smaller than original 450px */
       margin: 0 auto;
       background: #fff;
       padding: 20px;
@@ -216,7 +216,7 @@
 
     h2 {
       text-align: center;
-      font-size: 1.8rem;
+      font-size: 1.6rem; /* Slightly smaller */
       font-weight: 700;
       color: #333;
       margin-bottom: 20px;
@@ -229,7 +229,7 @@
       bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 50px;
+      width: 40px; /* Slightly smaller */
       height: 2px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       border-radius: 2px;
@@ -238,15 +238,16 @@
     /* Tab Navigation */
     .tabs {
       display: flex;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       border-bottom: 2px solid #e0e0e0;
     }
     
     .tab {
-      padding: 12px 20px;
+      padding: 10px 14px;
       cursor: pointer;
       font-weight: 600;
       color: #777;
+      font-size: 0.85rem;
       border-bottom: 3px solid transparent;
       transition: all 0.3s ease;
     }
@@ -268,18 +269,19 @@
     /* Profile View - Compact */
     .field-row {
       display: flex;
-      margin: 10px 0;
-      padding: 10px;
+      margin: 8px 0;
+      padding: 8px 10px;
       background: #f8f9ff;
       border-radius: 8px;
       border-left: 3px solid #667eea;
+      font-size: 0.8rem;
     }
     
     .field-label {
       font-weight: 600;
       color: #333;
-      min-width: 120px;
-      margin-right: 10px;
+      min-width: 90px;
+      margin-right: 8px;
     }
     
     .field-value {
@@ -297,15 +299,15 @@
       margin-bottom: 5px;
       font-weight: 600;
       color: #444;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
     
     input, select {
       width: 100%;
-      padding: 10px 10px;
+      padding: 8px 10px;
       border-radius: 8px;
       border: 2px solid #e1e5e9;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       transition: all 0.3s ease;
       background: #f8f9fa;
     }
@@ -328,12 +330,12 @@
     }
     
     .btn {
-      margin: 12px 8px 0 0;
-      padding: 10px 20px;
+      margin: 10px 6px 0 0;
+      padding: 8px 16px;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       transition: all 0.3s ease;
       color: white;
@@ -371,16 +373,16 @@
       flex-direction: column;
       z-index: 9999;
       color: #fff;
-      font-size: 16px;
+      font-size: 14px;
     }
     
     .spinner {
       border: 3px solid rgba(255, 255, 255, 0.3);
       border-top: 3px solid #fff;
       border-radius: 50%;
-      width: 40px; height: 40px;
+      width: 32px; height: 32px;
       animation: spin 1s linear infinite;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
     
     @keyframes spin {
@@ -395,21 +397,32 @@
     
     @media (max-width: 768px) {
       .main-content { padding: 12px; }
-      .container { padding: 16px; }
-      h2 { font-size: 1.5rem; }
+      .container { padding: 14px; }
+      h2 { font-size: 1.4rem; }
       
       .tabs {
         flex-wrap: wrap;
       }
       
       .tab {
-        padding: 10px 15px;
-        font-size: 0.9rem;
+        padding: 8px 12px;
+        font-size: 0.75rem;
       }
       
       .btn {
         width: 100%;
-        margin: 8px 0;
+        margin: 6px 0;
+        padding: 8px;
+      }
+      
+      .field-row {
+        font-size: 0.75rem;
+        padding: 6px 8px;
+      }
+      
+      .field-label {
+        min-width: 80px;
+        font-size: 0.75rem;
       }
     }
   </style>
@@ -473,7 +486,7 @@
       </div>
 
       <!-- Edit Form (hidden by default) -->
-      <div id="editFields" style="display:none; margin-top: 20px;">
+      <div id="editFields" style="display:none; margin-top: 16px;">
         <div class="form-group">
           <label for="editFName">First Name</label>
           <input type="text" id="editFName" placeholder="First name">
@@ -505,10 +518,10 @@
         <div class="form-group">
           <label for="editRole">Role</label>
           <input type="text" id="editRole" readonly>
-          <small style="display:block; margin-top:4px; color:#666; font-size:0.75rem;">Role cannot be changed</small>
+          <small style="display:block; margin-top:4px; color:#666; font-size:0.7rem;">Role cannot be changed</small>
         </div>
         
-        <h3 style="margin:20px 0 10px; color:#667eea;">Emergency Contact</h3>
+        <h3 style="margin:16px 0 8px; color:#667eea; font-size:1.1rem;">Emergency Contact</h3>
         <div class="form-group">
           <label for="editEmergencyName">Name</label>
           <input type="text" id="editEmergencyName" placeholder="Name">
@@ -531,7 +544,7 @@
         </div>
       </div>
 
-      <div style="text-align: center; margin-top: 20px;">
+      <div style="text-align: center; margin-top: 16px;">
         <button id="editBtn" class="btn">Edit Profile</button>
         <button id="saveBtn" class="btn" style="display:none;">Save Changes</button>
       </div>
@@ -635,7 +648,11 @@
           const displayName = data.firstName || user.email.split("@")[0];
           sidebarUserName.textContent = displayName;
           sidebarUserEmail.textContent = user.email;
-          sidebarAvatar.textContent = displayName.charAt(0).toUpperCase();
+          
+          // Update avatar to show first letter of first name + first letter of last name
+          const firstNameInitial = (data.firstName || '')[0] || 'U';
+          const lastNameInitial = (data.lastName || '')[0] || '';
+          sidebarAvatar.textContent = (firstNameInitial + lastNameInitial).toUpperCase();
 
           profileFName.textContent = data.firstName || "N/A";
           profileLName.textContent = data.lastName || "N/A";
@@ -743,6 +760,11 @@
         emergencyName.textContent = updatedData.emergencyContact.name;
         emergencyPhone.textContent = updatedData.emergencyContact.phone;
         emergencyRelation.textContent = updatedData.emergencyContact.relation;
+
+        // Update sidebar avatar with new initials
+        const firstNameInitial = (updatedData.firstName || '')[0] || 'U';
+        const lastNameInitial = (updatedData.lastName || '')[0] || '';
+        sidebarAvatar.textContent = (firstNameInitial + lastNameInitial).toUpperCase();
 
         // Show tabs again
         document.querySelector('.tabs').style.display = 'flex';
