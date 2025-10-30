@@ -256,12 +256,17 @@
       animation: fadeIn 0.4s ease-in-out;
     }
 
-    /* Profile View */
+    /* Profile View - Paired Fields */
     .field-row {
       display: flex;
       margin: 9px 0;
-      padding: 10px;
+      gap: 10px;
+    }
+    
+    .field-group {
+      flex: 1;
       background: #f8f9ff;
+      padding: 10px;
       border-radius: 8px;
       border-left: 3px solid #667eea;
       font-size: 0.82rem;
@@ -270,18 +275,39 @@
     .field-label {
       font-weight: 600;
       color: #333;
-      min-width: 100px;
-      margin-right: 10px;
+      display: block;
+      margin-bottom: 4px;
     }
     
     .field-value {
       color: #666;
-      flex: 1;
+      display: block;
+    }
+    
+    /* Full-width address field */
+    .field-row.full-width {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .field-row.full-width .field-group {
+      width: 100%;
     }
     
     /* Edit Form */
-    .form-group {
+    .form-row {
+      display: flex;
+      gap: 10px;
       margin: 10px 0;
+    }
+    
+    .form-group {
+      flex: 1;
+    }
+    
+    .form-row.full-width {
+      flex-direction: column;
+      gap: 0;
     }
     
     label {
@@ -422,6 +448,16 @@
         width: 100%;
         margin: 8px 0;
       }
+      
+      /* Stack fields on mobile */
+      .field-row, .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .field-group {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -465,80 +501,172 @@
 
       <!-- Personal Info Tab -->
       <div id="personal" class="tab-content active">
-        <div class="field-row"><span class="field-label">First Name:</span> <span class="field-value" id="profileFName">N/A</span></div>
-        <div class="field-row"><span class="field-label">Last Name:</span> <span class="field-value" id="profileLName">N/A</span></div>
-        <div class="field-row"><span class="field-label">Email:</span> <span class="field-value" id="profileEmail">N/A</span></div>
-        <div class="field-row"><span class="field-label">Phone:</span> <span class="field-value" id="profilePhone">N/A</span></div>
-        <div class="field-row"><span class="field-label">Address:</span> <span class="field-value" id="profileAddress">N/A</span></div>
-        <div class="field-row"><span class="field-label">Job:</span> <span class="field-value" id="profileJob">N/A</span></div>
-        <div class="field-row"><span class="field-label">Department:</span> <span class="field-value" id="profileDept">N/A</span></div>
-        <div class="field-row"><span class="field-label">Start Date:</span> <span class="field-value" id="profileStart">N/A</span></div>
-        <div class="field-row"><span class="field-label">Role:</span> <span class="field-value" id="profileRole">N/A</span></div>
+        <!-- First Name + Last Name on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">First Name</span>
+            <span class="field-value" id="profileFName">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Last Name</span>
+            <span class="field-value" id="profileLName">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Email + Phone on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">Email</span>
+            <span class="field-value" id="profileEmail">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Phone</span>
+            <span class="field-value" id="profilePhone">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Address alone on full line -->
+        <div class="field-row full-width">
+          <div class="field-group">
+            <span class="field-label">Address</span>
+            <span class="field-value" id="profileAddress">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Job + Department on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">Job</span>
+            <span class="field-value" id="profileJob">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Department</span>
+            <span class="field-value" id="profileDept">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Start Date + Role on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">Start Date</span>
+            <span class="field-value" id="profileStart">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Role</span>
+            <span class="field-value" id="profileRole">N/A</span>
+          </div>
+        </div>
       </div>
 
       <!-- Emergency Contact Tab -->
       <div id="emergency" class="tab-content">
-        <div class="field-row"><span class="field-label">Name:</span> <span class="field-value" id="emergencyName">N/A</span></div>
-        <div class="field-row"><span class="field-label">Phone:</span> <span class="field-value" id="emergencyPhone">N/A</span></div>
-        <div class="field-row"><span class="field-label">Relation:</span> <span class="field-value" id="emergencyRelation">N/A</span></div>
+        <!-- Name + Relation on same line -->
+        <div class="field-row">
+          <div class="field-group">
+            <span class="field-label">Name</span>
+            <span class="field-value" id="emergencyName">N/A</span>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Relation</span>
+            <span class="field-value" id="emergencyRelation">N/A</span>
+          </div>
+        </div>
+        
+        <!-- Phone alone (since it's the only field left) -->
+        <div class="field-row full-width">
+          <div class="field-group">
+            <span class="field-label">Phone</span>
+            <span class="field-value" id="emergencyPhone">N/A</span>
+          </div>
+        </div>
       </div>
 
       <!-- Edit Form -->
       <div id="editFields" style="display:none; margin-top: 20px;">
-        <div class="form-group">
-          <label for="editFName">First Name</label>
-          <input type="text" id="editFName" placeholder="First name">
+        <!-- First Name + Last Name -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editFName">First Name</label>
+            <input type="text" id="editFName" placeholder="First name">
+          </div>
+          <div class="form-group">
+            <label for="editLName">Last Name</label>
+            <input type="text" id="editLName" placeholder="Last name">
+          </div>
         </div>
-        <div class="form-group">
-          <label for="editLName">Last Name</label>
-          <input type="text" id="editLName" placeholder="Last name">
+        
+        <!-- Phone + (empty for alignment) -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editPhone">Phone</label>
+            <input type="text" id="editPhone" placeholder="Phone">
+          </div>
+          <div class="form-group">
+            <!-- Empty for alignment -->
+          </div>
         </div>
-        <div class="form-group">
-          <label for="editPhone">Phone</label>
-          <input type="text" id="editPhone" placeholder="Phone">
+        
+        <!-- Address full width -->
+        <div class="form-row full-width">
+          <div class="form-group">
+            <label for="editAddress">Address</label>
+            <input type="text" id="editAddress" placeholder="Address">
+          </div>
         </div>
-        <div class="form-group">
-          <label for="editAddress">Address</label>
-          <input type="text" id="editAddress" placeholder="Address">
+        
+        <!-- Job + Department -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editJob">Job Position</label>
+            <input type="text" id="editJob" placeholder="Job">
+          </div>
+          <div class="form-group">
+            <label for="editDept">Department</label>
+            <input type="text" id="editDept" placeholder="Department">
+          </div>
         </div>
-        <div class="form-group">
-          <label for="editJob">Job Position</label>
-          <input type="text" id="editJob" placeholder="Job">
-        </div>
-        <div class="form-group">
-          <label for="editDept">Department</label>
-          <input type="text" id="editDept" placeholder="Department">
-        </div>
-        <div class="form-group">
-          <label for="editStart">Start Date</label>
-          <input type="date" id="editStart">
-        </div>
-        <div class="form-group">
-          <label for="editRole">Role</label>
-          <input type="text" id="editRole" readonly>
-          <small style="display:block; margin-top:4px; color:#666; font-size:0.75rem;">Role cannot be changed</small>
+        
+        <!-- Start Date + Role -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editStart">Start Date</label>
+            <input type="date" id="editStart">
+          </div>
+          <div class="form-group">
+            <label for="editRole">Role</label>
+            <input type="text" id="editRole" readonly>
+            <small style="display:block; margin-top:4px; color:#666; font-size:0.75rem;">Role cannot be changed</small>
+          </div>
         </div>
         
         <h3 style="margin:20px 0 10px; color:#667eea;">Emergency Contact</h3>
-        <div class="form-group">
-          <label for="editEmergencyName">Name</label>
-          <input type="text" id="editEmergencyName" placeholder="Name">
+        
+        <!-- Emergency Name + Relation -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editEmergencyName">Name</label>
+            <input type="text" id="editEmergencyName" placeholder="Name">
+          </div>
+          <div class="form-group">
+            <label for="editEmergencyRelation">Relation</label>
+            <select id="editEmergencyRelation">
+              <option value="">Select</option>
+              <option value="Spouse">Spouse</option>
+              <option value="Parent">Parent</option>
+              <option value="Sibling">Sibling</option>
+              <option value="Child">Child</option>
+              <option value="Friend">Friend</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="editEmergencyPhone">Phone</label>
-          <input type="text" id="editEmergencyPhone" placeholder="Phone">
-        </div>
-        <div class="form-group">
-          <label for="editEmergencyRelation">Relation</label>
-          <select id="editEmergencyRelation">
-            <option value="">Select</option>
-            <option value="Spouse">Spouse</option>
-            <option value="Parent">Parent</option>
-            <option value="Sibling">Sibling</option>
-            <option value="Child">Child</option>
-            <option value="Friend">Friend</option>
-            <option value="Other">Other</option>
-          </select>
+        
+        <!-- Emergency Phone -->
+        <div class="form-row full-width">
+          <div class="form-group">
+            <label for="editEmergencyPhone">Phone</label>
+            <input type="text" id="editEmergencyPhone" placeholder="Phone">
+          </div>
         </div>
       </div>
 
