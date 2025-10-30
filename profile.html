@@ -821,6 +821,7 @@
       } catch (error) {
         console.error("Error:", error);
         loadingOverlay.innerHTML = '<p>Error loading profile.</p>';
+        loadingOverlay.style.display = "flex";
       }
     }
 
@@ -837,4 +838,83 @@
     const saveBtn = document.getElementById("saveBtn");
     const editFields = document.getElementById("editFields");
 
-    editBtn.addEven
+    editBtn.addEventListener("click", () => {
+      // Populate form with current values
+      editFields.querySelector("#editFName").value = profileFName.textContent;
+      editFields.querySelector("#editLName").value = profileLName.textContent;
+      editFields.querySelector("#editPhone").value = profilePhone.textContent;
+      editFields.querySelector("#editAddress").value = profileAddress.textContent;
+      editFields.querySelector("#editJob").value = profileJob.textContent;
+      editFields.querySelector("#editDept").value = profileDept.textContent;
+      editFields.querySelector("#editStart").value = profileStart.textContent;
+      editFields.querySelector("#editRole").value = profileRole.textContent;
+      editFields.querySelector("#editEmergencyName").value = emergencyName.textContent;
+      editFields.querySelector("#editEmergencyPhone").value = emergencyPhone.textContent;
+      editFields.querySelector("#editEmergencyRelation").value = emergencyRelation.textContent;
+
+      // Switch to edit view
+      document.querySelector('.tabs').style.display = 'none';
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      editFields.style.display = "block";
+      editBtn.style.display = "none";
+      saveBtn.style.display = "inline-block";
+    });
+
+    // FIXED SAVE HANDLER - Properly reloads data after write
+    saveBtn.addEventListener("click", async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      try {
+        // Show saving message
+        loadingOverlay.style.display = "flex";
+        document.querySelector("#loadingOverlay p").textContent = "Saving your profile...";
+
+        const updatedData = {
+          firstName: editFields.querySelector("#editFName").value,
+          lastName: editFields.querySelector("#editLName").value,
+          phone: editFields.querySelector("#editPhone").value,
+          address: editFields.querySelector("#editAddress").value,
+          jobPosition: editFields.querySelector("#editJob").value,
+          department: editFields.querySelector("#editDept").value,
+          startDate: editFields.querySelector("#editStart").value,
+          emergencyContact: {
+            name: editFields.querySelector("#editEmergencyName").value,
+            phone: editFields.querySelector("#editEmergencyPhone").value,
+            relation: editFields.querySelector("#editEmergencyRelation").value
+          }
+        };
+
+        // Save to Firestore
+        await setDoc(doc(db, "users", user.uid), updatedData, { merge: true });
+
+        // Wait 300ms to ensure write propagates
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        // Reload fresh data from Firestore
+        await loadProfileData(user);
+
+        // Return to view mode
+        document.querySelector('.tabs').style.display = 'flex';
+        document.querySelectorAll('.tab-content').forEach(el => {
+          el.classList.remove('active');
+          el.style.display = 'block';
+        });
+        document.getElementById('personal').classList.add('active');
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelector('.tab[data-target="personal"]').classList.add('active');
+        
+        editFields.style.display = "none";
+        editBtn.style.display = "inline-block";
+        saveBtn.style.display = "none";
+
+        alert("Profile updated successfully!");
+      } catch (error) {
+        console.error("Update error:", error);
+        alert("Failed to update profile. Please try again.");
+        loadingOverlay.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
