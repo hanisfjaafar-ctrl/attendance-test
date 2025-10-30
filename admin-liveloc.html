@@ -20,7 +20,7 @@
 
     /* Sidebar */
     .sidebar {
-      width: 140px; /* Halved */
+      width: 140px;
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -30,60 +30,61 @@
       display: flex; flex-direction: column;
       backdrop-filter: blur(10px);
       z-index: 1000;
+      font-size: 1.05rem; /* Base scale increased */
     }
 
     .sidebar.expanded {
-      width: 220px;
+      width: 260px; /* Wider for larger text */
     }
 
     @media (max-width: 768px) {
       .sidebar {
-        width: 60px;
+        width: 70px;
       }
       .sidebar.expanded {
-        width: 220px;
+        width: 260px;
       }
     }
 
     .sidebar-header {
-      padding: 15px 12px; /* Reduced */
+      padding: 15px 12px;
       display: flex; justify-content: space-between; align-items: center;
       border-bottom: 1px solid #eee;
     }
-    .logo { display: flex; align-items: center; gap: 8px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
     .logo-icon {
-      width: 28px; height: 28px; border-radius: 8px;
+      width: 36px; height: 36px; border-radius: 8px;
       background: linear-gradient(135deg,#667eea,#764ba2);
-      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px;
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px;
     }
-    .logo-text { font-weight: 700; font-size: 1.1rem; color: #333; white-space: nowrap; }
+    .logo-text { font-weight: 700; font-size: 1.25rem; color: #333; white-space: nowrap; }
     .sidebar:not(.expanded) .logo-text { display: none; }
     .toggle-btn { 
-      background: none; border: none; font-size: 1rem; cursor: pointer; color: #667eea;
-      width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #667eea;
+      width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
     }
     .toggle-btn:hover { background: rgba(102,126,234,0.1); }
-    .nav-links { flex:1; padding: 12px 0; display: flex; flex-direction: column; }
+    .nav-links { flex:1; padding: 14px 0; display: flex; flex-direction: column; }
     .nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 15px; color: #555; text-decoration: none;
-      border-left: 3px solid transparent; font-weight: 500; font-size: 0.9rem;
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 20px; color: #555; text-decoration: none;
+      border-left: 4px solid transparent; font-weight: 500; font-size: 1.05rem;
       transition: 0.2s; white-space: nowrap;
     }
     .nav-item:hover, .nav-item.active { 
-      background: rgba(102,126,234,0.1); color: #667eea; border-left: 3px solid #667eea; 
+      background: rgba(102,126,234,0.2); color: #667eea; border-left: 4px solid #667eea; 
     }
     .sidebar:not(.expanded) .nav-item span { display: none; }
-    .sidebar:not(.expanded) .nav-item { justify-content: center; padding: 12px; gap: 0; }
-    .user-info { padding: 12px; border-top: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
+    .sidebar:not(.expanded) .nav-item { justify-content: center; padding: 16px; gap: 0; }
+    .user-info { padding: 14px; border-top: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
     .avatar {
-      width: 32px; height: 32px; border-radius: 50%;
+      width: 40px; height: 40px; border-radius: 50%;
       background: linear-gradient(135deg,#667eea,#764ba2);
-      color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;
+      color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;
     }
     .user-details { flex: 1; }
-    .user-name { font-weight: 600; color: #333; font-size: 0.9rem; }
-    .user-email { font-size: 0.75rem; color: #777; }
+    .user-name { font-weight: 600; color: #333; font-size: 1rem; }
+    .user-email { font-size: 0.85rem; color: #777; }
     .sidebar:not(.expanded) .user-details { display: none; }
 
     /* Main */
@@ -95,15 +96,15 @@
     }
 
     .sidebar.expanded ~ .main-content {
-      margin-left: 220px;
+      margin-left: 260px;
     }
 
     @media (max-width: 768px) {
       .main-content {
-        margin-left: 60px;
+        margin-left: 70px;
       }
       .sidebar.expanded ~ .main-content {
-        margin-left: 220px;
+        margin-left: 260px;
       }
     }
 
@@ -111,7 +112,7 @@
       background: #fff;
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      height: 85vh; /* Slightly reduced */
+      height: 85vh;
       padding: 15px;
       display: flex;
       flex-direction: column;
@@ -129,7 +130,7 @@
       flex: 1; 
     }
     .staff-list {
-      width: 240px; /* Reduced */
+      width: 240px;
       background: #f9f9f9;
       border-radius: 10px;
       padding: 12px;
@@ -431,7 +432,6 @@
     });
 
     document.getElementById("toggleSidebar").onclick = () => {
-      const isMobile = window.innerWidth <= 768;
       const sidebar = document.getElementById("sidebar");
       sidebar.classList.toggle("expanded");
       const icon = document.querySelector("#toggleSidebar i");
