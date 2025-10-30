@@ -685,4 +685,182 @@
           while (current <= end) {
             const ym = getYearMonth(current.toISOString().split('T')[0]);
             monthSet.add(ym);
-            cu
+            current.setMonth(current.getMonth() + 1);
+          }
+        }
+      });
+
+      const sortedMonths = Array.from(monthSet).sort((a, b) => new Date(b) - new Date(a));
+      monthlyFilterSelect.innerHTML = '<option value="all">All Months</option>';
+      sortedMonths.forEach(ym => {
+        const opt = document.createElement('option');
+        opt.value = ym;
+        opt.textContent = getMonthLabel(ym);
+        monthlyFilterSelect.appendChild(opt);
+      });
+    }
+
+    async function deleteExpiredLeaveRequests() {
+      try {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const q = collection(db, "leaveRequests");
+        const querySnapshot = await getDocs(q);
+        const deletePromises = [];
+        querySnapshot.forEach((doc) => {
+          const request = doc.data();
+          if (request.endDate) {
+            const endDate = new Date(request.endDate);
+            if (!isNaN(endDate.getTime()) && endDate < today) {
+              deletePromises.push(deleteDoc(doc.ref));
+            }
+          }
+        });
+        if (deletePromises.length > 0) await Promise.all(deletePromises);
+      } catch (error) {
+        console.error("Cleanup error:", error);
+      }
+    }
+
+    async function loadLeaveRequests() {
+      try {
+        const q = query(collection(db, "leaveRequests"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+        leaveRequests = [];
+        querySnapshot.forEach((doc) => {
+          leaveRequests.push({ id: doc.id, ...doc.data() });
+        });
+        populateMonthlyFilter();
+        renderLeaveRequests();
+      } catch (error) {
+        console.error("Load error:", error);
+        showNotification("Failed to load requests", true);
+      }
+    }
+
+    function renderLeaveRequests() {
+      if (!leaveRequestsTable) return;
+      leaveRequestsTable.innerHTML = "";
+      let filtered = leaveRequests.filter(req => {
+        const matchesStatus = currentFilter === "all" || req.status === currentFilter;
+        const matchesMonth = requestOverlapsMonth(req, currentMonthFilter);
+        return matchesStatus && matchesMonth;
+      });
+      
+      if (filtered.length === 0) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td colspan="7" style="text-align: center; padding: 15px;">No requests found</td>`;
+        leaveRequestsTable.appendChild(row);
+        return;
+      }
+      
+      filtered.forEach(request => {
+        const row = document.createElement("tr");
+        const statusClass = `status-${request.status}`;
+        row.innerHTML = `
+          <td>${request.userName || '—'}</td>
+          <td>${request.leaveType ? request.leaveType.charAt(0).toUpperCase() + request.leaveType.slice(1) : '—'}</td>
+          <td>${request.startDate ? formatDate(request.startDate) : '—'}</td>
+          <td>${request.endDate ? formatDate(request.endDate) : '—'}</td>
+          <td>${request.reason || '—'}</td>
+          <td><span class="${statusClass}">${request.status ? request.status.charAt(0).toUpperCase() + request.status.slice(1) : '—'}</span></td>
+          <td>
+            ${request.status === 'pending' ? 
+              `<button class="action-btn approve-btn" data-id="${request.id}">Approve</button>
+               <button class="action-btn reject-btn" data-id="${request.id}">Reject</button>` : 
+              `<span style="color: #667eea;">${request.status === 'approved' ? 'Approved' : 'Rejected'}</span>`}
+          </td>
+        `;
+        leaveRequestsTable.appendChild(row);
+      });
+      
+      document.querySelectorAll('.approve-btn').forEach(btn => {
+        btn.addEventListener('click', handleApprove);
+      });
+      document.querySelectorAll('.reject-btn').forEach(btn => {
+        btn.addEventListener('click', handleReject);
+      });
+    }
+
+    async function handleApprove(e) {
+      const requestId = e.target.getAttribute('data-id');
+      await updateLeaveRequest(requestId, 'approved');
+    }
+    async function handleReject(e) {
+      const requestId = e.target.getAttribute('data-id');
+      await updateLeaveRequest(requestId, 'rejected');
+    }
+    async function updateLeaveRequest(requestId, newStatus) {
+      try {
+        const requestRef = doc(db, "leaveRequests", requestId);
+        await updateDoc(requestRef, { status: newStatus, updatedAt: new Date() });
+        showNotification(`Request ${newStatus}!`);
+        await loadLeaveRequests();
+      } catch (error) {
+        console.error("Update error:", error);
+        showNotification("Failed to update", true);
+      }
+    }
+
+    // ===== Event Listeners =====
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter');
+        renderLeaveRequests();
+      });
+    });
+
+    if (monthlyFilterSelect) {
+      monthlyFilterSelect.addEventListener('change', () => {
+        currentMonthFilter = monthlyFilterSelect.value;
+        renderLeaveRequests();
+      });
+    }
+
+    // ===== Auth State Handler =====
+    onAuthStateChanged(auth, async (user) => {
+      try {
+        if (!user) {
+          window.location.href = "/";
+          return;
+        }
+
+        const navLinks = document.getElementById("navLinks");
+        if (!navLinks) {
+          hideLoading();
+          return;
+        }
+
+        // Load user profile and render nav
+        let userData = {};
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            userData = userDoc.data();
+          }
+        } catch (err) {
+          console.warn("Could not load user profile:", err);
+        }
+
+        // Update sidebar user info
+        updateSidebarUserInfo(userData, user.email);
+        // Render navigation (current page: leave calendar)
+        renderAdminNav(navLinks, "/admin-leavecalendar");
+
+        // Load leave data
+        await deleteExpiredLeaveRequests();
+        await loadLeaveRequests();
+
+      } catch (error) {
+        console.error("Unexpected error in auth state handler:", error);
+        showNotification("An unexpected error occurred", true);
+      } finally {
+        // ALWAYS hide loading overlay
+        hideLoading();
+      }
+    });
+  </script>
+</body>
+</html>
