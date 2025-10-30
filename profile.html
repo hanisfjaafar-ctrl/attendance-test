@@ -196,7 +196,7 @@
     }
 
     .container {
-      max-width: 520px; /* Increased from 405px to 520px for more horizontal space */
+      max-width: 650px; /* Significantly wider for desktop */
       margin: 0 auto;
       background: #fff;
       padding: 25px;
@@ -259,24 +259,24 @@
     /* Profile View - Paired Fields */
     .field-row {
       display: flex;
-      margin: 10px 0;
-      gap: 12px;
+      margin: 12px 0; /* Consistent vertical spacing */
+      gap: 15px;
     }
     
     .field-group {
       flex: 1;
       background: #f8f9ff;
-      padding: 12px;
+      padding: 14px;
       border-radius: 8px;
       border-left: 3px solid #667eea;
-      font-size: 0.85rem;
+      font-size: 0.87rem;
     }
     
     .field-label {
       font-weight: 600;
       color: #333;
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
     
     .field-value {
@@ -297,8 +297,8 @@
     /* Edit Form */
     .form-row {
       display: flex;
-      gap: 12px;
-      margin: 12px 0;
+      gap: 15px;
+      margin: 12px 0; /* Consistent vertical spacing */
     }
     
     .form-group {
@@ -315,15 +315,15 @@
       margin-bottom: 6px;
       font-weight: 600;
       color: #444;
-      font-size: 0.85rem;
+      font-size: 0.87rem;
     }
     
     input, select {
       width: 100%;
-      padding: 10px 12px;
+      padding: 11px 12px;
       border-radius: 8px;
       border: 2px solid #e1e5e9;
-      font-size: 0.85rem;
+      font-size: 0.87rem;
       transition: all 0.3s ease;
       background: #f8f9fa;
     }
@@ -347,11 +347,11 @@
     
     .btn {
       margin: 12px 8px 0 0;
-      padding: 10px 20px;
+      padding: 11px 22px;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.87rem;
       font-weight: 600;
       transition: all 0.3s ease;
       color: white;
@@ -412,7 +412,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Responsive */
+    /* Mobile Responsive */
     @media (max-width: 768px) {
       .sidebar {
         width: 60px;
@@ -433,6 +433,8 @@
       
       .container {
         padding: 20px;
+        /* Keep full width on mobile */
+        max-width: 100%;
       }
       
       .tabs {
@@ -446,17 +448,23 @@
       
       .btn {
         width: 100%;
-        margin: 8px 0;
+        margin: 10px 0;
       }
       
-      /* Stack fields on mobile */
+      /* Stack fields on mobile with consistent spacing */
       .field-row, .form-row {
         flex-direction: column;
         gap: 0;
+        margin: 14px 0 !important; /* Increased vertical gap on mobile */
       }
       
-      .field-group {
+      .field-group, .form-group {
         width: 100%;
+      }
+      
+      /* Ensure address has proper spacing */
+      .field-row.full-width {
+        margin: 16px 0 !important;
       }
     }
   </style>
