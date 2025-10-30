@@ -3,476 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Attendance Log</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <title>Staff Live Location</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-    body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;display:flex;overflow-x:hidden;}
-    /* ===== SIDEBAR (MATCHES LEAVE CALENDAR) ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      display: flex;
+      overflow-x: hidden;
+    }
+
+    /* SIDEBAR — EXACTLY MATCHING REFERENCE (Attendance Management) */
     .sidebar {
       width: 140px;
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+      top: 0; left: 0;
+      box-shadow: 3px 0 15px rgba(0,0,0,0.15);
       transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       backdrop-filter: blur(10px);
+      z-index: 1000;
     }
+
     .sidebar.expanded {
       width: 220px;
     }
-    .sidebar-header {
-      padding: 15px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #eee;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .logo-icon {
-      width: 28px;
-      height: 28px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 16px;
-    }
-    .logo-text {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #333;
-      white-space: nowrap;
-    }
-    .sidebar:not(.expanded) .logo-text {
-      display: none;
-    }
-    .toggle-btn {
-      background: none;
-      border: none;
-      font-size: 1rem;
-      cursor: pointer;
-      color: #667eea;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-    }
-    .toggle-btn:hover {
-      background: rgba(102, 126, 234, 0.1);
-    }
-    .nav-links {
-      padding: 12px 0;
-      flex: 1;
-    }
-    .nav-item {
-      padding: 10px 15px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: #555;
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-      border-left: 3px solid transparent;
-    }
-    .nav-item:hover, .nav-item.active {
-      background: rgba(102, 126, 234, 0.1);
-      color: #667eea;
-      border-left: 3px solid #667eea;
-    }
-    .nav-item i {
-      font-size: 1rem;
-      width: 20px;
-      text-align: center;
-    }
-    .sidebar:not(.expanded) .nav-item span {
-      display: none;
-    }
-    .sidebar:not(.expanded) .nav-item {
-      justify-content: center;
-      padding: 12px;
-      gap: 0;
-    }
-    .user-info {
-      padding: 12px;
-      border-top: 1px solid #eee;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      text-transform: uppercase;
-    }
-    .user-details {
-      flex: 1;
-    }
-    .user-name {
-      font-weight: 600;
-      color: #333;
-      font-size: 0.9rem;
-    }
-    .user-email {
-      font-size: 0.75rem;
-      color: #777;
-    }
-    .sidebar:not(.expanded) .user-details {
-      display: none;
-    }
-    /* ===== MAIN CONTENT ===== */
-    .main-content {
-      flex: 1;
-      padding: 15px;
-      margin-left: 140px;
-      transition: margin-left 0.3s ease;
-    }
-    .sidebar.expanded ~ .main-content {
-      margin-left: 220px;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-    /* ===== HEADER ===== */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .form-title {
-      color: #333;
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin: 0;
-    }
-    .date-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .date-picker {
-      padding: 8px 12px;
-      border: 2px solid #e0e0e2;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      background: white;
-      color: #333;
-    }
-    .nav-btn {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .scan-btn {
-      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 16px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 3px 8px rgba(255,107,107,0.3);
-    }
-    .scan-btn:hover {
-      transform: translateY(-2px);
-    }
-    /* ===== CHECKOUT BUTTON ===== */
-    .checkout-btn {
-      background: linear-gradient(135deg, #28a745, #20c997);
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .checkout-btn:hover { opacity: 0.9; }
-    /* ===== TABLE ===== */
-    .attendance-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 16px;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-    .attendance-table th {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      text-align: left;
-      padding: 10px 14px;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .attendance-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid #eee;
-      font-size: 0.9rem;
-    }
-    /* ===== STATUS BADGES ===== */
-    .status.on-time {
-      background: rgba(40, 167, 69, 0.15);
-      color: #28a745;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 0.8rem;
-    }
-    .status.late {
-      background: rgba(255, 77, 7, 0.15);
-      color: #b01f06;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 0.8rem;
-    }
-    /* ===== MESSAGES & CONTAINERS ===== */
-    .message {
-      padding: 10px;
-      border-radius: 8px;
-      margin: 15px 0;
-      display: none;
-      font-size: 0.85rem;
-    }
-    .message.success { background: rgba(40,167,69,.15); color: #28a745; }
-    .message.error { background: rgba(220,53,69,.15); color: #dc3545; }
-    .current-date-display {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.85rem;
-    }
-    .camera-container {
-      display: none;
-      text-align: center;
-      margin-top: 16px;
-      padding: 16px;
-      background: rgba(255,255,255,.85);
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,.1);
-    }
-    #videoFeed {
-      border-radius: 8px;
-      border: 2px solid #667eea;
-      max-width: 100%;
-      height: auto;
-      background: #000;
-      display: block;
-      margin: 0 auto;
-    }
-    #locationMap {
-      height: 240px;
-      border-radius: 8px;
-      margin-top: 16px;
-      display: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    #locationInfo, #locationStatusDisplay {
-      margin-top: 10px;
-      padding: 10px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      display: none;
-      font-size: 0.85rem;
-    }
-    /* ===== WORK MODE ===== */
-    .work-mode-selection {
-      display: none;
-      background: white;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-top: 16px;
-      text-align: center;
-    }
-    .work-mode-title {
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-      color: #333;
-    }
-    .work-mode-options {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .work-mode-option {
-      width: 140px;
-      padding: 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 2px solid #e0e0e0;
-    }
-    .work-mode-option:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .work-mode-option.selected {
-      border-color: #667eea;
-      background: rgba(102,126,234,0.1);
-    }
-    .work-mode-icon {
-      font-size: 2.0rem;
-      margin-bottom: 8px;
-      color: #667eea;
-    }
-    .work-mode-label {
-      font-weight: 600;
-      font-size: 1.0rem;
-      color: #333;
-    }
-    .work-mode-desc {
-      font-size: 0.8rem;
-      color: #666;
-      margin-top: 6px;
-    }
-    .radius-info {
-      margin-top: 12px;
-      padding: 10px;
-      background: #f0f8ff;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      color: #444;
-    }
-    .radius-info strong {
-      color: #667eea;
-    }
-    .debug-location {
-      margin-top: 12px;
-      padding: 10px;
-      background: #e8f4ff;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      color: #2c3e50;
-      display: none;
-    }
-    /* ===== LOADING OVERLAY ===== */
-    #loadingOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(102, 126, 234, 0.95);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 9999;
-      color: #fff;
-      font-size: 16px;
-      backdrop-filter: blur(10px);
-    }
-    .spinner {
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      border-top: 3px solid #fff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 15px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .camera-error {
-      color: #dc3545;
-      background: rgba(220, 53, 69, 0.1);
-      padding: 12px;
-      border-radius: 8px;
-      margin: 16px 0;
-      display: none;
-    }
-    .location-radius-display {
-      display: none;
-      margin: 16px auto;
-      padding: 12px;
-      border-radius: 10px;
-      max-width: 500px;
-      text-align: center;
-      font-weight: 600;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-    }
-    .location-radius-title {
-      font-size: 1.0rem;
-      margin-bottom: 8px;
-    }
-    .location-radius-status {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.95rem;
-    }
-    .location-radius-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-    .location-radius-green { background-color: #28a745; }
-    .location-radius-yellow { background-color: #ffc107; }
-    .location-radius-red { background-color: #dc3545; }
-    .location-radius-distance {
-      font-weight: bold;
-      margin-left: 6px;
-    }
-    /* ===== RESPONSIVE ===== */
+
     @media (max-width: 768px) {
       .sidebar {
         width: 60px;
@@ -480,41 +43,190 @@
       .sidebar.expanded {
         width: 220px;
       }
-      .sidebar:not(.expanded) .logo-text,
-      .sidebar:not(.expanded) .user-details,
-      .sidebar:not(.expanded) .nav-item span {
-        display: none;
-      }
-      .sidebar:not(.expanded) .nav-item {
-        justify-content: center;
-        padding: 12px;
-        gap: 0;
-      }
+    }
+
+    .sidebar-header {
+      padding: 15px 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #eee;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg,#667eea,#764ba2);
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px;
+    }
+    .logo-text { font-weight: 700; font-size: 1.1rem; color: #333; white-space: nowrap; }
+    .sidebar:not(.expanded) .logo-text { display: none; }
+    .toggle-btn { 
+      background: none; border: none; font-size: 1rem; cursor: pointer; color: #667eea;
+      width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .toggle-btn:hover { background: rgba(102,126,234,0.1); }
+    .nav-links { flex:1; padding: 12px 0; display: flex; flex-direction: column; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 15px; color: #555; text-decoration: none;
+      border-left: 3px solid transparent; font-weight: 500; font-size: 0.9rem;
+      transition: 0.2s; white-space: nowrap;
+    }
+    .nav-item:hover, .nav-item.active { 
+      background: rgba(102,126,234,0.1); color: #667eea; border-left: 3px solid #667eea; 
+    }
+    .nav-item i { 
+      font-size: 1rem; 
+      width: 20px; 
+      text-align: center; 
+    }
+    .sidebar:not(.expanded) .nav-item span { display: none; }
+    .sidebar:not(.expanded) .nav-item { 
+      justify-content: center; 
+      padding: 12px; 
+      gap: 0; 
+    }
+    .user-info { 
+      padding: 12px; 
+      border-top: 1px solid #eee; 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+    }
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg,#667eea,#764ba2);
+      color: #fff; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-weight: bold; 
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    .user-details { flex: 1; }
+    .user-name { font-weight: 600; color: #333; font-size: 0.9rem; }
+    .user-email { font-size: 0.75rem; color: #777; }
+    .sidebar:not(.expanded) .user-details { display: none; }
+
+    /* Main Content */
+    .main-content { 
+      flex: 1; 
+      margin-left: 140px; 
+      padding: 15px; 
+      transition: margin-left 0.3s; 
+    }
+
+    .sidebar.expanded ~ .main-content {
+      margin-left: 220px;
+    }
+
+    @media (max-width: 768px) {
       .main-content {
         margin-left: 60px;
-        padding: 12px;
       }
       .sidebar.expanded ~ .main-content {
         margin-left: 220px;
       }
-      .container {
-        padding: 16px;
-      }
-      #locationMap {
-        height: 200px;
-      }
-      .form-title {
-        font-size: 1.4rem;
-      }
     }
+
+    .container {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      height: 85vh;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+    h2 { 
+      text-align: center; 
+      margin-bottom: 15px; 
+      color: #333; 
+      font-weight: 700; 
+      font-size: 1.5rem;
+    }
+    .content-layout { 
+      display: flex; 
+      gap: 15px; 
+      flex: 1; 
+    }
+    .staff-list {
+      width: 240px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 12px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+    }
+    .staff-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .staff-item:hover { background: #eef4ff; }
+    .staff-name { font-weight: 600; color: #333; font-size: 0.9rem; }
+    .staff-status { font-size: 0.75rem; color: #666; }
+
+    #map { 
+      flex: 1; 
+      border-radius: 12px; 
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1); 
+    }
+
+    #loadingOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(102,126,234,0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      font-size: 16px;
+      z-index: 9999;
+    }
+    .spinner {
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 12px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 
+      0% { transform: rotate(0); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .content-layout {
+        flex-direction: column;
+      }
+      .staff-list {
+        width: 100%;
+        max-height: 200px;
+        font-size: 0.8rem;
+      }
+      .staff-name { font-size: 0.85rem; }
+      .staff-status { font-size: 0.7rem; }
+      h2 { font-size: 1.3rem; }
+    }
+
+    .status-green { color: #28a745; font-weight: 600; }
+    .status-orange { color: #ff9800; font-weight: 600; }
+    .status-red { color: #dc3545; font-weight: 600; }
   </style>
 </head>
+
 <body>
-  <div id="loadingOverlay" class="loading-overlay">
+  <div id="loadingOverlay">
     <div class="spinner"></div>
-    <p>Loading...</p>
+    <p>Loading staff live locations...</p>
   </div>
-  <!-- Sidebar (matches Leave Calendar) -->
+
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -522,580 +234,235 @@
         <div class="logo-text">Attendance</div>
       </div>
       <button class="toggle-btn" id="toggleSidebar">
-        <i class="fas fa-chevron-right"></i>
+        <i class="fas fa-chevron-left"></i>
       </button>
     </div>
     <div class="nav-links" id="navLinks"></div>
     <div class="user-info">
       <div class="avatar" id="sidebarAvatar">U</div>
       <div class="user-details">
-        <div class="user-name" id="sidebarUserName">Loading...</div>
-        <div class="user-email" id="sidebarUserEmail">Loading...</div>
+        <div class="user-name" id="sidebarUserName">User</div>
+        <div class="user-email" id="sidebarUserEmail">user@example.com</div>
       </div>
     </div>
   </div>
+
   <div class="main-content">
     <div class="container">
-      <div class="header">
-        <div>
-          <h1 class="form-title">Attendance Log</h1>
-          <div class="date-controls">
-            <button id="prevDayBtn" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
-            <input type="date" id="datePicker" class="date-picker">
-            <button id="nextDayBtn" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
-            <div id="currentDateDisplay" class="current-date-display"></div>
-          </div>
+      <h2>Staff Live Location</h2>
+      <div class="content-layout">
+        <div class="staff-list">
+          <h3 style="font-size:1.1rem;margin-bottom:10px;">Staff Present Today</h3>
+          <div id="staffListContainer"></div>
+          <hr style="margin:12px 0;border-color:#ddd;">
+          <h3 style="font-size:1.1rem;margin:12px 0 10px;">Staff Checked Out</h3>
+          <div id="checkedOutContainer"></div>
         </div>
-        <button id="scanBtn" class="scan-btn"><i class="fas fa-camera"></i> Scan Face</button>
+        <div id="map"></div>
       </div>
-      <div id="workModeSelection" class="work-mode-selection">
-        <h3 class="work-mode-title">Select Your Work Mode</h3>
-        <div class="work-mode-options">
-          <div class="work-mode-option" id="wfoOption" data-mode="wfo">
-            <div class="work-mode-icon"><i class="fas fa-building"></i></div>
-            <div class="work-mode-label">Work From Office (WFO)</div>
-            <div class="work-mode-desc">At company premises</div>
-          </div>
-          <div class="work-mode-option" id="wfhOption" data-mode="wfh">
-            <div class="work-mode-icon"><i class="fas fa-home"></i></div>
-            <div class="work-mode-label">Work From Home (WFH)</div>
-            <div class="work-mode-desc">At your registered location</div>
-          </div>
-        </div>
-        <div class="radius-info">
-          <strong>Office Location:</strong> Setapak Central<br>
-          <strong>Allowed Radius:</strong> 100 meters for WFO, 500 meters for WFH
-        </div>
-      </div>
-      <div id="debugLocation" class="debug-location">
-        <strong>📍 Detected:</strong> <span id="debugCoords">--</span> (Accuracy: <span id="debugAccuracy">--</span>m)
-      </div>
-      <div id="cameraContainer" class="camera-container">
-        <h3>Position your face clearly</h3>
-        <div id="cameraError" class="camera-error"></div>
-        <video id="videoFeed" autoplay playsinline muted></video>
-        <div id="locationRadiusDisplay" class="location-radius-display">
-          <div class="location-radius-title">Location Status</div>
-          <div class="location-radius-status">
-            <div class="location-radius-dot" id="locationRadiusDot"></div>
-            <span id="locationRadiusText">Getting location...</span>
-            <span class="location-radius-distance" id="locationRadiusDistance"></span>
-          </div>
-        </div>
-        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-        <br>
-        <button id="captureBtn" class="scan-btn"><i class="fas fa-bolt"></i> Capture & Recognize</button>
-      </div>
-      <div id="message" class="message"></div>
-      <table class="attendance-table" id="attendanceTable">
-        <thead><tr><th>Name</th><th>Date</th><th>Punch In Time</th><th>Punch Out Time</th><th>Status</th><th>Action</th></tr></thead>
-        <tbody id="attendanceBody"></tbody>
-      </table>
-      <div id="emptyState" class="message" style="display:none;">No attendance records found for this date</div>
-      <div id="locationMap"></div>
-      <div id="locationInfo"></div>
-      <div id="locationStatusDisplay"></div>
     </div>
   </div>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      getDoc,
-      updateDoc,
-      collection,
-      query,
-      where,
-      getDocs,
-      setDoc,
-      writeBatch
-    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
     const firebaseConfig = {
-      apiKey:"AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
-      authDomain:"login-form-84016.firebaseapp.com",
-      projectId:"login-form-84016",
-      storageBucket:"login-form-84016.firebasestorage.app",
-      messagingSenderId:"568483509830",
-      appId:"1:568483509830:web:0d6de2a1537154bd67fc47",
-      measurementId:"G-KCGTMGB6HB"
+      apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
+      authDomain: "login-form-84016.firebaseapp.com",
+      projectId: "login-form-84016",
+      storageBucket: "login-form-84016.firebasestorage.app",
+      messagingSenderId: "568483509830",
+      appId: "1:568483509830:web:0d6de2a1537154bd67fc47"
     };
+
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-    const db = getFirestore();
-    const navLinks = document.getElementById("navLinks");
-    const sidebarAvatar = document.getElementById("sidebarAvatar");
-    const sidebarUserName = document.getElementById("sidebarUserName");
-    const sidebarUserEmail = document.getElementById("sidebarUserEmail");
-    const scanBtn = document.getElementById("scanBtn");
-    const cameraContainer = document.getElementById("cameraContainer");
-    const videoFeed = document.getElementById("videoFeed");
-    const canvas = document.getElementById("canvas");
-    const captureBtn = document.getElementById("captureBtn");
-    const messageDiv = document.getElementById("message");
-    const attendanceBody = document.getElementById("attendanceBody");
-    const emptyState = document.getElementById("emptyState");
-    const table = document.getElementById("attendanceTable");
-    const datePicker = document.getElementById("datePicker");
-    const currentDateDisplay = document.getElementById("currentDateDisplay");
-    const prevDayBtn = document.getElementById("prevDayBtn");
-    const nextDayBtn = document.getElementById("nextDayBtn");
-    const loadingOverlay = document.getElementById("loadingOverlay");
-    const cameraErrorDiv = document.getElementById("cameraError");
-    const locationRadiusDisplay = document.getElementById("locationRadiusDisplay");
-    const locationRadiusDot = document.getElementById("locationRadiusDot");
-    const locationRadiusText = document.getElementById("locationRadiusText");
-    const locationRadiusDistance = document.getElementById("locationRadiusDistance");
-    const workModeSelection = document.getElementById("workModeSelection");
-    const wfoOption = document.getElementById("wfoOption");
-    const wfhOption = document.getElementById("wfhOption");
-    const locationStatusDisplay = document.getElementById("locationStatusDisplay");
-    const debugLocation = document.getElementById("debugLocation");
-    const debugCoords = document.getElementById("debugCoords");
-    const debugAccuracy = document.getElementById("debugAccuracy");
-    let stream = null, allRecords = [], currentDate = new Date(), currentUid = null;
-    let selectedWorkMode = null;
-    let homeLocation = { lat: 3.205170, lng: 101.720107 };
-    const OFFICE_LAT = 3.205170;
-    const OFFICE_LNG = 101.720107;
-    const WFO_RADIUS = 100;
-    const WFH_RADIUS = 500;
-    let isProcessing = false;
-    document.getElementById('toggleSidebar').addEventListener('click', function() {
-      const sidebar = document.querySelector('.sidebar');
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        sidebar.classList.toggle('expanded');
-      } else {
-        sidebar.classList.toggle('expanded');
-      }
-      const icon = this.querySelector('i');
-      icon.className = sidebar.classList.contains('expanded') 
-        ? 'fas fa-chevron-left' 
-        : 'fas fa-chevron-right';
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const map = L.map('map').setView([3.139, 101.6869], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+      attribution: '&copy; OpenStreetMap' 
+    }).addTo(map);
+
+    const checkInIcon = L.icon({ 
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+      iconSize: [20, 34], 
+      iconAnchor: [10, 34] 
     });
-    function showLoading(text = "Processing...") {
-      loadingOverlay.style.display = "flex";
-      loadingOverlay.querySelector("p").textContent = text;
+    const checkedOutIcon = L.icon({ 
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+      iconSize: [20, 34], 
+      iconAnchor: [10, 34] 
+    });
+    const liveLocationIcon = L.icon({ 
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+      iconSize: [20, 34], 
+      iconAnchor: [10, 34] 
+    });
+
+    let markers = [];
+    let adminCoords = null;
+
+    function clearMarkers() {
+      markers.forEach(m => map.removeLayer(m));
+      markers = [];
     }
-    function hideLoading() { loadingOverlay.style.display = "none"; }
-    function showMessage(text, type) {
-      messageDiv.textContent = text;
-      messageDiv.className = `message ${type}`;
-      messageDiv.style.display = 'block';
-      setTimeout(() => messageDiv.style.display = 'none', 5000);
-    }
-    function showCameraError(text) {
-      cameraErrorDiv.textContent = text;
-      cameraErrorDiv.style.display = 'block';
-      setTimeout(() => cameraErrorDiv.style.display = 'none', 5000);
-    }
-    function addNavLink(text, icon, link, isActive = false) {
-      const li = document.createElement("a");
-      li.className = `nav-item ${isActive ? 'active' : ''}`;
-      li.href = link;
-      li.innerHTML = `<i class="fas ${icon}"></i><span>${text}</span>`;
-      navLinks.appendChild(li);
-    }
-    function buildNavigation() {
-      navLinks.innerHTML = "";
-      addNavLink("Dashboard", "fa-home", "/dashboard");
-      addNavLink("Attendance Log", "fa-list", "/attendance", true);
-      addNavLink("Leave Requests", "fa-calendar-alt", "/leavecalendar");
-      addNavLink("Profile", "fa-user", "/profile");
-      const logout = document.createElement("a");
-      logout.className = "nav-item";
-      logout.href = "#";
-      logout.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
-      logout.addEventListener("click", (e) => {
-        e.preventDefault();
-        signOut(auth).then(() => window.location.href = "/");
-      });
-      navLinks.appendChild(logout);
-    }
-    function formatDate(d) { return d.toISOString().split('T')[0]; }
-    function formatDisplayDate(d) { return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); }
-    function updateCurrentDateDisplay(d) { currentDateDisplay.textContent = formatDisplayDate(d); }
+
     function calculateDistance(lat1, lon1, lat2, lon2) {
       const R = 6371e3;
-      const φ1 = lat1 * Math.PI/180;
-      const φ2 = lat2 * Math.PI/180;
-      const Δφ = (lat2-lat1) * Math.PI/180;
-      const Δλ = (lon2-lon1) * Math.PI/180;
-      const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-                Math.cos(φ1) * Math.cos(φ2) *
-                Math.sin(Δλ/2) * Math.sin(Δλ/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      const φ1 = lat1 * Math.PI / 180;
+      const φ2 = lat2 * Math.PI / 180;
+      const Δφ = (lat2 - lat1) * Math.PI / 180;
+      const Δλ = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       return R * c;
     }
-    function getLocationStatusText(distance, mode) {
-      if (mode === 'wfo') {
-        if (distance < 50) return "At Office";
-        else if (distance < 500) return "Near Office";
-        else return "Far from Office";
-      } else {
-        if (distance < 50) return "At Home";
-        else if (distance < 500) return "Near Home";
-        else return "Far from Home";
-      }
+
+    function getLocationStatusColor(distance, workMode) {
+      if (distance < 50) return { text: workMode === 'wfo' ? 'At Office' : 'At Home', color: 'status-green' };
+      else if (distance < 500) return { text: workMode === 'wfo' ? 'Near Office' : 'Near Home', color: 'status-orange' };
+      else return { text: workMode === 'wfo' ? 'Far from Office' : 'Far from Home', color: 'status-red' };
     }
-    function getLocationStatus(distance, mode) {
-      const statusText = getLocationStatusText(distance, mode);
-      if (statusText.includes("At ")) {
-        return { text: statusText, color: "green", distance: `${distance.toFixed(1)}m` };
-      } else if (statusText.includes("Near ")) {
-        return { text: statusText, color: "yellow", distance: `${distance.toFixed(1)}m` };
-      } else {
-        return { text: statusText, color: "red", distance: `${distance.toFixed(1)}m` };
-      }
-    }
-    function updateLocationRadiusDisplay(lat, lng) {
-      if (!selectedWorkMode) {
-        locationRadiusDisplay.style.display = 'none';
-        return;
-      }
-      let distance = selectedWorkMode === 'wfo'
-        ? calculateDistance(OFFICE_LAT, OFFICE_LNG, lat, lng)
-        : calculateDistance(homeLocation.lat, homeLocation.lng, lat, lng);
-      const status = getLocationStatus(distance, selectedWorkMode);
-      locationRadiusDisplay.style.display = 'block';
-      locationRadiusText.textContent = status.text;
-      locationRadiusDistance.textContent = status.distance;
-      locationRadiusDot.className = 'location-radius-dot';
-      locationRadiusDot.classList.add(status.color === 'green' ? 'location-radius-green' : status.color === 'yellow' ? 'location-radius-yellow' : 'location-radius-red');
-    }
-    function validateLocation(lat, lng) {
-      if (!selectedWorkMode) return { valid: false, message: "Please select a work mode first" };
-      const distance = selectedWorkMode === 'wfo'
-        ? calculateDistance(OFFICE_LAT, OFFICE_LNG, lat, lng)
-        : calculateDistance(homeLocation.lat, homeLocation.lng, lat, lng);
-      const allowed = selectedWorkMode === 'wfo' ? WFO_RADIUS : WFH_RADIUS;
-      if (distance <= allowed) {
-        return { valid: true, message: `You are ${distance.toFixed(1)}m from ${selectedWorkMode === 'wfo' ? 'office' : 'home'}` };
-      } else {
-        return { valid: false, message: `You are ${distance.toFixed(1)}m away. Must be within ${allowed}m for ${selectedWorkMode.toUpperCase()}` };
-      }
-    }
-    function hasCheckedInToday() {
-      const today = formatDate(new Date());
-      return allRecords.some(record => {
-        const recordDate = record.timestamp ? new Date(record.timestamp) : new Date(record.checkin);
-        return formatDate(recordDate) === today;
-      });
-    }
-    async function handleCheckout(docId) {
-      if (!docId) return;
-      showLoading("Checking out...");
-      try {
-        const now = new Date();
-        const checkoutTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        await updateDoc(doc(db, "attendance_test", docId), { checkout: checkoutTime });
-        showMessage("✅ Checked out!", "success");
-        loadAllAttendanceRecords();
-      } catch (error) {
-        console.error("Checkout error:", error);
-        showMessage("❌ Failed to check out", "error");
-      } finally {
-        hideLoading();
-      }
-    }
-    async function loadAllAttendanceRecords() {
-      showLoading("Loading attendance...");
-      try {
-        if (!currentUid) {
-          hideLoading();
-          return;
-        }
-        const q = query(collection(db, "attendance_test"), where("userId", "==", currentUid));
-        const querySnapshot = await getDocs(q);
-        allRecords = [];
-        querySnapshot.forEach(doc => allRecords.push({ id: doc.id, ...doc.data() }));
-        const todayCheckedIn = hasCheckedInToday();
-        scanBtn.disabled = todayCheckedIn;
-        scanBtn.classList.toggle('disabled', todayCheckedIn);
-        scanBtn.innerHTML = todayCheckedIn
-          ? '<i class="fas fa-check-circle"></i> Already Checked In Today'
-          : '<i class="fas fa-camera"></i> Scan Face';
-        displayRecordsForDate(formatDate(currentDate));
-      } catch (e) {
-        console.error("Firestore error:", e);
-        showMessage("Failed to load attendance: " + e.message, "error");
-      } finally {
-        hideLoading();
-      }
-    }
-    function displayRecordsForDate(ds) {
-      const f = allRecords.filter(r => {
-        const recordDate = r.timestamp ? new Date(r.timestamp) : new Date(r.checkin);
-        return formatDate(recordDate) === ds;
-      });
-      const mapDiv = document.getElementById("locationMap");
-      const infoDiv = document.getElementById("locationInfo");
-      const statusDiv = document.getElementById("locationStatusDisplay");
-      if (!f.length) {
-        emptyState.style.display = 'block';
-        table.style.display = 'none';
-        mapDiv.style.display = 'none';
-        infoDiv.style.display = 'none';
-        statusDiv.style.display = 'none';
-      } else {
-        emptyState.style.display = 'none';
-        table.style.display = 'table';
-        attendanceBody.innerHTML = '';
-        const latest = f[0];
-        if (latest.latitude != null && latest.longitude != null) {
-          if (window.attendanceMap) {
-            window.attendanceMap.remove();
-            window.attendanceMap = null;
-          }
-          const lat = parseFloat(latest.latitude);
-          const lng = parseFloat(latest.longitude);
-          window.attendanceMap = L.map('locationMap').setView([lat, lng], 16);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          }).addTo(window.attendanceMap);
-          const popupContent = `<b>${latest.name}</b><br><strong>${latest.status}</strong><br><em>${latest.address}</em>`;
-          L.marker([lat, lng]).addTo(window.attendanceMap).bindPopup(popupContent).openPopup();
-          L.circle([lat, lng], { color: '#667eea', fillColor: '#667eea', fillOpacity: 0.2, radius: 50 }).addTo(window.attendanceMap);
-          mapDiv.style.display = 'block';
-          infoDiv.innerHTML = `<strong>📍 Location:</strong> ${latest.address}`;
-          infoDiv.style.display = 'block';
-          let locationStatusText = latest.locationStatus || 'Unknown';
-          let statusClass = locationStatusText.includes("At ") ? 'location-status-green' :
-                           locationStatusText.includes("Near ") ? 'location-status-yellow' : 'location-status-red';
-          statusDiv.innerHTML = `
-            <strong>📍 Location Status:</strong>
-            <span class="location-status-text">
-              <span class="location-status-dot ${statusClass}"></span>
-              ${locationStatusText}
-            </span>
-          `;
-          statusDiv.style.display = 'block';
-        } else {
-          mapDiv.style.display = 'none';
-          infoDiv.style.display = 'none';
-          statusDiv.style.display = 'none';
-        }
-        f.forEach(r => {
-          const d = r.timestamp ? new Date(r.timestamp) : new Date(r.checkin);
-          const statusClass = r.status === "On Time" ? "on-time" : "late";
-          const isToday = formatDate(d) === formatDate(new Date());
-          const canCheckout = isToday && !r.checkout;
-          attendanceBody.innerHTML += `
-            <tr>
-              <td>${r.name || 'N/A'}</td>
-              <td>${d.toLocaleDateString()}</td>
-              <td>${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-              <td>${r.checkout || (canCheckout ? '<em>-</em>' : 'N/A')}</td>
-              <td><span class="status ${statusClass}">${r.status}</span></td>
-              <td>
-                ${canCheckout ? 
-                  `<button class="checkout-btn" data-id="${r.id}">
-                    <i class="fas fa-sign-out-alt"></i> Check Out
-                  </button>` : ''
-                }
-              </td>
-            </tr>`;
-        });
-        document.querySelectorAll('.checkout-btn').forEach(button => {
-          button.addEventListener('click', (e) => handleCheckout(e.currentTarget.dataset.id));
-        });
-      }
-    }
-    async function handleWorkModeSelection(mode) {
-      selectedWorkMode = mode;
-      wfoOption.classList.toggle('selected', mode === 'wfo');
-      wfhOption.classList.toggle('selected', mode === 'wfh');
-      if (mode === 'wfh') {
-        showLoading("Detecting and saving your home location...");
-        try {
-          const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, {
-              enableHighAccuracy: true,
-              timeout: 15000,
-              maximumAge: 0
-            });
-          });
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          const accuracy = position.coords.accuracy;
-          if (accuracy > 100) {
-            const confirmed = confirm(
-              `⚠️ Location accuracy is low (${accuracy.toFixed(0)}m).
-` +
-              `Detected: ${lat.toFixed(6)}, ${lng.toFixed(6)}
-` +
-              `Continue anyway?`
-            );
-            if (!confirmed) {
-              hideLoading();
-              selectedWorkMode = null;
-              wfhOption.classList.remove('selected');
-              scanBtn.style.display = 'inline-flex';
-              workModeSelection.style.display = 'block';
-              return;
-            }
-          }
-          homeLocation = { lat, lng };
-          await updateDoc(doc(db, "users", currentUid), { homeLocation: { lat, lng } });
-          showMessage(`✅ Home location saved! Accuracy: ±${accuracy.toFixed(0)}m`, "success");
-          debugCoords.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-          debugAccuracy.textContent = accuracy.toFixed(0);
-          debugLocation.style.display = 'block';
-        } catch (err) {
-          console.error("Auto-save location error:", err);
-          let msg = "Failed to get location. Please ensure location services are enabled.";
-          if (err.code === 1) msg = "Location permission denied.";
-          showMessage(msg, "error");
-          selectedWorkMode = null;
-          wfhOption.classList.remove('selected');
-          hideLoading();
-          scanBtn.style.display = 'inline-flex';
-          workModeSelection.style.display = 'block';
-          return;
-        }
-      } else {
-        debugLocation.style.display = 'none';
-      }
-      hideLoading();
-      workModeSelection.style.display = 'none';
-      scanBtn.style.display = 'none';
-      cameraContainer.style.display = 'block';
-      startCamera();
-    }
-    async function startCamera() {
-      try {
-        if (stream) stream.getTracks().forEach(track => track.stop());
-        const constraints = { video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } }, audio: false };
-        stream = await navigator.mediaDevices.getUserMedia(constraints);
-        videoFeed.srcObject = stream;
-        videoFeed.onloadedmetadata = () => videoFeed.play();
-        videoFeed.onerror = () => showCameraError("Failed to start camera.");
-        startLocationTracking();
-      } catch (err) {
-        let msg = "Camera access denied or not available.";
-        if (err.name === "NotAllowedError") msg = "Please allow camera access in browser settings.";
-        else if (err.name === "NotFoundError") msg = "No camera found.";
-        else if (err.name === "NotReadableError") msg = "Camera in use by another app.";
-        showCameraError(msg);
-        stopCamera();
-      }
-    }
-    function startLocationTracking() {
-      if (window.locationWatchId) navigator.geolocation.clearWatch(window.locationWatchId);
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const { latitude, longitude } = pos.coords;
-          updateLocationRadiusDisplay(latitude, longitude);
-          window.locationWatchId = navigator.geolocation.watchPosition(
-            (p) => updateLocationRadiusDisplay(p.coords.latitude, p.coords.longitude),
-            (e) => console.warn("Location tracking error:", e),
-            { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
-          );
-        },
-        (e) => {
-          locationRadiusDisplay.style.display = 'block';
-          locationRadiusText.textContent = "Location unavailable";
-          locationRadiusDot.className = 'location-radius-dot location-radius-red';
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+
+    async function loadStaffToday() {
+      document.getElementById("loadingOverlay").style.display = "flex";
+      const staffList = document.getElementById("staffListContainer");
+      const checkedList = document.getElementById("checkedOutContainer");
+      staffList.innerHTML = "";
+      checkedList.innerHTML = "";
+      clearMarkers();
+
+      const today = new Date().toISOString().split('T')[0];
+      const q = query(
+        collection(db, "attendance_test"), 
+        where("timestamp", ">=", `${today} 00:00:00`), 
+        orderBy("timestamp", "desc")
       );
-    }
-    scanBtn.addEventListener('click', () => {
-      if (hasCheckedInToday()) return showMessage("You have already checked in today!", "error");
-      workModeSelection.style.display = 'block';
-      scanBtn.style.display = 'none';
-    });
-    wfoOption.addEventListener('click', () => handleWorkModeSelection('wfo'));
-    wfhOption.addEventListener('click', () => handleWorkModeSelection('wfh'));
-    captureBtn.addEventListener('click', async () => {
-      if (isProcessing) return;
-      isProcessing = true;
-      captureBtn.disabled = true;
-      captureBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-      if (!videoFeed.srcObject || videoFeed.videoWidth === 0) {
-        showCameraError("Camera is not ready.");
-        isProcessing = false;
-        captureBtn.disabled = false;
-        captureBtn.innerHTML = '<i class="fas fa-bolt"></i> Capture & Recognize';
+      const snap = await getDocs(q);
+
+      if (snap.empty) {
+        staffList.innerHTML = "<p style='font-size:0.85rem;color:#666;text-align:center;padding:10px;'>No attendance records today.</p>";
+        document.getElementById("loadingOverlay").style.display = "none";
         return;
       }
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(videoFeed, 0, 0, canvas.width, canvas.height);
-      const img = canvas.toDataURL('image/png');
-      const expectedName = sidebarUserName.textContent.trim();
-      let lat = null, lng = null;
-      showLoading("Getting your location...");
-      try {
-        const pos = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 60000
-          });
-        });
-        lat = pos.coords.latitude;
-        lng = pos.coords.longitude;
-      } catch (err) {
-        showMessage("Location access denied. Please enable location services.", "error");
-        stopCamera();
-        isProcessing = false;
-        captureBtn.disabled = false;
-        captureBtn.innerHTML = '<i class="fas fa-bolt"></i> Capture & Recognize';
-        return;
-      }
-      const validation = validateLocation(lat, lng);
-      if (!validation.valid) {
-        showMessage(validation.message, "error");
-        stopCamera();
-        isProcessing = false;
-        captureBtn.disabled = false;
-        captureBtn.innerHTML = '<i class="fas fa-bolt"></i> Capture & Recognize';
-        return;
-      }
-      let distance = selectedWorkMode === 'wfo'
-        ? calculateDistance(OFFICE_LAT, OFFICE_LNG, lat, lng)
-        : calculateDistance(homeLocation.lat, homeLocation.lng, lat, lng);
-      const locationStatus = getLocationStatusText(distance, selectedWorkMode);
-      showLoading("Recognizing face...");
-      try {
-        const BACKEND_URL = window.location.hostname.includes("web.app") ?
-          "https://your-flask-backend.onrender.com" : "http://127.0.0.1:5000";
-        const res = await fetch(`${BACKEND_URL}/recognize`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ image: img, expected_name: expectedName, user_uid: currentUid, latitude: lat, longitude: lng, work_mode: selectedWorkMode })
-        });
-        const result = await res.json();
-        if (result.success) {
-          const today = new Date().toISOString().split('T')[0];
-          const docId = `${currentUid}_${today}`;
-          const docRef = doc(db, "attendance_test", docId);
-          const q = query(collection(db, "attendance_test"), where("userId", "==", currentUid));
-          const querySnapshot = await getDocs(q);
-          const batch = writeBatch(db);
-          querySnapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            const recordDate = data.timestamp
-              ? new Date(data.timestamp)
-              : data.checkin
-                ? new Date()
-                : null;
-            if (recordDate && formatDate(recordDate) === today) {
-              if (
-                docSnap.id !== docId ||
-                !data.timestamp ||
-                typeof data.timestamp !== 'string' ||
-                isNaN(new Date(data.timestamp).getTime())
-              ) {
-                batch.delete(docSnap.ref);
-              }
+
+      snap.forEach(doc => {
+        const d = doc.data();
+        const hasCheckout = d.checkout;
+        const div = document.createElement("div");
+        div.className = "staff-item";
+        let distanceText = "";
+
+        if (!hasCheckout && adminCoords && d.latitude && d.longitude) {
+          const distance = calculateDistance(adminCoords.lat, adminCoords.lng, d.latitude, d.longitude);
+          const locStatus = getLocationStatusColor(distance, d.workMode || 'wfo');
+          distanceText = `<br><small class="${locStatus.color}">${locStatus.text} (${distance.toFixed(1)} m)</small>`;
+        }
+
+        div.innerHTML = `
+          <div class="staff-name">${d.name || "Unknown"}</div>
+          <div class="staff-status">
+            ${hasCheckout 
+              ? `Checked Out @ ${d.checkout}` 
+              : `Checked In @ ${d.checkin || "-"} ${distanceText}`
             }
-          });
-          await batch.commit();
-          const now = new Date();
-          const attendanceData = {
-            userId: currentUid,
-            name
+          </div>`;
+        div.onclick = () => showStaffLocation(d, hasCheckout);
+
+        if (hasCheckout) {
+          checkedList.appendChild(div);
+        } else {
+          staffList.appendChild(div);
+        }
+      });
+
+      document.getElementById("loadingOverlay").style.display = "none";
+    }
+
+    function showStaffLocation(d, isCheckedOut) {
+      clearMarkers();
+      if (d.latitude && d.longitude) {
+        const marker = L.marker([d.latitude, d.longitude], { icon: isCheckedOut ? checkedOutIcon : checkInIcon })
+          .addTo(map)
+          .bindPopup(`<b>${d.name}</b><br>${isCheckedOut ? "Checked Out" : "Checked In"} @ ${d.address || "Unknown"}`);
+        markers.push(marker);
+        map.setView([d.latitude, d.longitude], 15);
+      }
+
+      if (!isCheckedOut) {
+        navigator.geolocation.watchPosition(pos => {
+          adminCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          const distance = calculateDistance(adminCoords.lat, adminCoords.lng, d.latitude, d.longitude);
+          const status = getLocationStatusColor(distance, d.workMode);
+          clearMarkers();
+
+          L.marker([adminCoords.lat, adminCoords.lng], { icon: liveLocationIcon })
+            .addTo(map)
+            .bindPopup(`<b>Admin Live Position</b>`);
+          const staffMarker = L.marker([d.latitude, d.longitude], { icon: checkInIcon })
+            .addTo(map)
+            .bindPopup(`<b>${d.name}</b><br>${status.text} (${distance.toFixed(1)} m)`);
+          markers.push(staffMarker);
+        });
+      }
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "/";
+        return;
+      }
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const u = userDoc.data() || {};
+      const initials = (u.firstName?.charAt(0) || '') + (u.lastName?.charAt(0) || '');
+      document.getElementById("sidebarUserName").textContent = u.firstName || "User";
+      document.getElementById("sidebarUserEmail").textContent = u.email || user.email;
+      document.getElementById("sidebarAvatar").textContent = initials || 'U';
+
+      const nav = document.getElementById("navLinks");
+      nav.innerHTML = `
+        <a class="nav-item" href="/admin-dashboard"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/manage-staff"><i class="fas fa-users"></i><span>Staff Management</span></a>
+        <a class="nav-item" href="/admin-attendancelog"><i class="fas fa-list"></i><span>Staff Attendance Log</span></a>
+        <a class="nav-item" href="/admin-leavecalendar"><i class="fas fa-calendar-alt"></i><span>Staff Leave Requests</span></a>
+        <a class="nav-item active" href="/admin-liveloc"><i class="fas fa-location-dot"></i><span>Staff Live Location</span></a>
+        <a class="nav-item" href="/profile"><i class="fas fa-user"></i><span>Admin Profile</span></a>
+        <a class="nav-item logout-divider" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>`;
+      
+      document.getElementById("logoutBtn").onclick = (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => {
+          window.location.href = "/";
+        });
+      };
+
+      navigator.geolocation.getCurrentPosition(pos => {
+        adminCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        loadStaffToday();
+      }, (error) => {
+        console.error("Geolocation error:", error);
+        loadStaffToday();
+      });
+    });
+
+    document.getElementById("toggleSidebar").onclick = () => {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("expanded");
+      const icon = document.querySelector("#toggleSidebar i");
+      
+      if (sidebar.classList.contains("expanded")) {
+        icon.className = "fas fa-chevron-left";
+      } else {
+        icon.className = "fas fa-chevron-right";
+      }
+    };
+  </script>
+</body>
+</html>
