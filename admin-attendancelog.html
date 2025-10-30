@@ -741,14 +741,15 @@
           sidebarUserEmail.textContent = email;
           sidebarAvatar.textContent = initials;
 
+          // ✅ CORRECTED NAVIGATION — MATCHES LEAVE CALENDAR
           navLinks.innerHTML = "";
           if (data.role === "admin") {
-            addNavLink("Dashboard", "fa-home", "admin-dashboard.html");
-            addNavLink("Staff Management", "fa-users", "manage-staff.html");
-            addNavLink("Staff Attendance Log", "fa-list", "admin-attendancelog.html", true);
-            addNavLink("Staff Leave Requests", "fa-calendar-alt", "admin-leavecalendar.html");
-            addNavLink("Admin Profile", "fa-user", "profile.html");
-            addNavLink("Staff Live Location", "fa-location-dot", "admin-liveloc.html");
+            addNavLink("Dashboard", "fa-home", "/admin-dashboard");
+            addNavLink("Staff Management", "fa-users", "/manage-staff");
+            addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog", true); // ACTIVE
+            addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
+            addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
+            addNavLink("Admin Profile", "fa-user", "/profile");
           }
           addLogout();
 
@@ -768,10 +769,6 @@
     }
 
     function addLogout() {
-      const wrap = document.createElement("div");
-      wrap.style.marginTop = "auto";
-      wrap.style.paddingTop = "10px";
-      wrap.style.borderTop = "1px solid #eee";
       const a = document.createElement("a");
       a.className = "nav-item";
       a.innerHTML = `<i class="fas fa-sign-out-alt"></i><span>Logout</span>`;
@@ -782,8 +779,7 @@
           window.location.href = "/";
         }
       });
-      wrap.appendChild(a);
-      navLinks.appendChild(wrap);
+      navLinks.appendChild(a);
     }
   </script>
 </body>
