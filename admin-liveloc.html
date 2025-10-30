@@ -18,7 +18,7 @@
       overflow-x: hidden;
     }
 
-    /* Sidebar */
+    /* SIDEBAR — MATCHING ADMIN CALENDAR STYLE */
     .sidebar {
       width: 140px;
       background: rgba(255, 255, 255, 0.95);
@@ -30,16 +30,16 @@
       display: flex; flex-direction: column;
       backdrop-filter: blur(10px);
       z-index: 1000;
-      font-size: 1.05rem; /* Base scale increased */
+      font-size: 1.05rem; /* Enlarged base */
     }
 
     .sidebar.expanded {
-      width: 260px; /* Wider for larger text */
+      width: 260px; /* Wider like calendar page */
     }
 
     @media (max-width: 768px) {
       .sidebar {
-        width: 70px;
+        width: 70px; /* Slightly wider for touch */
       }
       .sidebar.expanded {
         width: 260px;
@@ -51,7 +51,7 @@
       display: flex; justify-content: space-between; align-items: center;
       border-bottom: 1px solid #eee;
     }
-    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo { display: flex; align-items: center; gap: 12px; }
     .logo-icon {
       width: 36px; height: 36px; border-radius: 8px;
       background: linear-gradient(135deg,#667eea,#764ba2);
@@ -295,14 +295,14 @@
     }
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371e3; // meters
+      const R = 6371e3;
       const φ1 = lat1 * Math.PI / 180;
       const φ2 = lat2 * Math.PI / 180;
       const Δφ = (lat2 - lat1) * Math.PI / 180;
       const Δλ = (lon2 - lon1) * Math.PI / 180;
       const a = Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2;
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c; // meters
+      return R * c;
     }
 
     function getLocationStatusColor(distance, workMode) {
@@ -427,7 +427,7 @@
         loadStaffToday();
       }, (error) => {
         console.error("Geolocation error:", error);
-        loadStaffToday(); // Load without admin location
+        loadStaffToday();
       });
     });
 
