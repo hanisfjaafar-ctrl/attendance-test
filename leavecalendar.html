@@ -791,17 +791,17 @@
     function buildNavigation(role) {
       navLinks.innerHTML = '';
       if (role === "admin") {
-        addNavLink("Dashboard", "fa-home", "/admin-dashboard");
+        addNavLink("Dashboard", "fa-home", "admin-dashboard");
         addNavLink("Staff Management", "fa-users", "/manage-staff");
         addNavLink("Attendance Log", "fa-list", "/admin-attendancelog");
         addNavLink("Leave Calendar", "fa-calendar-alt", "/admin-leavecalendar", true);
         addNavLink("Live Location", "fa-location-dot", "/admin-liveloc");
         addNavLink("Profile", "fa-user", "/profile");
       } else {
-        addNavLink("Dashboard", "fa-home", "/dashboard");
-        addNavLink("Attendance Log", "fa-list", "/attendance");
-        addNavLink("Leave Calendar", "fa-calendar-alt", "/leavecalendar", true);
-        addNavLink("Profile", "fa-user", "/profile");
+        addNavLink("Dashboard", "fa-home", "dashboard.html");
+        addNavLink("Attendance Log", "fa-list", "attendance.html");
+        addNavLink("Leave Calendar", "fa-calendar-alt", "leavecalendar.html", true);
+        addNavLink("Profile", "fa-user", "profile.html");
       }
       const logout = document.createElement("a");
       logout.className = "nav-item";
@@ -809,7 +809,7 @@
       logout.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
       logout.addEventListener("click", (e) => {
         e.preventDefault();
-        signOut(auth).then(() => window.location.href = "/");
+        signOut(auth).then(() => window.location.href = "index.html");
       });
       navLinks.appendChild(logout);
     }
@@ -985,3 +985,4 @@
   </script>
 </body>
 </html>
+
