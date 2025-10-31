@@ -766,7 +766,6 @@
 
   <!-- Firebase SDK -->
   <script type="module">
-    // ✅ FIXED: Clean Firebase imports (NO extra spaces)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import { 
@@ -781,7 +780,6 @@
       writeBatch
     } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
       authDomain: "login-form-84016.firebaseapp.com",
@@ -830,12 +828,12 @@
       navLinks.appendChild(li);
     }
 
-    // ✅ ADDED: Divider line above Logout (matches Staff Management)
     function addLogout() {
       const logoutDiv = document.createElement("div");
       logoutDiv.style.marginTop = "auto";
       logoutDiv.style.paddingTop = "10px";
-      logoutDiv.style.borderTop = "1px solid #eee";
+      // REMOVED: logoutDiv.style.borderTop = "1px solid #eee";
+
       const li = document.createElement("a");
       li.className = "nav-item";
       li.href = "/";
@@ -903,13 +901,13 @@
           }
         } catch (err) {
           console.error("Error fetching user data:", err);
-          hideLoading(); // ✅ Always hide on error
+          hideLoading();
         }
         setupLeaveListeners();
         setupAttendanceListener();
-        hideLoading(); // ✅ Always hide on success
+        hideLoading();
       } else {
-        hideLoading(); // ✅ Always hide
+        hideLoading();
         window.location.href = "/";
       }
     });
