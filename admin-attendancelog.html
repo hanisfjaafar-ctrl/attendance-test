@@ -714,17 +714,17 @@
     });
 
     // ✅ NAVIGATION RENDERING (IDENTICAL TO LEAVE CALENDAR)
-    function renderNavigation(currentPage = '/admin-attendancelog') {
+    function renderNavigation(currentPage = 'admin-attendancelog.html') {
       const nav = document.getElementById("navLinks");
       if (!nav) return;
 
       const pages = [
-        { name: "Dashboard", path: "/admin-dashboard", icon: "fa-home" },
-        { name: "Staff Management", path: "/manage-staff", icon: "fa-users" },
-        { name: "Staff Attendance Log", path: "/admin-attendancelog", icon: "fa-list" },
-        { name: "Staff Leave Requests", path: "/admin-leavecalendar", icon: "fa-calendar-alt" },
-        { name: "Staff Live Location", path: "/admin-liveloc", icon: "fa-location-dot" },
-        { name: "Admin Profile", path: "/profile", icon: "fa-user" }
+        { name: "Dashboard", path: "admin-dashboard.html", icon: "fa-home" },
+        { name: "Staff Management", path: "manage-staff.html", icon: "fa-users" },
+        { name: "Staff Attendance Log", path: "admin-attendancelog.html", icon: "fa-list" },
+        { name: "Staff Leave Requests", path: "admin-leavecalendar.html", icon: "fa-calendar-alt" },
+        { name: "Staff Live Location", path: "admin-liveloc.html", icon: "fa-location-dot" },
+        { name: "Admin Profile", path: "profile.html", icon: "fa-user" }
       ];
 
       nav.innerHTML = pages.map(page => `
@@ -738,7 +738,7 @@
       logout.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
       logout.onclick = (e) => {
         e.preventDefault();
-        signOut(auth).then(() => window.location.href = '/').catch(console.error);
+        signOut(auth).then(() => window.location.href = 'index.html').catch(console.error);
       };
       nav.appendChild(logout);
     }
@@ -772,4 +772,5 @@
   </script>
 </body>
 </html>
+
 
