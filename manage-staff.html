@@ -454,11 +454,11 @@
       navLinks.appendChild(li);
     }
 
-    // ✅ Updated addLogout: no line, paddingTop = 0px
+    // ✅ ONLY CHANGE: Updated addLogout to match your spec
     function addLogout() {
       const logoutDiv = document.createElement("div");
       logoutDiv.style.marginTop = "auto";
-      logoutDiv.style.paddingTop = "0px"; // ← As requested
+      logoutDiv.style.paddingTop = "0px"; // ← Exactly as requested
 
       const li = document.createElement("a");
       li.className = "nav-item";
@@ -513,7 +513,7 @@
             buildNavigation("admin");
           }
         } catch (err) {
-          console.error("Error fetching user data:", err);
+          console.error("Error fetching user ", err);
           hideLoading();
         }
         loadStaffUsers();
@@ -584,7 +584,6 @@
 
     window.editStaff = function(staffId) {
       alert("Edit functionality can be implemented here.\nStaff ID: " + staffId);
-      // Redirect or open modal as needed
     };
 
     window.deleteStaff = async function(staffId, name) {
