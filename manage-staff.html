@@ -20,9 +20,9 @@
       overflow-x: hidden;
       display: flex;
     }
-    /* ===== SIDEBAR ===== */
+    /* ===== SIDEBAR (EXACT MATCH TO REFERENCE) ===== */
     .sidebar {
-      width: 280px;
+      width: 140px;
       background: rgba(255, 255, 255, 0.95);
       height: 100vh;
       position: fixed;
@@ -35,11 +35,19 @@
       flex-direction: column;
       backdrop-filter: blur(10px);
     }
-    .sidebar.collapsed {
-      width: 70px;
+    .sidebar.expanded {
+      width: 220px;
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+      }
+      .sidebar.expanded {
+        width: 220px;
+      }
     }
     .sidebar-header {
-      padding: 25px 20px;
+      padding: 15px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -48,35 +56,36 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .logo-icon {
-      width: 40px;
-      height: 40px;
+      width: 28px;
+      height: 28px;
       background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 20px;
+      font-size: 16px;
     }
     .logo-text {
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #333;
+      white-space: nowrap;
     }
-    .sidebar.collapsed .logo-text {
+    .sidebar:not(.expanded) .logo-text {
       display: none;
     }
     .toggle-btn {
       background: none;
       border: none;
-      font-size: 1.2rem;
+      font-size: 1rem;
       cursor: pointer;
       color: #667eea;
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -87,49 +96,51 @@
       background: rgba(102, 126, 234, 0.1);
     }
     .nav-links {
-      padding: 20px 0;
+      padding: 12px 0;
       flex: 1;
     }
     .nav-item {
-      padding: 12px 25px;
+      padding: 10px 15px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       text-decoration: none;
       color: #555;
       font-weight: 500;
+      font-size: 0.9rem;
       transition: all 0.2s;
-      border-left: 4px solid transparent;
+      border-left: 3px solid transparent;
       cursor: pointer;
+      white-space: nowrap;
     }
     .nav-item:hover, .nav-item.active {
       background: rgba(102, 126, 234, 0.1);
       color: #667eea;
-      border-left: 4px solid #667eea;
+      border-left: 3px solid #667eea;
     }
     .nav-item i {
-      font-size: 1.2rem;
-      width: 24px;
+      font-size: 1rem;
+      width: 20px;
       text-align: center;
     }
-    .sidebar.collapsed .nav-item span {
+    .sidebar:not(.expanded) .nav-item span {
       display: none;
     }
-    .sidebar.collapsed .nav-item {
+    .sidebar:not(.expanded) .nav-item {
       justify-content: center;
-      padding: 15px;
+      padding: 12px;
       gap: 0;
     }
     .user-info {
-      padding: 20px;
+      padding: 12px;
       border-top: 1px solid #eee;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
     }
     .avatar {
-      width: 45px;
-      height: 45px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
@@ -137,7 +148,7 @@
       justify-content: center;
       color: white;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 14px;
       text-transform: uppercase;
     }
     .user-details {
@@ -146,49 +157,58 @@
     .user-name {
       font-weight: 600;
       color: #333;
+      font-size: 0.9rem;
     }
     .user-email {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: #777;
     }
-    .sidebar.collapsed .user-details {
+    .sidebar:not(.expanded) .user-details {
       display: none;
     }
     /* ===== MAIN CONTENT ===== */
     .main-content {
       flex: 1;
-      padding: 30px;
-      margin-left: 280px;
+      padding: 15px;
+      margin-left: 140px;
       transition: margin-left 0.3s ease;
     }
-    .sidebar.collapsed ~ .main-content {
-      margin-left: 70px;
+    .sidebar.expanded ~ .main-content {
+      margin-left: 220px;
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 60px;
+        padding: 12px;
+      }
+      .sidebar.expanded ~ .main-content {
+        margin-left: 220px;
+      }
     }
     .container {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
       background: #fff;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
     h2 {
       text-align: center;
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
       color: #333;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       position: relative;
     }
     h2::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
+      width: 50px;
+      height: 2px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       border-radius: 2px;
     }
@@ -196,53 +216,55 @@
     .stats-container {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 15px;
     }
     .stat-card {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
-      padding: 20px;
-      border-radius: 15px;
+      padding: 15px;
+      border-radius: 12px;
       flex: 1;
-      min-width: 200px;
+      min-width: 150px;
       text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .stat-value {
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      margin: 10px 0;
+      margin: 8px 0;
     }
     .stat-label {
-      font-size: 1rem;
+      font-size: 0.85rem;
       opacity: 0.9;
     }
     /* ===== STAFF TABLE ===== */
     .staff-table-container {
       overflow-x: auto;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 600px;
+      min-width: 500px;
     }
     thead {
       background: linear-gradient(to right, #667eea, #764ba2);
       color: white;
     }
     th {
-      padding: 16px 20px;
+      padding: 12px 15px;
       text-align: left;
       font-weight: 600;
+      font-size: 0.85rem;
     }
     td {
-      padding: 16px 20px;
+      padding: 12px 15px;
       border-bottom: 1px solid #eee;
+      font-size: 0.85rem;
     }
     tr:last-child td {
       border-bottom: none;
@@ -251,9 +273,10 @@
       background-color: #f8f9fa;
     }
     .status {
-      padding: 6px 12px;
-      border-radius: 20px;
+      padding: 4px 10px;
+      border-radius: 18px;
       font-weight: 600;
+      font-size: 0.75rem;
       display: inline-block;
     }
     .status-active {
@@ -267,34 +290,37 @@
     .status-green {
       background: #e8f5e9;
       color: #2e7d32;
-      padding: 4px 8px;
+      padding: 3px 7px;
       border-radius: 4px;
+      font-size: 0.75rem;
     }
     .status-red {
       background: #ffebee;
       color: #c62828;
-      padding: 4px 8px;
+      padding: 3px 7px;
       border-radius: 4px;
+      font-size: 0.75rem;
     }
     .clickable-name {
       color: #667eea;
       cursor: pointer;
       text-decoration: underline;
+      font-size: 0.85rem;
     }
     .clickable-name:hover {
       color: #5a6fd8;
     }
     .action-btn {
-      padding: 6px 12px;
+      padding: 5px 10px;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
+      gap: 6px;
+      font-size: 0.75rem;
     }
     .btn-disable {
       background: #ff9800;
@@ -324,8 +350,8 @@
     }
     .details-header {
       background: white;
-      padding: 20px 40px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 15px 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -337,14 +363,15 @@
       background: #667eea;
       color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
+      padding: 8px 16px;
+      border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.3s;
+      font-size: 0.85rem;
     }
     .back-btn:hover {
       background: #5a6fd8;
@@ -353,13 +380,13 @@
     .staff-header {
       display: flex;
       align-items: center;
-      gap: 20px;
-      padding: 30px 40px;
+      gap: 15px;
+      padding: 20px 25px;
       border-bottom: 1px solid #eee;
     }
     .staff-avatar {
-      width: 80px;
-      height: 80px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
@@ -367,42 +394,44 @@
       justify-content: center;
       color: white;
       font-weight: bold;
-      font-size: 28px;
+      font-size: 20px;
       text-transform: uppercase;
     }
     .staff-info {
       flex: 1;
     }
     .staff-name {
-      font-size: 2.2rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: #333;
       margin-bottom: 5px;
     }
     .staff-role {
-      font-size: 1.2rem;
+      font-size: 1rem;
       color: #667eea;
       font-weight: 600;
     }
     .staff-status {
       display: inline-block;
-      padding: 5px 12px;
-      border-radius: 20px;
+      padding: 4px 10px;
+      border-radius: 18px;
       font-weight: 600;
-      margin-top: 10px;
+      margin-top: 8px;
+      font-size: 0.85rem;
     }
     /* ===== TAB NAVIGATION ===== */
     .tabs {
       display: flex;
-      padding: 0 40px;
+      padding: 0 25px;
       background: #f8f9fa;
       border-bottom: 1px solid #eee;
     }
     .tab {
-      padding: 15px 25px;
+      padding: 12px 20px;
       cursor: pointer;
       font-weight: 600;
       color: #666;
+      font-size: 0.85rem;
       position: relative;
       transition: all 0.3s;
     }
@@ -418,13 +447,13 @@
       bottom: -1px;
       left: 0;
       width: 100%;
-      height: 3px;
+      height: 2px;
       background: #667eea;
     }
     /* ===== TAB CONTENT ===== */
     .tab-content {
       display: none;
-      padding: 30px 40px;
+      padding: 20px 25px;
       flex: 1;
       overflow-y: auto;
     }
@@ -433,32 +462,33 @@
     }
     .details-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-      margin-bottom: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 25px;
     }
     .detail-card {
       background: #f8f9fa;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     }
     .detail-card h3 {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       color: #667eea;
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 1.4rem;
+      gap: 10px;
+      font-size: 1.2rem;
     }
     .detail-card ul {
       list-style: none;
     }
     .detail-card li {
-      padding: 12px 0;
+      padding: 10px 0;
       border-bottom: 1px dashed #eee;
       display: flex;
       justify-content: space-between;
+      font-size: 0.85rem;
     }
     .detail-card li:last-child {
       border-bottom: none;
@@ -475,7 +505,7 @@
     /* ===== EMERGENCY CONTACT CARD ===== */
     .emergency-card {
       background: #fff8e1;
-      border-left: 4px solid #f57f17;
+      border-left: 3px solid #f57f17;
     }
     .emergency-card h3 {
       color: #f57f17;
@@ -483,25 +513,26 @@
     /* ===== FILTER CONTROLS ===== */
     .filter-controls {
       display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 15px;
       flex-wrap: wrap;
     }
     .filter-group {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
     .filter-group label {
       font-weight: 600;
       color: #555;
+      font-size: 0.85rem;
     }
     .filter-group select, .filter-group input {
-      padding: 12px;
+      padding: 10px;
       border: 2px solid #e0e6ed;
-      border-radius: 8px;
-      font-size: 1rem;
-      width: 150px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      width: 120px;
     }
     .filter-group select:focus, .filter-group input:focus {
       border-color: #667eea;
@@ -510,27 +541,29 @@
     /* ===== ATTENDANCE & LEAVE TABLES ===== */
     .data-table-container {
       overflow-x: auto;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      margin-top: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      margin-top: 12px;
     }
     .data-table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 600px;
+      min-width: 500px;
     }
     .data-table thead {
       background: linear-gradient(to right, #667eea, #764ba2);
       color: white;
     }
     .data-table th {
-      padding: 14px 20px;
+      padding: 12px 15px;
       text-align: left;
       font-weight: 600;
+      font-size: 0.85rem;
     }
     .data-table td {
-      padding: 14px 20px;
+      padding: 12px 15px;
       border-bottom: 1px solid #eee;
+      font-size: 0.85rem;
     }
     .data-table tr:last-child td {
       border-bottom: none;
@@ -552,18 +585,18 @@
       flex-direction: column;
       z-index: 9999;
       color: #fff;
-      font-size: 18px;
+      font-size: 14px;
       backdrop-filter: blur(10px);
       font-family: 'Poppins', sans-serif;
     }
     .spinner {
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top: 4px solid #fff;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #fff;
       border-radius: 50%;
-      width: 60px; 
-      height: 60px;
+      width: 40px;
+      height: 40px;
       animation: spin 1s linear infinite;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
@@ -572,22 +605,23 @@
     /* ===== EMPTY STATE ===== */
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
+      padding: 30px 15px;
       color: #7f8c8d;
     }
     .empty-state i {
-      font-size: 3rem;
-      margin-bottom: 15px;
+      font-size: 2rem;
+      margin-bottom: 12px;
       color: #bdc3c7;
     }
     .empty-state h3 {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       color: #2c3e50;
+      font-size: 1.2rem;
     }
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .sidebar {
-        width: 70px;
+        width: 60px;
       }
       .sidebar .logo-text,
       .sidebar .user-details,
@@ -596,18 +630,18 @@
       }
       .sidebar .nav-item {
         justify-content: center;
-        padding: 15px;
+        padding: 12px;
         gap: 0;
       }
       .main-content {
-        margin-left: 70px;
-        padding: 20px;
+        margin-left: 60px;
+        padding: 12px;
       }
       .container {
-        padding: 25px;
+        padding: 18px;
       }
       h2 {
-        font-size: 2rem;
+        font-size: 1.5rem;
       }
       .stats-container {
         flex-direction: column;
@@ -616,8 +650,8 @@
         min-width: 100%;
       }
       th, td {
-        padding: 12px 10px;
-        font-size: 0.9rem;
+        padding: 10px 8px;
+        font-size: 0.8rem;
       }
       .details-grid {
         grid-template-columns: 1fr;
@@ -625,25 +659,25 @@
       .staff-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+        gap: 12px;
       }
       .staff-avatar {
-        width: 60px;
-        height: 60px;
-        font-size: 22px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
       }
       .staff-name {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
       }
       .tabs {
-        padding: 0 20px;
+        padding: 0 15px;
       }
       .tab {
-        padding: 12px 15px;
-        font-size: 0.9rem;
+        padding: 10px 12px;
+        font-size: 0.8rem;
       }
       .tab-content {
-        padding: 20px;
+        padding: 15px;
       }
     }
   </style>
@@ -654,12 +688,12 @@
     <div class="spinner"></div>
     <p>Loading staff data...</p>
   </div>
-  <!-- Sidebar Navigation -->
+  <!-- Sidebar Navigation (EXACT MATCH TO REFERENCE) -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
         <div class="logo-icon">
-          <i class="fas fa-users"></i>
+          <i class="fas fa-user-clock"></i>
         </div>
         <div class="logo-text">Attendance</div>
       </div>
@@ -685,17 +719,17 @@
       <!-- Stats Cards -->
       <div class="stats-container">
         <div class="stat-card">
-          <i class="fas fa-users fa-2x"></i>
+          <i class="fas fa-users fa-lg"></i>
           <div class="stat-value" id="totalStaff">0</div>
           <div class="stat-label">Total Staff</div>
         </div>
         <div class="stat-card">
-          <i class="fas fa-user-check fa-2x"></i>
+          <i class="fas fa-user-check fa-lg"></i>
           <div class="stat-value" id="activeStaff">0</div>
           <div class="stat-label">Active Staff</div>
         </div>
         <div class="stat-card">
-          <i class="fas fa-user-times fa-2x"></i>
+          <i class="fas fa-user-times fa-lg"></i>
           <div class="stat-value" id="inactiveStaff">0</div>
           <div class="stat-label">Inactive Staff</div>
         </div>
@@ -828,7 +862,7 @@
           </tbody>
         </table>
       </div>
-      <div id="logEmptyState" class="empty-state" style="display: none; padding: 20px;">
+      <div id="logEmptyState" class="empty-state" style="display: none; padding: 15px;">
         <i class="fas fa-clipboard-list"></i>
         <p>No attendance records found</p>
       </div>
@@ -876,7 +910,7 @@
           </tbody>
         </table>
       </div>
-      <div id="leaveEmptyState" class="empty-state" style="display: none; padding: 20px;">
+      <div id="leaveEmptyState" class="empty-state" style="display: none; padding: 15px;">
         <i class="fas fa-calendar"></i>
         <p>No leave requests found</p>
       </div>
@@ -965,11 +999,11 @@
     let allLeaveRequests = [];
     // Toggle sidebar
     toggleBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("collapsed");
+      sidebar.classList.toggle("expanded");
       const icon = toggleBtn.querySelector("i");
-      icon.className = sidebar.classList.contains("collapsed") 
-        ? "fas fa-chevron-right" 
-        : "fas fa-chevron-left";
+      icon.className = sidebar.classList.contains("expanded") 
+        ? "fas fa-chevron-left" 
+        : "fas fa-chevron-right";
     });
     // Back to staff list
     backToStaffList.addEventListener("click", () => {
@@ -977,7 +1011,7 @@
       staffDetailsPage.style.display = "none";
       sidebar.style.display = "flex";
       const mainContent = document.querySelector('.main-content');
-      mainContent.style.marginLeft = sidebar.classList.contains('collapsed') ? '70px' : '280px';
+      mainContent.style.marginLeft = sidebar.classList.contains('expanded') ? '220px' : '140px';
     });
     // Tab navigation
     tabs.forEach(tab => {
@@ -1398,8 +1432,8 @@
     function addLogout() {
       const logoutDiv = document.createElement("div");
       logoutDiv.style.marginTop = "auto";
-      logoutDiv.style.paddingTop = "0px"; // ✅ CHANGED FROM 10px TO 0px
-      // logoutDiv.style.borderTop = "1px solid #eee"; // ✅ REMOVED → NO LINE ABOVE LOGOUT
+      logoutDiv.style.paddingTop = "10px";
+      logoutDiv.style.borderTop = "1px solid #eee";
       const li = document.createElement("a");
       li.className = "nav-item";
       li.innerHTML = `<i class="fas fa-sign-out-alt"></i><span>Logout</span>`;
@@ -1461,4 +1495,3 @@
   </script>
 </body>
 </html>
-
