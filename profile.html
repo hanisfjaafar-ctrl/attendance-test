@@ -695,7 +695,7 @@
         e.preventDefault();
         if (confirm("Log out?")) {
           await signOut(auth);
-          window.location.href = "/";
+          window.location.href = "index.html";
         }
       });
       // Push to bottom
@@ -735,17 +735,17 @@
           navLinks.innerHTML = "";
           const role = data.role || "staff";
           if (role === "admin") {
-            addNavLink("Dashboard", "fa-home", "/admin-dashboard");
-            addNavLink("Staff Management", "fa-users", "/manage-staff");
-            addNavLink("Staff Attendance Log", "fa-list", "/admin-attendancelog");
-            addNavLink("Staff Leave Requests", "fa-calendar-alt", "/admin-leavecalendar");
-            addNavLink("Staff Live Location", "fa-location-dot", "/admin-liveloc");
-            addNavLink("Admin Profile", "fa-user", "/profile", true);
+            addNavLink("Dashboard", "fa-home", "admin-dashboard.html");
+            addNavLink("Staff Management", "fa-users", "manage-staff.html");
+            addNavLink("Staff Attendance Log", "fa-list", "admin-attendancelog.html");
+            addNavLink("Staff Leave Requests", "fa-calendar-alt", "admin-leavecalendar.html");
+            addNavLink("Staff Live Location", "fa-location-dot", "admin-liveloc.html");
+            addNavLink("Admin Profile", "fa-user", "profile.html", true);
           } else {
-            addNavLink("Dashboard", "fa-home", "/dashboard");
-            addNavLink("Attendance Log", "fa-list", "/attendance");
-            addNavLink("Leave Requests", "fa-calendar-alt", "/leavecalendar");
-            addNavLink("Profile", "fa-user", "/profile", true);
+            addNavLink("Dashboard", "fa-home", "dashboard.html");
+            addNavLink("Attendance Log", "fa-list", "attendance.html");
+            addNavLink("Leave Requests", "fa-calendar-alt", "leavecalendar.html");
+            addNavLink("Profile", "fa-user", "profile.html", true);
           }
           addLogout(); // No line above logout — matches screenshot
 
@@ -760,7 +760,7 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        window.location.href = "/";
+        window.location.href = "index.html";
       } else {
         await loadProfileData(user);
       }
@@ -832,3 +832,4 @@
   </script>
 </body>
 </html>
+
