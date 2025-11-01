@@ -701,17 +701,17 @@
     }
     function buildNavigation() {
       navLinks.innerHTML = "";
-      addNavLink("Dashboard", "fa-home", "dashboard.html");
-      addNavLink("Attendance Log", "fa-list", "attendance.html", true);
-      addNavLink("Leave Requests", "fa-calendar-alt", "leavecalendar.html");
-      addNavLink("Profile", "fa-user", "profile.html");
+      addNavLink("Dashboard", "fa-home", "/dashboard");
+      addNavLink("Attendance Log", "fa-list", "/attendance", true);
+      addNavLink("Leave Requests", "fa-calendar-alt", "/leavecalendar");
+      addNavLink("Profile", "fa-user", "/profile");
       const logout = document.createElement("a");
       logout.className = "nav-item";
       logout.href = "#";
       logout.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
       logout.addEventListener("click", (e) => {
         e.preventDefault();
-        signOut(auth).then(() => window.location.href = "index.html");
+        signOut(auth).then(() => window.location.href = "/");
       });
       navLinks.appendChild(logout);
     }
