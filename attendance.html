@@ -11,95 +11,501 @@
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
     body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;display:flex;overflow-x:hidden;}
     /* ===== SIDEBAR (MATCHES LEAVE CALENDAR) ===== */
-    .sidebar { width: 140px; background: rgba(255, 255, 255, 0.95); height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000; box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15); transition: all 0.3s ease; display: flex; flex-direction: column; backdrop-filter: blur(10px); }
-    .sidebar.expanded { width: 220px; }
-    .sidebar-header { padding: 15px 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; }
-    .logo { display: flex; align-items: center; gap: 10px; }
-    .logo-icon { width: 28px; height: 28px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; }
-    .logo-text { font-size: 1.1rem; font-weight: 700; color: #333; white-space: nowrap; }
-    .sidebar:not(.expanded) .logo-text { display: none; }
-    .toggle-btn { background: none; border: none; font-size: 1rem; cursor: pointer; color: #667eea; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
-    .toggle-btn:hover { background: rgba(102, 126, 234, 0.1); }
-    .nav-links { padding: 12px 0; flex: 1; }
-    .nav-item { padding: 10px 15px; display: flex; align-items: center; gap: 12px; text-decoration: none; color: #555; font-weight: 500; font-size: 0.9rem; transition: all 0.2s; border-left: 3px solid transparent; }
-    .nav-item:hover, .nav-item.active { background: rgba(102, 126, 234, 0.1); color: #667eea; border-left: 3px solid #667eea; }
-    .nav-item i { font-size: 1rem; width: 20px; text-align: center; }
-    .sidebar:not(.expanded) .nav-item span { display: none; }
-    .sidebar:not(.expanded) .nav-item { justify-content: center; padding: 12px; gap: 0; }
-    .user-info { padding: 12px; border-top: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
-    .avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px; text-transform: uppercase; }
-    .user-details { flex: 1; }
-    .user-name { font-weight: 600; color: #333; font-size: 0.9rem; }
-    .user-email { font-size: 0.75rem; color: #777; }
-    .sidebar:not(.expanded) .user-details { display: none; }
+    .sidebar {
+      width: 140px;
+      background: rgba(255, 255, 255, 0.95);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(10px);
+    }
+    .sidebar.expanded {
+      width: 220px;
+    }
+    .sidebar-header {
+      padding: 15px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+    .logo-text {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #333;
+      white-space: nowrap;
+    }
+    .sidebar:not(.expanded) .logo-text {
+      display: none;
+    }
+    .toggle-btn {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #667eea;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .toggle-btn:hover {
+      background: rgba(102, 126, 234, 0.1);
+    }
+    .nav-links {
+      padding: 12px 0;
+      flex: 1;
+    }
+    .nav-item {
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    .nav-item:hover, .nav-item.active {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+      border-left: 3px solid #667eea;
+    }
+    .nav-item i {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+    .sidebar:not(.expanded) .nav-item span {
+      display: none;
+    }
+    .sidebar:not(.expanded) .nav-item {
+      justify-content: center;
+      padding: 12px;
+      gap: 0;
+    }
+    .user-info {
+      padding: 12px;
+      border-top: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    .user-details {
+      flex: 1;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #333;
+      font-size: 0.9rem;
+    }
+    .user-email {
+      font-size: 0.75rem;
+      color: #777;
+    }
+    .sidebar:not(.expanded) .user-details {
+      display: none;
+    }
     /* ===== MAIN CONTENT ===== */
-    .main-content { flex: 1; padding: 15px; margin-left: 140px; transition: margin-left 0.3s ease; }
-    .sidebar.expanded ~ .main-content { margin-left: 220px; }
-    .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .main-content {
+      flex: 1;
+      padding: 15px;
+      margin-left: 140px;
+      transition: margin-left 0.3s ease;
+    }
+    .sidebar.expanded ~ .main-content {
+      margin-left: 220px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
     /* ===== HEADER ===== */
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-    .form-title { color: #333; font-size: 1.6rem; font-weight: 700; margin: 0; }
-    .date-controls { display: flex; align-items: center; gap: 10px; }
-    .date-picker { padding: 8px 12px; border: 2px solid #e0e0e2; border-radius: 8px; font-size: 14px; font-weight: 600; background: white; color: #333; }
-    .nav-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
-    .scan-btn { background: linear-gradient(135deg, #ff6b6b, #ff8e53); color: white; border: none; border-radius: 6px; padding: 8px 16px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 3px 8px rgba(255,107,107,0.3); }
-    .scan-btn:hover { transform: translateY(-2px); }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .form-title {
+      color: #333;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .date-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .date-picker {
+      padding: 8px 12px;
+      border: 2px solid #e0e0e2;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      background: white;
+      color: #333;
+    }
+    .nav-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .scan-btn {
+      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(255,107,107,0.3);
+    }
+    .scan-btn:hover {
+      transform: translateY(-2px);
+    }
     /* ===== CHECKOUT BUTTON ===== */
-    .checkout-btn { background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+    .checkout-btn {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
     .checkout-btn:hover { opacity: 0.9; }
     /* ===== TABLE ===== */
-    .attendance-table { width: 100%; border-collapse: collapse; margin-top: 16px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-    .attendance-table th { background: linear-gradient(135deg, #667eea, #764ba2); color: white; text-align: left; padding: 10px 14px; font-weight: 600; font-size: 0.9rem; }
-    .attendance-table td { padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+    .attendance-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .attendance-table th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .attendance-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #eee;
+      font-size: 0.9rem;
+    }
     /* ===== STATUS BADGES ===== */
-    .status.on-time { background: rgba(40, 167, 69, 0.15); color: #28a745; padding: 3px 8px; border-radius: 12px; font-weight: 600; font-size: 0.8rem; }
-    .status.late { background: rgba(255, 77, 7, 0.15); color: #b01f06; padding: 3px 8px; border-radius: 12px; font-weight: 600; font-size: 0.8rem; }
+    .status.on-time {
+      background: rgba(40, 167, 69, 0.15);
+      color: #28a745;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    .status.late {
+      background: rgba(255, 77, 7, 0.15);
+      color: #b01f06;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
     /* ===== MESSAGES & CONTAINERS ===== */
-    .message { padding: 10px; border-radius: 8px; margin: 15px 0; display: none; font-size: 0.85rem; }
+    .message {
+      padding: 10px;
+      border-radius: 8px;
+      margin: 15px 0;
+      display: none;
+      font-size: 0.85rem;
+    }
     .message.success { background: rgba(40,167,69,.15); color: #28a745; }
     .message.error { background: rgba(220,53,69,.15); color: #dc3545; }
-    .current-date-display { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; }
-    .camera-container { display: none; text-align: center; margin-top: 16px; padding: 16px; background: rgba(255,255,255,.85); border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,.1); }
-    #videoFeed { border-radius: 8px; border: 2px solid #667eea; max-width: 100%; height: auto; background: #000; display: block; margin: 0 auto; }
-    #locationMap { height: 240px; border-radius: 8px; margin-top: 16px; display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    #locationInfo, #locationStatusDisplay { margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; display: none; font-size: 0.85rem; }
+    .current-date-display {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .camera-container {
+      display: none;
+      text-align: center;
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(255,255,255,.85);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.1);
+    }
+    #videoFeed {
+      border-radius: 8px;
+      border: 2px solid #667eea;
+      max-width: 100%;
+      height: auto;
+      background: #000;
+      display: block;
+      margin: 0 auto;
+    }
+    #locationMap {
+      height: 240px;
+      border-radius: 8px;
+      margin-top: 16px;
+      display: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    #locationInfo, #locationStatusDisplay {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      display: none;
+      font-size: 0.85rem;
+    }
     /* ===== WORK MODE ===== */
-    .work-mode-selection { display: none; background: white; padding: 18px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-top: 16px; text-align: center; }
-    .work-mode-title { font-size: 1.2rem; margin-bottom: 16px; color: #333; }
-    .work-mode-options { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
-    .work-mode-option { width: 140px; padding: 14px; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; border: 2px solid #e0e0e0; }
-    .work-mode-option:hover { transform: translateY(-4px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    .work-mode-option.selected { border-color: #667eea; background: rgba(102,126,234,0.1); }
-    .work-mode-icon { font-size: 2.0rem; margin-bottom: 8px; color: #667eea; }
-    .work-mode-label { font-weight: 600; font-size: 1.0rem; color: #333; }
-    .work-mode-desc { font-size: 0.8rem; color: #666; margin-top: 6px; }
-    .radius-info { margin-top: 12px; padding: 10px; background: #f0f8ff; border-radius: 8px; font-size: 0.8rem; color: #444; }
-    .radius-info strong { color: #667eea; }
-    .debug-location { margin-top: 12px; padding: 10px; background: #e8f4ff; border-radius: 8px; font-size: 0.8rem; color: #2c3e50; display: none; }
+    .work-mode-selection {
+      display: none;
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-top: 16px;
+      text-align: center;
+    }
+    .work-mode-title {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      color: #333;
+    }
+    .work-mode-options {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .work-mode-option {
+      width: 140px;
+      padding: 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid #e0e0e0;
+    }
+    .work-mode-option:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .work-mode-option.selected {
+      border-color: #667eea;
+      background: rgba(102,126,234,0.1);
+    }
+    .work-mode-icon {
+      font-size: 2.0rem;
+      margin-bottom: 8px;
+      color: #667eea;
+    }
+    .work-mode-label {
+      font-weight: 600;
+      font-size: 1.0rem;
+      color: #333;
+    }
+    .work-mode-desc {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 6px;
+    }
+    .radius-info {
+      margin-top: 12px;
+      padding: 10px;
+      background: #f0f8ff;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: #444;
+    }
+    .radius-info strong {
+      color: #667eea;
+    }
+    .debug-location {
+      margin-top: 12px;
+      padding: 10px;
+      background: #e8f4ff;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: #2c3e50;
+      display: none;
+    }
     /* ===== LOADING OVERLAY ===== */
-    #loadingOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(102, 126, 234, 0.95); display: none; justify-content: center; align-items: center; flex-direction: column; z-index: 9999; color: #fff; font-size: 16px; backdrop-filter: blur(10px); }
-    .spinner { border: 3px solid rgba(255, 255, 255, 0.3); border-top: 3px solid #fff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .camera-error { color: #dc3545; background: rgba(220, 53, 69, 0.1); padding: 12px; border-radius: 8px; margin: 16px 0; display: none; }
-    .location-radius-display { display: none; margin: 16px auto; padding: 12px; border-radius: 10px; max-width: 500px; text-align: center; font-weight: 600; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
-    .location-radius-title { font-size: 1.0rem; margin-bottom: 8px; }
-    .location-radius-status { display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.95rem; }
-    .location-radius-dot { width: 12px; height: 12px; border-radius: 50%; }
+    #loadingOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(102, 126, 234, 0.95);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+      color: #fff;
+      font-size: 16px;
+      backdrop-filter: blur(10px);
+    }
+    .spinner {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .camera-error {
+      color: #dc3545;
+      background: rgba(220, 53, 69, 0.1);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 16px 0;
+      display: none;
+    }
+    .location-radius-display {
+      display: none;
+      margin: 16px auto;
+      padding: 12px;
+      border-radius: 10px;
+      max-width: 500px;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    .location-radius-title {
+      font-size: 1.0rem;
+      margin-bottom: 8px;
+    }
+    .location-radius-status {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+    }
+    .location-radius-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
     .location-radius-green { background-color: #28a745; }
     .location-radius-yellow { background-color: #ffc107; }
     .location-radius-red { background-color: #dc3545; }
-    .location-radius-distance { font-weight: bold; margin-left: 6px; }
+    .location-radius-distance {
+      font-weight: bold;
+      margin-left: 6px;
+    }
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .sidebar { width: 60px; }
-      .sidebar.expanded { width: 220px; }
-      .sidebar:not(.expanded) .logo-text, .sidebar:not(.expanded) .user-details, .sidebar:not(.expanded) .nav-item span { display: none; }
-      .sidebar:not(.expanded) .nav-item { justify-content: center; padding: 12px; gap: 0; }
-      .main-content { margin-left: 60px; padding: 12px; }
-      .sidebar.expanded ~ .main-content { margin-left: 220px; }
-      .container { padding: 16px; }
-      #locationMap { height: 200px; }
-      .form-title { font-size: 1.4rem; }
+      .sidebar {
+        width: 60px;
+      }
+      .sidebar.expanded {
+        width: 220px;
+      }
+      .sidebar:not(.expanded) .logo-text,
+      .sidebar:not(.expanded) .user-details,
+      .sidebar:not(.expanded) .nav-item span {
+        display: none;
+      }
+      .sidebar:not(.expanded) .nav-item {
+        justify-content: center;
+        padding: 12px;
+        gap: 0;
+      }
+      .main-content {
+        margin-left: 60px;
+        padding: 12px;
+      }
+      .sidebar.expanded ~ .main-content {
+        margin-left: 220px;
+      }
+      .container {
+        padding: 16px;
+      }
+      #locationMap {
+        height: 200px;
+      }
+      .form-title {
+        font-size: 1.4rem;
+      }
     }
   </style>
 </head>
@@ -108,7 +514,6 @@
     <div class="spinner"></div>
     <p>Loading...</p>
   </div>
-
   <!-- Sidebar (matches Leave Calendar) -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -129,7 +534,6 @@
       </div>
     </div>
   </div>
-
   <div class="main-content">
     <div class="container">
       <div class="header">
@@ -144,7 +548,6 @@
         </div>
         <button id="scanBtn" class="scan-btn"><i class="fas fa-camera"></i> Scan Face</button>
       </div>
-
       <div id="workModeSelection" class="work-mode-selection">
         <h3 class="work-mode-title">Select Your Work Mode</h3>
         <div class="work-mode-options">
@@ -164,16 +567,13 @@
           <strong>Allowed Radius:</strong> 100 meters for WFO, 500 meters for WFH
         </div>
       </div>
-
       <div id="debugLocation" class="debug-location">
         <strong>📍 Detected:</strong> <span id="debugCoords">--</span> (Accuracy: <span id="debugAccuracy">--</span>m)
       </div>
-
       <div id="cameraContainer" class="camera-container">
         <h3>Position your face clearly</h3>
         <div id="cameraError" class="camera-error"></div>
         <video id="videoFeed" autoplay playsinline muted></video>
-
         <div id="locationRadiusDisplay" class="location-radius-display">
           <div class="location-radius-title">Location Status</div>
           <div class="location-radius-status">
@@ -182,42 +582,37 @@
             <span class="location-radius-distance" id="locationRadiusDistance"></span>
           </div>
         </div>
-
         <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
         <br>
-        <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-          <button id="enrollBtn" class="scan-btn" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)"><i class="fas fa-user-plus"></i> Enroll Face</button>
-          <button id="captureBtn" class="scan-btn"><i class="fas fa-bolt"></i> Capture & Recognize</button>
-        </div>
+        <button id="captureBtn" class="scan-btn"><i class="fas fa-bolt"></i> Capture & Recognize</button>
       </div>
-
       <div id="message" class="message"></div>
-
       <table class="attendance-table" id="attendanceTable">
         <thead><tr><th>Name</th><th>Date</th><th>Punch In Time</th><th>Punch Out Time</th><th>Status</th><th>Action</th></tr></thead>
         <tbody id="attendanceBody"></tbody>
       </table>
-
       <div id="emptyState" class="message" style="display:none;">No attendance records found for this date</div>
       <div id="locationMap"></div>
       <div id="locationInfo"></div>
       <div id="locationStatusDisplay"></div>
     </div>
   </div>
-
-  <!-- Face API (TensorFlow.js wrapper) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
   <script type="module">
-    /* ================= FIREBASE ================= */
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
     import {
-      getFirestore, doc, getDoc, updateDoc, collection, query, where,
-      getDocs, setDoc, writeBatch
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      collection,
+      query,
+      where,
+      getDocs,
+      setDoc,
+      writeBatch
     } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
-
     const firebaseConfig = {
       apiKey:"AIzaSyB3nU-WVQ-7zm9RijUhj420QPET9GYQpj8",
       authDomain:"login-form-84016.firebaseapp.com",
@@ -230,48 +625,36 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
     const db = getFirestore();
-
-    /* ================= DOM GETTERS ================= */
     const navLinks = document.getElementById("navLinks");
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     const sidebarUserName = document.getElementById("sidebarUserName");
     const sidebarUserEmail = document.getElementById("sidebarUserEmail");
-
     const scanBtn = document.getElementById("scanBtn");
     const cameraContainer = document.getElementById("cameraContainer");
     const videoFeed = document.getElementById("videoFeed");
     const canvas = document.getElementById("canvas");
     const captureBtn = document.getElementById("captureBtn");
-    const enrollBtn = document.getElementById("enrollBtn");
-
     const messageDiv = document.getElementById("message");
     const attendanceBody = document.getElementById("attendanceBody");
     const emptyState = document.getElementById("emptyState");
     const table = document.getElementById("attendanceTable");
-
     const datePicker = document.getElementById("datePicker");
     const currentDateDisplay = document.getElementById("currentDateDisplay");
     const prevDayBtn = document.getElementById("prevDayBtn");
     const nextDayBtn = document.getElementById("nextDayBtn");
-
     const loadingOverlay = document.getElementById("loadingOverlay");
     const cameraErrorDiv = document.getElementById("cameraError");
-
     const locationRadiusDisplay = document.getElementById("locationRadiusDisplay");
     const locationRadiusDot = document.getElementById("locationRadiusDot");
     const locationRadiusText = document.getElementById("locationRadiusText");
     const locationRadiusDistance = document.getElementById("locationRadiusDistance");
-
     const workModeSelection = document.getElementById("workModeSelection");
     const wfoOption = document.getElementById("wfoOption");
     const wfhOption = document.getElementById("wfhOption");
-
     const locationStatusDisplay = document.getElementById("locationStatusDisplay");
     const debugLocation = document.getElementById("debugLocation");
     const debugCoords = document.getElementById("debugCoords");
     const debugAccuracy = document.getElementById("debugAccuracy");
-
-    /* ================= STATE ================= */
     let stream = null, allRecords = [], currentDate = new Date(), currentUid = null;
     let selectedWorkMode = null;
     let homeLocation = { lat: 3.205170, lng: 101.720107 };
@@ -280,22 +663,19 @@
     const WFO_RADIUS = 100;
     const WFH_RADIUS = 500;
     let isProcessing = false;
-
-    // Face API settings
-    const MODEL_URL = "https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights";
-    const THRESHOLD = 0.55; // recognition threshold
-    let modelsReady = false;
-    let enrolledDescriptor = null; // Float32Array (from Firestore), for current user
-
-    /* ================= UI HELPERS ================= */
     document.getElementById('toggleSidebar').addEventListener('click', function() {
       const sidebar = document.querySelector('.sidebar');
       const isMobile = window.innerWidth <= 768;
-      if (isMobile) sidebar.classList.toggle('expanded'); else sidebar.classList.toggle('expanded');
+      if (isMobile) {
+        sidebar.classList.toggle('expanded');
+      } else {
+        sidebar.classList.toggle('expanded');
+      }
       const icon = this.querySelector('i');
-      icon.className = sidebar.classList.contains('expanded') ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+      icon.className = sidebar.classList.contains('expanded') 
+        ? 'fas fa-chevron-left' 
+        : 'fas fa-chevron-right';
     });
-
     function showLoading(text = "Processing...") {
       loadingOverlay.style.display = "flex";
       loadingOverlay.querySelector("p").textContent = text;
@@ -312,7 +692,6 @@
       cameraErrorDiv.style.display = 'block';
       setTimeout(() => cameraErrorDiv.style.display = 'none', 5000);
     }
-
     function addNavLink(text, icon, link, isActive = false) {
       const li = document.createElement("a");
       li.className = `nav-item ${isActive ? 'active' : ''}`;
@@ -336,12 +715,9 @@
       });
       navLinks.appendChild(logout);
     }
-
     function formatDate(d) { return d.toISOString().split('T')[0]; }
     function formatDisplayDate(d) { return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); }
     function updateCurrentDateDisplay(d) { currentDateDisplay.textContent = formatDisplayDate(d); }
-
-    /* ================= GEO UTILS ================= */
     function calculateDistance(lat1, lon1, lat2, lon2) {
       const R = 6371e3;
       const φ1 = lat1 * Math.PI/180;
@@ -402,8 +778,6 @@
         return { valid: false, message: `You are ${distance.toFixed(1)}m away. Must be within ${allowed}m for ${selectedWorkMode.toUpperCase()}` };
       }
     }
-
-    /* ================= ATTENDANCE TABLE ================= */
     function hasCheckedInToday() {
       const today = formatDate(new Date());
       return allRecords.some(record => {
@@ -430,9 +804,12 @@
     async function loadAllAttendanceRecords() {
       showLoading("Loading attendance...");
       try {
-        if (!currentUid) { hideLoading(); return; }
-        const qy = query(collection(db, "attendance_test"), where("userId", "==", currentUid));
-        const querySnapshot = await getDocs(qy);
+        if (!currentUid) {
+          hideLoading();
+          return;
+        }
+        const q = query(collection(db, "attendance_test"), where("userId", "==", currentUid));
+        const querySnapshot = await getDocs(q);
         allRecords = [];
         querySnapshot.forEach(doc => allRecords.push({ id: doc.id, ...doc.data() }));
         const todayCheckedIn = hasCheckedInToday();
@@ -469,7 +846,10 @@
         attendanceBody.innerHTML = '';
         const latest = f[0];
         if (latest.latitude != null && latest.longitude != null) {
-          if (window.attendanceMap) { window.attendanceMap.remove(); window.attendanceMap = null; }
+          if (window.attendanceMap) {
+            window.attendanceMap.remove();
+            window.attendanceMap = null;
+          }
           const lat = parseFloat(latest.latitude);
           const lng = parseFloat(latest.longitude);
           window.attendanceMap = L.map('locationMap').setView([lat, lng], 16);
@@ -511,7 +891,7 @@
               <td>${r.checkout || (canCheckout ? '<em>-</em>' : 'N/A')}</td>
               <td><span class="status ${statusClass}">${r.status}</span></td>
               <td>
-                ${canCheckout ?
+                ${canCheckout ? 
                   `<button class="checkout-btn" data-id="${r.id}">
                     <i class="fas fa-sign-out-alt"></i> Check Out
                   </button>` : ''
@@ -524,42 +904,67 @@
         });
       }
     }
-
-    /* ================= FACE API (CLIENT-SIDE) ================= */
-    async function loadModelsOnce() {
-      if (modelsReady) return;
-      showLoading("Loading face models…");
-      await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
-      await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
-      await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
-      modelsReady = true;
+    async function handleWorkModeSelection(mode) {
+      selectedWorkMode = mode;
+      wfoOption.classList.toggle('selected', mode === 'wfo');
+      wfhOption.classList.toggle('selected', mode === 'wfh');
+      if (mode === 'wfh') {
+        showLoading("Detecting and saving your home location...");
+        try {
+          const position = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+              enableHighAccuracy: true,
+              timeout: 15000,
+              maximumAge: 0
+            });
+          });
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const accuracy = position.coords.accuracy;
+          if (accuracy > 100) {
+            const confirmed = confirm(
+              `⚠️ Location accuracy is low (${accuracy.toFixed(0)}m).
+` +
+              `Detected: ${lat.toFixed(6)}, ${lng.toFixed(6)}
+` +
+              `Continue anyway?`
+            );
+            if (!confirmed) {
+              hideLoading();
+              selectedWorkMode = null;
+              wfhOption.classList.remove('selected');
+              scanBtn.style.display = 'inline-flex';
+              workModeSelection.style.display = 'block';
+              return;
+            }
+          }
+          homeLocation = { lat, lng };
+          await updateDoc(doc(db, "users", currentUid), { homeLocation: { lat, lng } });
+          showMessage(`✅ Home location saved! Accuracy: ±${accuracy.toFixed(0)}m`, "success");
+          debugCoords.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+          debugAccuracy.textContent = accuracy.toFixed(0);
+          debugLocation.style.display = 'block';
+        } catch (err) {
+          console.error("Auto-save location error:", err);
+          let msg = "Failed to get location. Please ensure location services are enabled.";
+          if (err.code === 1) msg = "Location permission denied.";
+          showMessage(msg, "error");
+          selectedWorkMode = null;
+          wfhOption.classList.remove('selected');
+          hideLoading();
+          scanBtn.style.display = 'inline-flex';
+          workModeSelection.style.display = 'block';
+          return;
+        }
+      } else {
+        debugLocation.style.display = 'none';
+      }
       hideLoading();
+      workModeSelection.style.display = 'none';
+      scanBtn.style.display = 'none';
+      cameraContainer.style.display = 'block';
+      startCamera();
     }
-
-    function l2(a, b) {
-      let s=0; for (let i=0;i<a.length;i++){ const d=a[i]-b[i]; s+=d*d } return Math.sqrt(s);
-    }
-
-    async function getDescriptorFromVideo() {
-      if (!modelsReady) throw new Error("Models not loaded");
-      if (!videoFeed.videoWidth) throw new Error("Video not ready");
-      // match canvas to actual frame size to avoid iOS black frame
-      canvas.width = videoFeed.videoWidth;
-      canvas.height = videoFeed.videoHeight;
-      const det = await faceapi
-        .detectSingleFace(videoFeed, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 }))
-        .withFaceLandmarks()
-        .withFaceDescriptor();
-      if (!det) throw new Error("No face detected. Try better lighting & keep your face inside the frame.");
-      return det.descriptor; // Float32Array(128)
-    }
-
-    async function ensureModelsAndCamera() {
-      await loadModelsOnce();
-      await startCamera();
-    }
-
-    /* ================= CAMERA & GEO ================= */
     async function startCamera() {
       try {
         if (stream) stream.getTracks().forEach(track => track.stop());
@@ -598,8 +1003,134 @@
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
       );
     }
+    scanBtn.addEventListener('click', () => {
+      if (hasCheckedInToday()) return showMessage("You have already checked in today!", "error");
+      workModeSelection.style.display = 'block';
+      scanBtn.style.display = 'none';
+    });
+    wfoOption.addEventListener('click', () => handleWorkModeSelection('wfo'));
+    wfhOption.addEventListener('click', () => handleWorkModeSelection('wfh'));
+    captureBtn.addEventListener('click', async () => {
+      if (isProcessing) return;
+      isProcessing = true;
+      captureBtn.disabled = true;
+      captureBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      if (!videoFeed.srcObject || videoFeed.videoWidth === 0) {
+        showCameraError("Camera is not ready.");
+        isProcessing = false;
+        captureBtn.disabled = false;
+        captureBtn.innerHTML = '<i class="fas fa-bolt"></i> Capture & Recognize';
+        return;
+      }
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(videoFeed, 0, 0, canvas.width, canvas.height);
+      const img = canvas.toDataURL('image/png');
+      const expectedName = sidebarUserName.textContent.trim();
+      let lat = null, lng = null;
+      showLoading("Getting your location...");
+      try {
+        const pos = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 60000
+          });
+        });
+        lat = pos.coords.latitude;
+        lng = pos.coords.longitude;
+      } catch (err) {
+        showMessage("Location access denied. Please enable location services.", "error");
+        stopCamera();
+        isProcessing = false;
+        captureBtn.disabled = false;
+        captureBtn.innerHTML = '<i class="fas fa-bolt"></i> Capture & Recognize';
+        return;
+      }
+      const validation = validateLocation(lat, lng);
+      if (!validation.valid) {
+        showMessage(validation.message, "error");
+        stopCamera();
+        isProcessing = false;
+        captureBtn.disabled = false;
+        captureBtn.innerHTML = '<i class="fas fa-bolt"></i> Capture & Recognize';
+        return;
+      }
+      let distance = selectedWorkMode === 'wfo'
+        ? calculateDistance(OFFICE_LAT, OFFICE_LNG, lat, lng)
+        : calculateDistance(homeLocation.lat, homeLocation.lng, lat, lng);
+      const locationStatus = getLocationStatusText(distance, selectedWorkMode);
+      showLoading("Recognizing face...");
+      try {
+        const BACKEND_URL = window.location.hostname.includes("web.app") ?
+          "https://your-flask-backend.onrender.com" : "http://127.0.0.1:5000";
+        const res = await fetch(`${BACKEND_URL}/recognize`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: img, expected_name: expectedName, user_uid: currentUid, latitude: lat, longitude: lng, work_mode: selectedWorkMode })
+        });
+        const result = await res.json();
+        if (result.success) {
+          const today = new Date().toISOString().split('T')[0];
+          const docId = `${currentUid}_${today}`;
+          const docRef = doc(db, "attendance_test", docId);
+          const q = query(collection(db, "attendance_test"), where("userId", "==", currentUid));
+          const querySnapshot = await getDocs(q);
+          const batch = writeBatch(db);
+          querySnapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            const recordDate = data.timestamp
+              ? new Date(data.timestamp)
+              : data.checkin
+                ? new Date()
+                : null;
+            if (recordDate && formatDate(recordDate) === today) {
+              if (
+                docSnap.id !== docId ||
+                !data.timestamp ||
+                typeof data.timestamp !== 'string' ||
+                isNaN(new Date(data.timestamp).getTime())
+              ) {
+                batch.delete(docSnap.ref);
+              }
+            }
+          });
+          await batch.commit();
+          const now = new Date();
+          const attendanceData = {
+            userId: currentUid,
+            name: result.name,
+            status: result.status,
+            checkin: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            timestamp: now.toISOString(),
+            latitude: lat,
+            longitude: lng,
+            address: result.address || "Unknown Location",
+            workMode: selectedWorkMode,
+            locationStatus: locationStatus,
+            checkout: null
+          };
+          await setDoc(docRef, attendanceData);
+          showMessage(`✅ ${result.status}! Verified: ${result.name}`, "success");
+          loadAllAttendanceRecords();
+        } else {
+          showMessage(`❌ ${result.error || "Recognition failed"}`, "error");
+        }
+      } catch (err) {
+        console.error("Recognition or cleanup error:", err);
+        showMessage("⚠️ Failed to process check-in", "error");
+      } finally {
+        hideLoading();
+        stopCamera();
+        isProcessing = false;
+        captureBtn.disabled = false;
+        captureBtn.innerHTML = '<i class="fas fa-bolt"></i> Capture & Recognize';
+      }
+    });
     function stopCamera() {
-      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+      if (stream) {
+        stream.getTracks().forEach(t => t.stop());
+        stream = null;
+      }
       if (window.locationWatchId) {
         navigator.geolocation.clearWatch(window.locationWatchId);
         window.locationWatchId = null;
@@ -612,200 +1143,6 @@
       locationRadiusDisplay.style.display = 'none';
       debugLocation.style.display = 'none';
     }
-
-    /* ================= WORK MODE FLOW ================= */
-    async function handleWorkModeSelection(mode) {
-      selectedWorkMode = mode;
-      wfoOption.classList.toggle('selected', mode === 'wfo');
-      wfhOption.classList.toggle('selected', mode === 'wfh');
-
-      if (mode === 'wfh') {
-        showLoading("Detecting and saving your home location...");
-        try {
-          const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, {
-              enableHighAccuracy: true, timeout: 15000, maximumAge: 0
-            });
-          });
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          const accuracy = position.coords.accuracy;
-          if (accuracy > 100) {
-            const confirmed = confirm(
-              `⚠️ Location accuracy is low (${accuracy.toFixed(0)}m).\n` +
-              `Detected: ${lat.toFixed(6)}, ${lng.toFixed(6)}\n` +
-              `Continue anyway?`
-            );
-            if (!confirmed) {
-              hideLoading();
-              selectedWorkMode = null;
-              wfhOption.classList.remove('selected');
-              scanBtn.style.display = 'inline-flex';
-              workModeSelection.style.display = 'block';
-              return;
-            }
-          }
-          homeLocation = { lat, lng };
-          await updateDoc(doc(db, "users", currentUid), { homeLocation: { lat, lng } });
-          showMessage(`✅ Home location saved! Accuracy: ±${accuracy.toFixed(0)}m`, "success");
-          debugCoords.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-          debugAccuracy.textContent = accuracy.toFixed(0);
-          debugLocation.style.display = 'block';
-        } catch (err) {
-          console.error("Auto-save location error:", err);
-          let msg = "Failed to get location. Please ensure location services are enabled.";
-          if (err.code === 1) msg = "Location permission denied.";
-          showMessage(msg, "error");
-          selectedWorkMode = null;
-          wfhOption.classList.remove('selected');
-          hideLoading();
-          scanBtn.style.display = 'inline-flex';
-          workModeSelection.style.display = 'block';
-          return;
-        }
-      } else {
-        debugLocation.style.display = 'none';
-      }
-
-      hideLoading();
-      workModeSelection.style.display = 'none';
-      scanBtn.style.display = 'none';
-      cameraContainer.style.display = 'block';
-      await ensureModelsAndCamera();
-    }
-
-    /* ================= ENROLL & RECOGNIZE ================= */
-    function descriptorToPlainArray(desc) {
-      // face-api returns Float32Array; Firestore can store arrays of numbers
-      return Array.from(desc);
-    }
-    function plainArrayToFloat32(arr) {
-      return new Float32Array(arr);
-    }
-
-    async function enrollCurrentFace() {
-      try {
-        if (!currentUid) throw new Error("User not logged in.");
-        showLoading("Capturing & encoding your face for enrollment…");
-        const desc = await getDescriptorFromVideo();
-        const plain = descriptorToPlainArray(desc);
-        await updateDoc(doc(db, "users", currentUid), { faceDescriptor: plain });
-        enrolledDescriptor = desc;
-        showMessage("✅ Face enrolled successfully!", "success");
-      } catch (e) {
-        console.error(e);
-        showMessage(`Enroll failed: ${e.message}`, "error");
-      } finally {
-        hideLoading();
-      }
-    }
-
-    async function recognizeAndCheckIn() {
-      if (isProcessing) return;
-      isProcessing = true;
-      captureBtn.disabled = true;
-      captureBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-
-      try {
-        if (!currentUid) throw new Error("User not logged in.");
-        if (!enrolledDescriptor) throw new Error("No face enrolled yet. Tap ‘Enroll Face’ first.");
-
-        // Ensure we have location and validate radius
-        showLoading("Getting your location…");
-        let lat, lng;
-        try {
-          const pos = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, {
-              enableHighAccuracy: true, timeout: 10000, maximumAge: 60000
-            });
-          });
-          lat = pos.coords.latitude; lng = pos.coords.longitude;
-        } catch {
-          throw new Error("Location access denied. Please enable location services.");
-        }
-
-        const validation = validateLocation(lat, lng);
-        if (!validation.valid) throw new Error(validation.message);
-
-        // Get current descriptor
-        showLoading("Recognizing face…");
-        const liveDesc = await getDescriptorFromVideo();
-        const dist = l2(liveDesc, enrolledDescriptor);
-        if (dist > THRESHOLD) throw new Error(`Face mismatch (dist ${dist.toFixed(3)} > ${THRESHOLD}). Try better lighting & face alignment.`);
-
-        // If matched → write attendance
-        const expectedName = sidebarUserName.textContent.trim() || "User";
-        const distance = selectedWorkMode === 'wfo'
-          ? calculateDistance(OFFICE_LAT, OFFICE_LNG, lat, lng)
-          : calculateDistance(homeLocation.lat, homeLocation.lng, lat, lng);
-        const locationStatus = getLocationStatusText(distance, selectedWorkMode);
-
-        // Make today's unique doc id
-        const today = new Date().toISOString().split('T')[0];
-        const docId = `${currentUid}_${today}`;
-        const docRef = doc(db, "attendance_test", docId);
-
-        // Clean duplicates for today (same logic as yours)
-        const qy = query(collection(db, "attendance_test"), where("userId", "==", currentUid));
-        const querySnapshot = await getDocs(qy);
-        const batch = writeBatch(db);
-        querySnapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          const recordDate = data.timestamp
-            ? new Date(data.timestamp)
-            : data.checkin ? new Date() : null;
-          if (recordDate && formatDate(recordDate) === today) {
-            if (docSnap.id !== docId ||
-                !data.timestamp ||
-                typeof data.timestamp !== 'string' ||
-                isNaN(new Date(data.timestamp).getTime())) {
-              batch.delete(docSnap.ref);
-            }
-          }
-        });
-        await batch.commit();
-
-        const now = new Date();
-        const attendanceData = {
-          userId: currentUid,
-          name: expectedName,
-          status: "On Time", // you can compute late/on-time by time window if needed
-          checkin: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          timestamp: now.toISOString(),
-          latitude: lat,
-          longitude: lng,
-          address: "Unknown Location",
-          workMode: selectedWorkMode,
-          locationStatus: locationStatus,
-          checkout: null
-        };
-        await setDoc(docRef, attendanceData);
-
-        showMessage(`✅ Checked in as ${expectedName} (dist ${dist.toFixed(3)})`, "success");
-        await loadAllAttendanceRecords();
-      } catch (e) {
-        console.error("Recognition error:", e);
-        showMessage(`❌ ${e.message}`, "error");
-      } finally {
-        hideLoading();
-        stopCamera();
-        isProcessing = false;
-        captureBtn.disabled = false;
-        captureBtn.innerHTML = '<i class="fas fa-bolt"></i> Capture & Recognize';
-      }
-    }
-
-    /* ================= WIRING ================= */
-    scanBtn.addEventListener('click', () => {
-      if (hasCheckedInToday()) return showMessage("You have already checked in today!", "error");
-      workModeSelection.style.display = 'block';
-      scanBtn.style.display = 'none';
-    });
-    wfoOption.addEventListener('click', () => handleWorkModeSelection('wfo'));
-    wfhOption.addEventListener('click', () => handleWorkModeSelection('wfh'));
-    enrollBtn.addEventListener('click', enrollCurrentFace);
-    captureBtn.addEventListener('click', recognizeAndCheckIn);
-
     datePicker.addEventListener('change', () => {
       currentDate = new Date(datePicker.value);
       updateCurrentDateDisplay(currentDate);
@@ -823,23 +1160,21 @@
       updateCurrentDateDisplay(currentDate);
       displayRecordsForDate(datePicker.value);
     });
-
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUid = user.uid;
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
+        const docSnap = await getDoc(doc(db, "users", user.uid));
         if (docSnap.exists()) {
           const x = docSnap.data();
           sidebarUserName.textContent = x.firstName || "User";
           sidebarUserEmail.textContent = x.email || user.email;
+          
+          // ✅ FIXED: Show first letter of first name + first letter of last name
           const initials = (x.firstName?.charAt(0) || '') + (x.lastName?.charAt(0) || '');
           sidebarAvatar.textContent = initials || 'U';
-          if (x.homeLocation) homeLocation = x.homeLocation;
-          if (Array.isArray(x.faceDescriptor) && x.faceDescriptor.length === 128) {
-            enrolledDescriptor = plainArrayToFloat32(x.faceDescriptor);
-          } else {
-            enrolledDescriptor = null;
+          
+          if (x.homeLocation) {
+            homeLocation = x.homeLocation;
           }
         }
         buildNavigation();
